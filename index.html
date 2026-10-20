@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1b2150">
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 <meta name="google-site-verification"
       content="SOlPpxORwhZ2YY-DXJaX7QQ_HXcxtLFneAa8h44ldXs">
@@ -20,6 +26,7 @@
       content="幕張ことはは、アニメ・ゲーム・アニソンが大好きな個人VTuberです。アニメ語り、配信、作品PRなどを中心に活動しています。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://cotton-100.github.io/">
+<meta property="og:locale" content="ja_JP">
 
 <meta property="og:image" content="https://cotton-100.github.io/ogp.jpg">
 <meta property="og:image:width" content="1200">
@@ -27,6 +34,7 @@
 <meta property="og:image:alt" content="幕張ことは公式サイト">
 
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@cotton_makuhari">
 
 <script type="application/ld+json">
 {
@@ -49,15 +57,19 @@
   "alternateName": "Makuhari Kotoha",
   "url": "https://cotton-100.github.io/",
   "jobTitle": "VTuber",
+  "image": "https://cotton-100.github.io/tachie.png",
+  "description": "アニメ・ゲーム・アニソンが大好きな個人VTuber。元動画カメラマンの経験を生かし、映像演出の視点からもアニメの魅力を語っています。",
   "sameAs": [
     "https://www.youtube.com/@cotton-100",
-    "https://x.com/cotton_makuhari"
+    "https://x.com/cotton_makuhari",
+    "https://marshmallow-qa.com/cotton_makuhari",
+    "https://suzuri.jp/KOTOHA-MAKUHARI"
   ]
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Shippori+Mincho+B1:wght@400;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap" rel="stylesheet">
 <script>
   document.documentElement.classList.add('js');
   // 安全策：スクロール表示の準備が3秒以内に終わらなければ、演出をやめて全部表示する
@@ -130,6 +142,9 @@
   }
 
   a { color: inherit; }
+
+  /* WebP用の <picture> はレイアウトに影響させない */
+  picture { display: contents; }
 
   /* ---------- 画像の保護対策 ---------- */
   img {
@@ -1134,6 +1149,65 @@
     display: block;
   }
 
+  /* 軽量埋め込み：最初はサムネイルだけ表示し、押したら動画を読み込む */
+  .yt-lite {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .yt-lite img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease, filter 0.4s ease;
+  }
+
+  .yt-lite:hover img,
+  .yt-lite:focus-visible img { transform: scale(1.03); filter: brightness(1.05); }
+
+  .yt-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 68px;
+    height: 48px;
+    margin: -24px 0 0 -34px;
+    border-radius: 14px;
+    background: rgba(217, 100, 140, 0.92);
+    box-shadow: 0 6px 18px rgba(18, 22, 58, 0.4);
+    transition: transform 0.25s ease, background 0.25s ease;
+  }
+
+  .yt-play::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -10px 0 0 -6px;
+    border-style: solid;
+    border-width: 10px 0 10px 17px;
+    border-color: transparent transparent transparent #fff;
+  }
+
+  .yt-lite:hover .yt-play,
+  .yt-lite:focus-visible .yt-play { transform: scale(1.1); background: var(--pink-deep); }
+
+  .yt-lite:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
   .video-title {
     font-family: var(--mincho);
     font-size: 14.5px;
@@ -1614,6 +1688,7 @@
   .js .reveal.in { opacity: 1; transform: none; }
 
   @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .js .reveal { opacity: 1; transform: none; }
     .petals { display: none; }
@@ -1762,7 +1837,10 @@
 <!-- ヘッダー -->
 <div class="topbar" id="topbar">
   <a class="logo" href="#top" aria-label="幕張ことは トップへ">
-    <img src="logo.png" alt="幕張ことは ロゴ" width="640" height="220" draggable="false">
+    <picture>
+      <source srcset="logo.webp" type="image/webp">
+      <img src="logo.png" alt="幕張ことは ロゴ" width="640" height="220" draggable="false">
+    </picture>
   </a>
   <button class="menu-btn" id="menuBtn" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav">
     <span></span><span></span><span></span>
@@ -1776,7 +1854,7 @@
     <li><a href="#highlights"><span class="en">Highlights</span><span class="ja">配信ハイライト</span></a></li>
     <li><a href="#channels"><span class="en">Channels</span><span class="ja">配信</span></a></li>
     <li><a href="#goods"><span class="en">Goods</span><span class="ja">グッズ</span></a></li>
-    <li><a href="#press"><span class="en">Press</span><span class="ja">メディア掲載・実績</span></a></li>
+    <li><a href="#press"><span class="en">Press</span><span class="ja">メディア掲載・出展・参加実績</span></a></li>
     <li><a href="#inquiry"><span class="en">Inquiry</span><span class="ja">お問い合わせ</span></a></li>
   </ul>
 </nav>
@@ -1802,13 +1880,15 @@
     <div class="hero-halo" aria-hidden="true"></div>
 
     <div class="hero-chara">
-      <img src="tachie.png"
-           alt="幕張ことは 立ち絵"
-           width="990"
-           height="1400"
-           fetchpriority="high"
-           draggable="false"
-           oncontextmenu="return false;">
+      <picture>
+        <source srcset="tachie.webp" type="image/webp">
+        <img src="tachie.png"
+             alt="幕張ことは 立ち絵"
+             width="990"
+             height="1400"
+             fetchpriority="high"
+             draggable="false">
+      </picture>
     </div>
 
     <div class="hero-copy">
@@ -1849,13 +1929,15 @@
 
       <div class="about-grid">
         <div class="about-portrait reveal">
-          <img src="kotoha_jump.png"
-               alt="幕張ことは イラスト"
-               width="720"
-               height="1018"
-               loading="lazy"
-               draggable="false"
-               oncontextmenu="return false;">
+          <picture>
+            <source srcset="kotoha_jump.webp" type="image/webp">
+            <img src="kotoha_jump.png"
+                 alt="幕張ことは イラスト"
+                 width="720"
+                 height="1018"
+                 loading="lazy"
+                 draggable="false">
+          </picture>
         </div>
 
         <div class="about-text reveal">
@@ -1950,13 +2032,12 @@
         <div class="video-item reveal">
           <div class="video-num">No.01 <span class="video-cat">アニメ語り・映像演出解説</span></div>
           <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/74Ww80oHJ8k?start=1517"
-                    title="アニメ語り｜朝比奈ミクルの冒険は、なぜあの撮り方なのか"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    loading="lazy"
-                    allowfullscreen></iframe>
+            <a class="yt-lite" href="https://www.youtube.com/watch?v=74Ww80oHJ8k&amp;t=1517s" target="_blank" rel="noopener"
+               data-id="74Ww80oHJ8k" data-start="1517" data-title="アニメ語り｜朝比奈ミクルの冒険は、なぜあの撮り方なのか">
+              <img src="https://i.ytimg.com/vi/74Ww80oHJ8k/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+              <span class="yt-play" aria-hidden="true"></span>
+              <span class="sr-only">動画を再生：アニメ語り｜朝比奈ミクルの冒険は、なぜあの撮り方なのか</span>
+            </a>
           </div>
           <div class="video-title">アニメ語り｜朝比奈ミクルの冒険は、なぜあの撮り方なのか</div>
           <p class="video-desc">元動画カメラマンの視点から、「なぜこの画面なのか」「この撮り方にはどんな意味があるのか」を読み解く映像演出の解説です。</p>
@@ -1965,13 +2046,12 @@
         <div class="video-item reveal">
           <div class="video-num">No.02 <span class="video-cat">ゲスト出演・自主制作映画</span></div>
           <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/nNQ3zizw1Uw"
-                    title="【#星詠のまだ見ぬ世界🌍】～自主制作映画の世界～ 映画って作れるの！？"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    loading="lazy"
-                    allowfullscreen></iframe>
+            <a class="yt-lite" href="https://www.youtube.com/watch?v=nNQ3zizw1Uw" target="_blank" rel="noopener"
+               data-id="nNQ3zizw1Uw" data-title="【#星詠のまだ見ぬ世界🌍】～自主制作映画の世界～ 映画って作れるの！？">
+              <img src="https://i.ytimg.com/vi/nNQ3zizw1Uw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+              <span class="yt-play" aria-hidden="true"></span>
+              <span class="sr-only">動画を再生：【#星詠のまだ見ぬ世界🌍】～自主制作映画の世界～ 映画って作れるの！？</span>
+            </a>
           </div>
           <div class="video-title">【#星詠のまだ見ぬ世界🌍】～自主制作映画の世界～ 映画って作れるの！？</div>
           <p class="video-desc">星詠フジさんの番組にゲスト出演し、自主制作映画づくりについてお話ししました。</p>
@@ -1980,13 +2060,12 @@
         <div class="video-item reveal">
           <div class="video-num">No.03 <span class="video-cat">同時視聴</span></div>
           <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/Cy5BZIHLXAw"
-                    title="銀河英雄伝説 1話から3話 同時視聴"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    loading="lazy"
-                    allowfullscreen></iframe>
+            <a class="yt-lite" href="https://www.youtube.com/watch?v=Cy5BZIHLXAw" target="_blank" rel="noopener"
+               data-id="Cy5BZIHLXAw" data-title="銀河英雄伝説 1話から3話 同時視聴">
+              <img src="https://i.ytimg.com/vi/Cy5BZIHLXAw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+              <span class="yt-play" aria-hidden="true"></span>
+              <span class="sr-only">動画を再生：銀河英雄伝説 1話から3話 同時視聴</span>
+            </a>
           </div>
           <div class="video-title">銀河英雄伝説 1話から3話 同時視聴</div>
         </div>
@@ -1994,13 +2073,12 @@
         <div class="video-item reveal">
           <div class="video-num">No.04 <span class="video-cat">イベント</span></div>
           <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/R-0OnNVmaF0"
-                    title="撮影会2026"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    loading="lazy"
-                    allowfullscreen></iframe>
+            <a class="yt-lite" href="https://www.youtube.com/watch?v=R-0OnNVmaF0" target="_blank" rel="noopener"
+               data-id="R-0OnNVmaF0" data-title="撮影会2026">
+              <img src="https://i.ytimg.com/vi/R-0OnNVmaF0/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+              <span class="yt-play" aria-hidden="true"></span>
+              <span class="sr-only">動画を再生：撮影会2026</span>
+            </a>
           </div>
           <div class="video-title">撮影会2026</div>
         </div>
@@ -2008,13 +2086,12 @@
         <div class="video-item reveal">
           <div class="video-num">No.05 <span class="video-cat">ゲーム実況</span></div>
           <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/FKwc6IgOchw"
-                    title="（最終回）【FF10】ファイナルファンタジー10 実況・配信"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    loading="lazy"
-                    allowfullscreen></iframe>
+            <a class="yt-lite" href="https://www.youtube.com/watch?v=FKwc6IgOchw" target="_blank" rel="noopener"
+               data-id="FKwc6IgOchw" data-title="（最終回）【FF10】ファイナルファンタジー10 実況・配信">
+              <img src="https://i.ytimg.com/vi/FKwc6IgOchw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+              <span class="yt-play" aria-hidden="true"></span>
+              <span class="sr-only">動画を再生：（最終回）【FF10】ファイナルファンタジー10 実況・配信</span>
+            </a>
           </div>
           <div class="video-title">（最終回）【FF10】ファイナルファンタジー10 実況・配信</div>
         </div>
@@ -2036,13 +2113,15 @@
       </div>
       <div class="channels-wrap">
       <div class="channels-chara reveal">
-        <img src="kotoha_summer.png"
-             alt="幕張ことは 夏のイラスト"
-             width="506"
-             height="900"
-             loading="lazy"
-             draggable="false"
-             oncontextmenu="return false;">
+        <picture>
+          <source srcset="kotoha_summer.webp" type="image/webp">
+          <img src="kotoha_summer.png"
+               alt="幕張ことは 夏のイラスト"
+               width="506"
+               height="900"
+               loading="lazy"
+               draggable="false">
+        </picture>
       </div>
       <div class="links">
         <a class="link-card shine yt reveal" href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">
@@ -2243,7 +2322,10 @@
 </main>
 
 <footer>
-  <img class="mark" src="logo.png" alt="幕張ことは ロゴ" width="640" height="220" loading="lazy" draggable="false">
+  <picture>
+    <source srcset="logo.webp" type="image/webp">
+    <img class="mark" src="logo.png" alt="幕張ことは ロゴ" width="640" height="220" loading="lazy" draggable="false">
+  </picture>
   <div class="name">幕張ことは &nbsp;/&nbsp; MAKUHARI KOTOHA</div>
   <div class="copy">© COTTON-100 &nbsp;ALL RIGHTS RESERVED</div>
   <div class="hashtags">
@@ -2296,6 +2378,23 @@
   } catch (e) {
     document.documentElement.classList.remove('js');
   }
+
+  // YouTube：サムネイルを押したときだけ動画を読み込む
+  document.querySelectorAll('.yt-lite').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      var src = 'https://www.youtube.com/embed/' + link.dataset.id + '?autoplay=1' +
+                (link.dataset.start ? '&start=' + link.dataset.start : '');
+      var iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.title = link.dataset.title;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allowFullscreen = true;
+      link.replaceWith(iframe);
+      iframe.focus();
+    });
+  });
 
   // ヘッダーの背景（スクロール時）
   var topbar = document.getElementById('topbar');
