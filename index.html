@@ -52,39 +52,73 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #f4ebdd;
-    --bg-card: #fbf6ec;
-    --ink: #2a1f17;
-    --ink-soft: #6e5a48;
-    --ink-faint: #9c8676;
-    --accent: #c97070;
-    --accent-deep: #a04545;
-    --gold: #b08550;
-    --line: rgba(42, 31, 23, 0.14);
-    --line-strong: rgba(42, 31, 23, 0.3);
+    /* 立ち絵（青いワンピース・桜色の髪・黄色い花）から取ったカラー */
+    --navy: #1b2150;
+    --navy-deep: #12163a;
+    --royal: #3346a6;
+    --sakura: #f4b9cb;
+    --sakura-pale: #fde9ef;
+    --pink: #d9648c;
+    --pink-deep: #b9466f;
+    --gold: #e2b143;
+    --gold-soft: #f3d98c;
+    --cream: #fbf6ef;
+    --paper: #ffffff;
+    --ink: #24203a;
+    --ink-soft: #5d5873;
+    --ink-faint: #9893ab;
+    --line: rgba(36, 32, 58, 0.12);
+
+    --mincho: 'Shippori Mincho B1', serif;
+    --gothic: 'Zen Kaku Gothic New', sans-serif;
+    --latin: 'Cormorant Garamond', 'Shippori Mincho B1', serif;
+
+    --lavender: #b9b4ec;
+
+    /* パターン：コットン100%（ギンガムチェック）× 絵コンテ用紙（方眼）× オーロラ */
+    --gingham-blue:
+      linear-gradient(90deg, rgba(110, 128, 230, 0.38) 50%, transparent 50%),
+      linear-gradient(rgba(110, 128, 230, 0.38) 50%, transparent 50%);
+    --gingham-pink:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.42) 50%, transparent 50%),
+      linear-gradient(rgba(255, 255, 255, 0.42) 50%, transparent 50%);
+    --grid-light:
+      linear-gradient(90deg, rgba(217, 100, 140, 0.09) 1px, transparent 1px),
+      linear-gradient(rgba(217, 100, 140, 0.09) 1px, transparent 1px);
+    --grid-dark:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    --aurora-dark:
+      radial-gradient(at 8% 20%, rgba(217, 100, 140, 0.45) 0px, transparent 45%),
+      radial-gradient(at 92% 12%, rgba(110, 128, 230, 0.55) 0px, transparent 50%),
+      radial-gradient(at 70% 95%, rgba(155, 110, 220, 0.5) 0px, transparent 50%),
+      linear-gradient(160deg, #1b2150 0%, #2a2466 55%, #3d2a6e 100%);
+    --aurora-light:
+      radial-gradient(at 0% 30%, rgba(244, 185, 203, 0.55) 0px, transparent 50%),
+      radial-gradient(at 100% 10%, rgba(185, 180, 236, 0.55) 0px, transparent 50%),
+      radial-gradient(at 60% 100%, rgba(170, 200, 245, 0.5) 0px, transparent 55%);
   }
 
-  html, body { background: var(--bg); }
+  html { scroll-behavior: smooth; }
+  html, body { background: var(--cream); }
 
   body {
     color: var(--ink);
-    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-family: var(--gothic);
     line-height: 1.85;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
   }
 
-  .wrap {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 64px 28px 80px;
-  }
+  a { color: inherit; }
 
   /* ---------- 画像の保護対策 ---------- */
   img {
@@ -94,166 +128,764 @@
     -webkit-touch-callout: none;
   }
 
+  .container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- HEADER BAR ---------- */
+  .topbar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+  }
+
+  .topbar.scrolled {
+    background: rgba(18, 22, 58, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+    padding: 10px 24px;
+  }
+
+  .logo {
+    display: block;
+    text-decoration: none;
+    line-height: 0;
+  }
+
+  .logo img {
+    height: 72px;
+    width: auto;
+    display: block;
+    filter: drop-shadow(0 4px 12px rgba(18, 22, 58, 0.35));
+    transition: height 0.4s ease;
+  }
+
+  .topbar.scrolled .logo img { height: 46px; }
+
+  .menu-btn {
+    width: 48px;
+    height: 48px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    z-index: 60;
+  }
+
+  .menu-btn span {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.35s ease, opacity 0.35s ease, top 0.35s ease;
+  }
+
+  .menu-btn span:nth-child(1) { top: 17px; }
+  .menu-btn span:nth-child(2) { top: 23px; left: 18px; }
+  .menu-btn span:nth-child(3) { top: 29px; }
+
+  .nav-open .menu-btn span:nth-child(1) { top: 23px; transform: rotate(45deg); }
+  .nav-open .menu-btn span:nth-child(2) { opacity: 0; }
+  .nav-open .menu-btn span:nth-child(3) { top: 23px; transform: rotate(-45deg); }
+
+  /* ---------- NAV OVERLAY ---------- */
+  .nav {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    background: var(--grid-dark), var(--aurora-dark);
+    background-size: 22px 22px, 22px 22px, auto, auto, auto, auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  .nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(18, 22, 58, 0.5), transparent 70%);
+  }
+
+  .nav-open .nav { opacity: 1; visibility: visible; }
+
+  .nav ul {
+    list-style: none;
+    position: relative;
+    text-align: center;
+  }
+
+  .nav li {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .nav-open .nav li { opacity: 1; transform: none; }
+  .nav-open .nav li:nth-child(2) { transition-delay: 0.05s; }
+  .nav-open .nav li:nth-child(3) { transition-delay: 0.1s; }
+  .nav-open .nav li:nth-child(4) { transition-delay: 0.15s; }
+  .nav-open .nav li:nth-child(5) { transition-delay: 0.2s; }
+  .nav-open .nav li:nth-child(6) { transition-delay: 0.25s; }
+
+  .nav a {
+    display: block;
+    padding: 10px 24px;
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .nav a .en {
+    display: block;
+    font-family: var(--latin);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 34px;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    transition: color 0.3s ease;
+  }
+
+  .nav a .ja {
+    font-family: var(--mincho);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--sakura);
+  }
+
+  .nav a:hover .en { color: var(--gold-soft); }
+
+  /* ---------- SNS (fixed) ---------- */
+  .sns-fixed {
+    position: fixed;
+    right: 18px;
+    bottom: 22px;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sns-fixed a {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--navy);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 4px 14px rgba(18, 22, 58, 0.28);
+    border: 2px solid var(--navy);
+    transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+  }
+
+  .sns-fixed a:hover {
+    transform: translateY(-2px) scale(1.05);
+    background: var(--pink);
+    color: #fff;
+    border-color: var(--pink);
+  }
+
+  .sns-fixed svg { width: 20px; height: 20px; }
+
   /* ---------- HERO ---------- */
   .hero {
-    text-align: center;
-    padding: 24px 0 56px;
-    border-bottom: 1px solid var(--line);
     position: relative;
+    height: 100vh;
+    height: 100svh;
+    min-height: 620px;
+    max-height: 1000px;
+    overflow: hidden;
+    background: var(--navy);
+    color: #fff;
   }
+
+  .hero-bg-top,
+  .hero-bg-bottom {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* 左上：ブルー→ラベンダーのグラデーション ＋ 方眼 */
+  .hero-bg-top {
+    background:
+      var(--grid-dark),
+      linear-gradient(135deg, #3346a6 0%, #4a4fb8 45%, rgba(110, 90, 190, 0.55) 100%);
+    background-size: 26px 26px, 26px 26px, auto;
+    clip-path: polygon(0 0, 62% 0, 0 46%);
+  }
+
+  /* 中央：オーロラ ＋ 絵コンテ方眼 */
+  .hero-sky {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 50% 45% at 55% 45%, rgba(244, 185, 203, 0.3), transparent 70%),
+      var(--grid-dark),
+      var(--aurora-dark);
+    background-size: auto, 26px 26px, 26px 26px, auto, auto, auto, auto;
+  }
+
+  /* 右下：桜色→ラベンダーのグラデーション ＋ 方眼 */
+  .hero-bg-bottom {
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+      linear-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+      linear-gradient(100deg, #f4b9cb 0%, #e7b6dc 45%, #c3b2ea 100%);
+    background-size: 26px 26px, 26px 26px, auto;
+    clip-path: polygon(100% 58%, 100% 100%, 0 100%, 0 96%);
+  }
+
+  .hero-bg-bottom::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    clip-path: polygon(100% 56.4%, 100% 58%, 0 96%, 0 94.4%);
+  }
+
+  .hero-inner {
+    position: relative;
+    height: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero-chara {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-46%);
+    height: min(86%, 760px);
+    aspect-ratio: 990 / 1400;
+    z-index: 3;
+  }
+
+  .hero-chara img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 18px 30px rgba(18, 22, 58, 0.45));
+    animation: chara-in 1.2s cubic-bezier(.2,.7,.2,1) both 0.2s;
+  }
+
+  .hero-halo {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    width: min(64vh, 560px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 2px solid rgba(243, 217, 140, 0.55);
+    box-shadow: 0 0 0 14px rgba(243, 217, 140, 0.08), inset 0 0 80px rgba(244, 185, 203, 0.25);
+    z-index: 1;
+    animation: halo-spin 40s linear infinite;
+  }
+
+  .hero-halo::before {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    border-radius: 50%;
+    border: 1px dashed rgba(253, 233, 239, 0.45);
+  }
+
+  /* 縦書きのキャッチコピー */
+  .hero-copy {
+    position: absolute;
+    left: 7%;
+    top: 22%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    gap: 14px;
+    z-index: 4;
+  }
+
+  .vbox {
+    writing-mode: vertical-rl;
+    font-family: var(--mincho);
+    font-weight: 600;
+    font-size: 21px;
+    letter-spacing: 0.24em;
+    line-height: 1;
+    padding: 20px 12px;
+    background: rgba(18, 22, 58, 0.88);
+    border: 1px solid rgba(243, 217, 140, 0.45);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+    animation: fade-down 1s ease both;
+  }
+
+  .vbox:nth-of-type(1) { animation-delay: 0.6s; }
+  .vbox:nth-of-type(2) { margin-top: 64px; animation-delay: 0.8s; }
 
   .hero-eyebrow {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.55em;
-    color: var(--gold);
-    margin-bottom: 22px;
-    text-indent: 0.55em;
-  }
-
-  .hero h1 {
-    font-family: 'Shippori Mincho B1', serif;
-    font-weight: 700;
-    font-size: 52px;
-    letter-spacing: 0.06em;
-    line-height: 1.15;
-    color: var(--ink);
-    margin-bottom: 14px;
-  }
-
-  .hero-romaji {
-    font-family: 'Shippori Mincho B1', serif;
-    font-weight: 400;
+    writing-mode: vertical-rl;
+    font-family: var(--latin);
+    font-style: italic;
     font-size: 13px;
-    letter-spacing: 0.45em;
-    color: var(--ink-faint);
-    margin-bottom: 32px;
-    text-indent: 0.45em;
+    letter-spacing: 0.35em;
+    color: var(--gold-soft);
+    padding-top: 6px;
+    animation: fade-down 1s ease both 0.4s;
   }
 
-  .hero-tagline {
-    font-family: 'Shippori Mincho B1', serif;
-    font-weight: 500;
-    font-size: 19px;
-    letter-spacing: 0.12em;
-    color: var(--ink-soft);
-    line-height: 1.7;
+  /* 縦書きの名前 */
+  .hero-name {
+    position: absolute;
+    right: 9%;
+    top: 14%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    gap: 6px;
+    z-index: 4;
+    animation: fade-down 1.1s ease both 0.3s;
+  }
+
+  .hero-name h1 {
+    writing-mode: vertical-rl;
+    font-family: var(--mincho);
+    font-weight: 600;
+    font-size: 64px;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-shadow: 0 4px 18px rgba(18, 22, 58, 0.6);
+  }
+
+  .hero-name .ruby {
+    writing-mode: vertical-rl;
+    font-family: var(--mincho);
+    font-size: 13px;
+    letter-spacing: 0.9em;
+    color: var(--sakura);
+    padding-top: 10px;
+  }
+
+  .hero-name .romaji {
+    writing-mode: vertical-rl;
+    font-family: var(--latin);
+    font-style: italic;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--gold-soft);
+    padding-top: 6px;
+    margin-left: 6px;
   }
 
   .hero-meta {
-    margin-top: 28px;
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    color: var(--ink-soft);
+    position: absolute;
+    left: 7%;
+    bottom: 12%;
+    z-index: 4;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    animation: fade-up 1s ease both 1s;
   }
 
-  .hero-meta .dot {
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    background: var(--gold);
-    border-radius: 50%;
+  .hero-meta span {
+    font-family: var(--mincho);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    padding: 6px 14px;
+    background: #fff;
+    color: var(--navy);
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(18, 22, 58, 0.2);
+  }
+
+  .hero-meta span:first-child { background: var(--pink); color: #fff; }
+
+  .scroll-cue {
+    position: absolute;
+    right: 90px;
+    bottom: 18px;
+    z-index: 5;
+    font-family: var(--latin);
+    font-style: italic;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: var(--navy);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+  }
+
+  .scroll-cue::after {
+    content: "";
+    width: 1px;
+    height: 32px;
+    background: var(--navy);
+    animation: scroll-line 1.8s ease-in-out infinite;
+    transform-origin: top;
+  }
+
+  /* 桜の花びら */
+  .petals {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  .petal {
+    position: absolute;
+    top: -30px;
+    width: 12px;
+    height: 10px;
+    background: linear-gradient(135deg, #fff 0%, var(--sakura) 60%, var(--pink) 100%);
+    border-radius: 150% 0 150% 0;
+    opacity: 0.85;
+    animation: petal-fall linear infinite;
+  }
+
+  .petals.front { z-index: 6; }
+
+  @keyframes petal-fall {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    50%  { transform: translate(-60px, 55vh) rotate(220deg); }
+    100% { transform: translate(30px, 110vh) rotate(420deg); }
+  }
+
+  @keyframes chara-in {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes fade-down {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes halo-spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  @keyframes scroll-line {
+    0%   { transform: scaleY(0); opacity: 1; }
+    60%  { transform: scaleY(1); opacity: 1; }
+    100% { transform: scaleY(1); opacity: 0; }
   }
 
   /* ---------- SECTIONS ---------- */
   section {
-    padding: 64px 0;
-    border-bottom: 1px solid var(--line);
+    position: relative;
+    padding: 110px 0;
   }
 
-  .section-head {
-    display: flex;
-    align-items: baseline;
-    gap: 18px;
-    margin-bottom: 32px;
+  .sec-title {
+    text-align: center;
+    margin-bottom: 56px;
   }
 
-  .section-num {
-    font-family: 'Shippori Mincho B1', serif;
+  .sec-title .en {
+    display: block;
+    font-family: var(--latin);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 52px;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    color: var(--navy);
+  }
+
+  .sec-title .ja {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 14px;
+    font-family: var(--mincho);
+    font-weight: 600;
     font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.25em;
-    color: var(--gold);
-  }
-
-  .section-head h2 {
-    font-family: 'Shippori Mincho B1', serif;
-    font-weight: 700;
-    font-size: 26px;
-    letter-spacing: 0.18em;
-    color: var(--ink);
-  }
-
-  .section-head .rule {
-    flex: 1;
-    height: 1px;
-    background: var(--line);
-  }
-
-  .section-head .ja {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 12px;
     letter-spacing: 0.4em;
-    color: var(--ink-faint);
+    color: var(--pink);
+  }
+
+  .sec-title .ja::before,
+  .sec-title .ja::after {
+    content: "";
+    width: 40px;
+    height: 8px;
+    background:
+      radial-gradient(circle, var(--gold) 2.5px, transparent 3px) center / 8px 8px repeat-x;
+  }
+
+  .on-dark .sec-title .en { color: #fff; }
+  .on-dark .sec-title .ja { color: var(--sakura); }
+
+  .lead-text {
+    text-align: center;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.06em;
+    margin: -28px auto 44px;
+  }
+
+  .on-dark .lead-text { color: rgba(255, 255, 255, 0.78); }
+
+  /* ---------- 共通の飾り ---------- */
+  /* 方眼（絵コンテ用紙）＋ オーロラの明るい背景 */
+  .bg-paper {
+    background-color: var(--cream);
+    background-image: var(--grid-light), var(--aurora-light);
+    background-size: 22px 22px, 22px 22px, auto, auto, auto;
+    background-position: 10px 10px, 10px 10px, 0 0, 0 0, 0 0;
+  }
+
+  /* ワンピースの裾のようなフリル（レース）の縁 */
+  .lace {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -1px;
+    height: 16px;
+    z-index: 2;
+    background:
+      radial-gradient(circle at 50% 4px, #fff 2px, transparent 2.6px) 0 0 / 24px 16px repeat-x,
+      radial-gradient(circle at 50% 0, var(--sakura) 11px, transparent 11.6px) 0 0 / 24px 16px repeat-x;
+    pointer-events: none;
+  }
+
+  .lace.lace-white {
+    background:
+      radial-gradient(circle at 50% 4px, var(--sakura) 2px, transparent 2.6px) 0 0 / 24px 16px repeat-x,
+      radial-gradient(circle at 50% 0, #fff 11px, transparent 11.6px) 0 0 / 24px 16px repeat-x;
+  }
+
+  /* ふわふわ浮かぶモチーフ */
+  .float {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    animation: fuwa 9s ease-in-out infinite;
+  }
+
+  .float.rev { animation-name: fuwa-rev; animation-duration: 11s; }
+  .float.slow { animation-duration: 14s; }
+
+  @keyframes fuwa {
+    0%, 100% { transform: translate(0, 0) rotate(-6deg); }
+    50%      { transform: translate(6px, -16px) rotate(6deg); }
+  }
+
+  @keyframes fuwa-rev {
+    0%, 100% { transform: translate(0, 0) rotate(8deg); }
+    50%      { transform: translate(-8px, 14px) rotate(-4deg); }
+  }
+
+  /* ホバー時のきらっと光る演出 */
+  .shine { overflow: hidden; }
+
+  .shine::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(-120deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.65) 50%, rgba(255, 255, 255, 0) 100%);
+    transform: skewX(20deg);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .shine:hover::after {
+    left: 150%;
+    transition: left 0.8s ease;
   }
 
   /* ---------- ABOUT ---------- */
+  #about { padding-top: 100px; }
+
+  #about .container { position: relative; z-index: 2; }
+
   .about-grid {
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 44px;
-    align-items: start;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .about-portrait {
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: 30px 0;
+  }
+
+  .about-portrait::before {
+    content: "";
+    position: absolute;
+    width: 86%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle, var(--sakura-pale) 0 58%, transparent 58.5%),
+      conic-gradient(from 0deg, var(--sakura), var(--gold-soft), var(--sakura), var(--royal), var(--sakura));
+    opacity: 0.9;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -54%);
+  }
+
+  .about-portrait::after {
+    content: "";
+    position: absolute;
+    width: 70%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px dashed var(--pink);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -54%);
+    opacity: 0.5;
+  }
+
+  .about-portrait img {
+    position: relative;
+    z-index: 1;
+    width: 78%;
+    max-width: 340px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 14px 20px rgba(27, 33, 80, 0.25));
+  }
+
+  /* 洋服のタグ風バッジ（コットン100%） */
+  .cloth-tag {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 26px 12px 40px;
+    margin: 0 0 22px;
+    background: linear-gradient(135deg, var(--royal), var(--navy));
+    color: #fff;
+    border-radius: 4px 14px 14px 4px;
+    box-shadow: 0 8px 18px rgba(27, 33, 80, 0.25);
+    transform: rotate(-3deg);
+  }
+
+  .cloth-tag::before {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: 1.5px dashed rgba(255, 255, 255, 0.6);
+    border-radius: 2px 10px 10px 2px;
+  }
+
+  .cloth-tag::after {
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+    border-radius: 50%;
+    background: var(--cream);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .cloth-tag .ct-en {
+    font-family: var(--latin);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    color: var(--gold-soft);
+    line-height: 1.4;
+  }
+
+  .cloth-tag .ct-ja {
+    font-family: var(--mincho);
+    font-weight: 800;
+    font-size: 17px;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
   }
 
   .about-text p {
     font-size: 15.5px;
-    line-height: 2.05;
+    line-height: 2.1;
     color: var(--ink);
     margin-bottom: 20px;
   }
 
-  .about-text p:last-child { margin-bottom: 0; }
-
-  .about-portrait {
-    border: 1px solid var(--line);
-    overflow: hidden;
-    background: var(--bg-card);
+  .about-text p:first-of-type::first-letter {
+    font-family: var(--mincho);
+    font-weight: 800;
+    font-size: 30px;
+    color: var(--pink);
   }
 
-  .about-portrait img {
-    width: 100%;
-    height: auto;
-    display: block;
+  .about-text p:last-child { margin-bottom: 0; }
+
+  .about-text .dream {
+    background: linear-gradient(transparent 62%, var(--gold-soft) 62%);
+    font-weight: 500;
   }
 
   /* ---------- STATS ---------- */
   .stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    margin-top: 44px;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+    margin-top: 72px;
   }
 
   .stat {
     text-align: center;
-    padding: 24px 12px;
-    border-right: 1px solid var(--line);
+    padding: 8px 12px 6px;
+    position: relative;
   }
 
-  .stat:last-child { border-right: none; }
+  .stat + .stat::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 30%;
+    bottom: 10%;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .stat-icon {
+    width: 34px;
+    height: 34px;
+    margin: 0 auto 12px;
+    display: block;
+  }
 
   .stat-num {
-    font-family: 'Shippori Mincho B1', serif;
-    font-weight: 700;
-    font-size: 26px;
-    color: var(--ink);
+    font-family: var(--mincho);
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--navy);
     letter-spacing: 0.04em;
     line-height: 1.2;
     margin-bottom: 6px;
@@ -261,111 +893,165 @@
 
   .stat-num .unit {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     margin-left: 2px;
-    color: var(--ink-soft);
+    color: var(--pink);
   }
 
   .stat-label {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 11px;
+    font-family: var(--latin);
+    font-style: italic;
+    font-size: 13px;
     letter-spacing: 0.25em;
-    color: var(--ink-soft);
+    color: var(--ink-faint);
   }
 
-  /* ---------- TAGS ---------- */
-  .specialty-intro {
-    font-size: 14px;
-    color: var(--ink-soft);
-    margin-bottom: 24px;
-    letter-spacing: 0.05em;
+  /* ---------- SPECIALTY (dark diagonal) ---------- */
+  #specialty {
+    color: #fff;
+    padding: 160px 0 170px;
+    background: transparent;
   }
 
-  .specialty-hint {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: var(--gold);
-    margin-bottom: 22px;
+  .diag-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--grid-dark), var(--aurora-dark);
+    background-size: 22px 22px, 22px 22px, auto, auto, auto, auto;
+    clip-path: polygon(0 70px, 100% 0, 100% calc(100% - 70px), 0 100%);
   }
 
-  .tag-group {
-    margin-bottom: 24px;
+  .diag-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    clip-path: polygon(0 70px, 100% 0, 100% 4px, 0 74px);
   }
 
-  .tag-group:last-child { margin-bottom: 0; }
+  #specialty .container { position: relative; z-index: 2; }
+
+  .tag-panels {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 28px;
+  }
+
+  .tag-panel {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(243, 217, 140, 0.3);
+    padding: 34px 30px;
+    position: relative;
+  }
+
+  .tag-panel::before,
+  .tag-panel::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--gold);
+  }
+
+  .tag-panel::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+  .tag-panel::after  { bottom: -2px; right: -2px; border-left: none; border-top: none; }
 
   .tag-label {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.25em;
-    color: var(--gold);
-    margin-bottom: 12px;
+    font-family: var(--latin);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.18em;
+    color: var(--gold-soft);
+    margin-bottom: 4px;
+  }
+
+  .tag-label-ja {
+    font-family: var(--mincho);
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--sakura);
+    margin-bottom: 22px;
   }
 
   .tag-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 9px;
+    gap: 10px;
   }
 
   .tag {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 8px 18px;
-    background: var(--bg-card);
-    border: 1px solid var(--line);
+    font-family: var(--mincho);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 9px 18px 9px 30px;
+    background: #fff;
     border-radius: 999px;
-    color: var(--ink);
+    color: var(--navy);
     letter-spacing: 0.06em;
-    transition: all 0.25s ease;
-    text-decoration: none;
+    transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
     display: inline-block;
-    cursor: default; /* ← ここを pointer から default に変更しました */
+    cursor: default;
     position: relative;
+  }
+
+  .tag::before {
+    content: "";
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    background: var(--pink);
+    transform: translateY(-50%) rotate(45deg);
   }
 
   .tag:hover {
-    border-color: var(--accent);
-    color: var(--accent-deep);
-    transform: translateY(-1px);
+    background: var(--sakura);
+    transform: translateY(-2px);
   }
 
-  /* ---------- HIGHLIGHTS (videos) ---------- */
-  .highlights-intro {
-    font-size: 14px;
-    color: var(--ink-soft);
-    margin-bottom: 28px;
-    letter-spacing: 0.05em;
-  }
+  /* ---------- HIGHLIGHTS ---------- */
+  #highlights { padding-top: 70px; }
+
+  #highlights .container { position: relative; z-index: 2; }
 
   .video-grid {
     display: grid;
-    gap: 28px;
-  }
-
-  .video-item {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px 28px;
     position: relative;
   }
 
+  .video-item:first-child { grid-column: 1 / -1; }
+
   .video-num {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.3em;
-    color: var(--gold);
-    margin-bottom: 12px;
-    text-indent: 0.3em;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--latin);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.2em;
+    color: var(--pink);
+    margin-bottom: 10px;
+  }
+
+  .video-num::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    background: var(--gold);
+    transform: rotate(45deg);
   }
 
   .video-frame {
     width: 100%;
     aspect-ratio: 16 / 9;
-    border: 1px solid var(--line);
-    background: var(--bg-card);
+    background: var(--navy);
     overflow: hidden;
+    box-shadow: 10px 10px 0 var(--sakura), 0 12px 30px rgba(27, 33, 80, 0.18);
   }
 
   .video-frame iframe {
@@ -376,595 +1062,1017 @@
   }
 
   .video-title {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 14px;
-    font-weight: 500;
+    font-family: var(--mincho);
+    font-size: 14.5px;
+    font-weight: 600;
     letter-spacing: 0.04em;
-    color: var(--ink-soft);
-    margin-top: 12px;
+    color: var(--ink);
+    margin-top: 20px;
     line-height: 1.7;
   }
 
-  /* ---------- LINKS ---------- */
+  /* ---------- CHANNELS ---------- */
+  #channels {
+    /* 淡いギンガムチェック（カードや文字が読みやすいよう控えめに） */
+    background:
+      linear-gradient(90deg, rgba(244, 185, 203, 0.2) 50%, transparent 50%),
+      linear-gradient(rgba(244, 185, 203, 0.2) 50%, transparent 50%),
+      #fff7fa;
+    background-size: 40px 40px, 40px 40px, auto;
+    padding: 120px 0 110px;
+  }
+
+  #channels .lace { top: -1px; }
+  #channels .lace.bottom { top: auto; bottom: -1px; transform: scaleY(-1); }
+
+  #channels .container { position: relative; z-index: 2; }
+  #channels .sec-title .ja { color: var(--navy); }
+
+  .channels-wrap {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .channels-chara {
+    position: relative;
+    display: grid;
+    place-items: center;
+  }
+
+  .channels-chara::before {
+    content: "";
+    position: absolute;
+    width: 92%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    border: 3px dotted var(--sakura);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .channels-chara img {
+    position: relative;
+    width: 82%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 12px 18px rgba(185, 70, 111, 0.3));
+  }
+
   .links {
     display: grid;
-    gap: 12px;
+    gap: 18px;
   }
 
   .link-card {
     display: flex;
     align-items: center;
-    gap: 22px;
-    padding: 24px 28px;
-    background: var(--bg-card);
-    border: 1px solid var(--line);
+    gap: 20px;
+    padding: 28px 28px;
+    background: #fff;
     text-decoration: none;
     color: var(--ink);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(185, 70, 111, 0.15);
+    overflow: hidden;
+  }
+
+  .link-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: var(--brand, var(--pink));
   }
 
   .link-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(185, 70, 111, 0.25);
   }
 
   .link-card .icon {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 22px;
-    width: 32px;
-    text-align: center;
-    color: var(--accent);
-    font-weight: 600;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    background: var(--brand, var(--pink));
+    color: #fff;
   }
 
-  .link-card .info { flex: 1; }
+  .link-card .icon svg { width: 26px; height: 26px; }
+
+  .link-card.yt { --brand: #e0303a; }
+  .link-card.x  { --brand: #111111; }
+
+  .link-card .info { flex: 1; min-width: 0; }
 
   .link-card .title {
     display: block;
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 16px;
-    font-weight: 700;
+    font-family: var(--mincho);
+    font-size: 18px;
+    font-weight: 800;
     letter-spacing: 0.1em;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
   }
 
   .link-card .handle {
     display: block;
-    font-size: 12px;
+    font-size: 12.5px;
     color: var(--ink-soft);
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
   }
 
   .link-card .arrow {
-    font-size: 14px;
-    color: var(--ink-soft);
-    transition: transform 0.3s ease;
+    font-size: 18px;
+    color: var(--ink-faint);
+    transition: transform 0.3s ease, color 0.3s ease;
   }
 
   .link-card:hover .arrow {
     transform: translateX(4px);
-    color: var(--accent);
+    color: var(--pink);
   }
 
   /* ---------- PRESS ---------- */
-  .press-intro {
-    font-size: 14px;
-    color: var(--ink-soft);
-    margin-bottom: 28px;
-    letter-spacing: 0.05em;
-  }
+  #press .container { position: relative; z-index: 2; }
 
   .press-list {
     display: grid;
-    gap: 12px;
+    gap: 18px;
+    max-width: 860px;
+    margin: 0 auto;
   }
 
   .press-card {
-    display: block;
-    padding: 26px 28px;
-    background: var(--bg-card);
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 26px;
+    padding: 26px 30px;
+    background: #fff;
     border: 1px solid var(--line);
     text-decoration: none;
     color: var(--ink);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
   }
 
   a.press-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-2px);
+    border-color: var(--sakura);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(27, 33, 80, 0.1);
+  }
+
+  .press-date {
+    font-family: var(--latin);
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: var(--navy);
+    line-height: 1.3;
+    border-right: 1px solid var(--line);
+    padding-right: 20px;
+    display: flex;
+    align-items: center;
   }
 
   .press-meta {
     display: flex;
     align-items: center;
-    gap: 14px;
-    margin-bottom: 12px;
+    gap: 12px;
+    margin-bottom: 8px;
     flex-wrap: wrap;
     row-gap: 6px;
   }
 
   .press-source {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.25em;
-    color: var(--accent-deep);
+    font-family: var(--mincho);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: var(--pink-deep);
   }
 
   .press-category {
-    font-family: 'Shippori Mincho B1', serif;
+    font-family: var(--mincho);
     font-size: 10px;
-    letter-spacing: 0.2em;
-    padding: 3px 10px;
-    border: 1px solid var(--line-strong);
-    color: var(--ink-soft);
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    padding: 2px 10px;
+    background: var(--navy);
+    color: #fff;
     border-radius: 2px;
   }
 
-  .press-date {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: var(--ink-faint);
-  }
-
   .press-title {
-    font-family: 'Shippori Mincho B1', serif;
+    font-family: var(--mincho);
     font-size: 15px;
     font-weight: 700;
     letter-spacing: 0.04em;
     line-height: 1.75;
     color: var(--ink);
-    margin-bottom: 14px;
   }
 
   .press-arrow {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 11px;
-    letter-spacing: 0.25em;
-    color: var(--ink-soft);
+    margin-top: 10px;
+    font-family: var(--latin);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    transition: color 0.3s ease;
   }
 
-  a.press-card:hover .press-arrow {
-    color: var(--accent-deep);
+  a.press-card:hover .press-arrow { color: var(--pink); }
+
+  /* ---------- INQUIRY ---------- */
+  #inquiry {
+    color: #fff;
+    padding: 170px 0 120px;
   }
 
-  /* ---------- INQUIRY FORM ---------- */
+  #inquiry .diag-bg {
+    clip-path: polygon(0 0, 100% 70px, 100% 100%, 0 100%);
+  }
+
+  #inquiry .diag-bg::after {
+    clip-path: polygon(0 0, 100% 70px, 100% 74px, 0 4px);
+  }
+
+  #inquiry .container { position: relative; }
+
   .inquiry-box {
-    background: var(--bg-card);
-    border: 1px solid var(--line);
-    padding: 36px 32px;
+    max-width: 720px;
+    margin: 0 auto;
+    background: #fff;
+    color: var(--ink);
+    padding: 48px 40px;
     text-align: center;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  }
+
+  .inquiry-box::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid var(--gold-soft);
+    pointer-events: none;
   }
 
   .inquiry-box .lead {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 12px;
-    letter-spacing: 0.08em;
+    font-family: var(--mincho);
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 14px;
+    letter-spacing: 0.12em;
   }
 
   .inquiry-box p {
-    font-size: 13.5px;
+    font-size: 14px;
     color: var(--ink-soft);
     margin-bottom: 28px;
-    line-height: 1.95;
+    line-height: 2;
   }
 
-  /* ボタンのスタイル（Googleフォームへのリンク用に調整） */
   .inquiry-btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     width: 100%;
-    max-width: 500px;
-    box-sizing: border-box;
-    font-family: 'Shippori Mincho B1', serif;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 0.25em;
-    padding: 16px 44px;
-    background: var(--ink);
-    color: var(--bg);
+    max-width: 460px;
+    font-family: var(--mincho);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.2em;
+    padding: 18px 40px;
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    color: #fff;
     border: none;
+    border-radius: 999px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    text-indent: 0.25em;
-    margin-top: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
-    text-align: center;
+    box-shadow: 0 8px 20px rgba(185, 70, 111, 0.35);
+    position: relative;
+    z-index: 1;
   }
 
   .inquiry-btn:hover {
-    background: var(--accent-deep);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(185, 70, 111, 0.45);
   }
 
   .inquiry-note {
-    margin-top: 24px;
-    font-size: 11px;
+    margin-top: 16px;
+    font-size: 11.5px;
     color: var(--ink-faint);
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
   }
+
+  .inquiry-note + .inquiry-note { margin-top: 4px; }
 
   /* ---------- FOOTER ---------- */
   footer {
+    position: relative;
+    background: var(--navy-deep);
+    color: #fff;
     text-align: center;
-    padding: 48px 0 0;
+    padding: 56px 20px 90px;
+  }
+
+  footer::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 10px;
+    background: linear-gradient(90deg, var(--pink) 0%, var(--lavender) 50%, var(--royal) 100%);
   }
 
   footer .mark {
-    font-size: 16px;
-    color: var(--accent);
-    margin-bottom: 16px;
-    opacity: 0.7;
+    width: 220px;
+    max-width: 70%;
+    height: auto;
+    margin: 0 auto 18px;
+    display: block;
   }
 
   footer .name {
-    font-family: 'Shippori Mincho B1', serif;
-    font-size: 13px;
+    font-family: var(--mincho);
+    font-weight: 600;
+    font-size: 14px;
     letter-spacing: 0.35em;
-    color: var(--ink-soft);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
   footer .copy {
-    font-size: 10px;
+    font-family: var(--latin);
+    font-size: 12px;
     letter-spacing: 0.2em;
-    color: var(--ink-faint);
+    color: rgba(255, 255, 255, 0.5);
   }
 
-  /* ---------- HASHTAGS ---------- */
   .hashtags {
-    margin-top: 12px;
+    margin-top: 18px;
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
   }
 
   .hashtags span {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    color: var(--ink-faint);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--sakura);
+    border: 1px solid rgba(244, 185, 203, 0.4);
+    padding: 3px 12px;
+    border-radius: 999px;
+  }
+
+  /* ---------- SCROLL REVEAL ---------- */
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s ease, transform 0.9s cubic-bezier(.2,.7,.2,1);
+  }
+
+  .js .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .js .reveal { opacity: 1; transform: none; }
+    .petals { display: none; }
+  }
+
+  /* ---------- TABLET ---------- */
+  @media (max-width: 900px) {
+    .hero-name { right: 5%; }
+    .hero-copy { left: 4%; }
+    .hero-meta { left: 4%; }
+    .hero-name h1 { font-size: 54px; }
+    .tag-panels { grid-template-columns: 1fr; }
   }
 
   /* ---------- MOBILE ---------- */
   @media (max-width: 700px) {
-    .wrap { padding: 44px 22px 64px; }
-    .hero { padding: 24px 0 50px; }
-    .hero h1 { font-size: 38px; letter-spacing: 0.04em; }
-    .hero-romaji { font-size: 11px; letter-spacing: 0.35em; }
-    .hero-tagline { font-size: 16px; letter-spacing: 0.08em; }
-    section { padding: 48px 0; }
-    .section-head h2 { font-size: 20px; letter-spacing: 0.15em; }
-    .section-head .ja { display: none; }
-    .about-grid { grid-template-columns: 1fr; gap: 28px; }
-    .about-portrait { order: -1; max-width: 320px; margin: 0 auto; }
+    .container { padding: 0 16px; }
+    .topbar, .topbar.scrolled { padding: 10px 12px; }
+    .logo img { height: 52px; }
+    .topbar.scrolled .logo img { height: 38px; }
+    .float { scale: 0.65; opacity: 0.85; }
+
+    .hero { min-height: 600px; }
+    .hero-bg-top { clip-path: polygon(0 0, 100% 0, 0 30%); }
+    .hero-bg-bottom { clip-path: polygon(100% 70%, 100% 100%, 0 100%, 0 90%); }
+    .hero-bg-bottom::after { clip-path: polygon(100% 68.6%, 100% 70%, 0 90%, 0 88.6%); }
+    .hero-chara { height: 70%; transform: translateX(-42%); }
+    .hero-halo { width: 86vw; top: 52%; }
+    .hero-name { right: 14px; top: 78px; }
+    .hero-name h1 { font-size: 40px; }
+    .hero-name .ruby, .hero-name .romaji { font-size: 11px; }
+    .hero-copy { left: 12px; top: 90px; gap: 8px; }
+    .hero-eyebrow { display: none; }
+    .vbox { font-size: 15px; padding: 14px 8px; }
+    .vbox:nth-of-type(2) { margin-top: 40px; }
+    .hero-meta { left: 12px; right: 70px; bottom: 8%; }
+    .hero-meta span { font-size: 11px; padding: 5px 11px; }
+    .scroll-cue { display: none; }
+
+    .sns-fixed { right: 10px; bottom: 14px; }
+    .sns-fixed a { width: 40px; height: 40px; }
+
+    section { padding: 80px 0; }
+    .sec-title { margin-bottom: 40px; }
+    .sec-title .en { font-size: 40px; }
+    .sec-title .ja { font-size: 12px; letter-spacing: 0.3em; }
+    .lead-text { margin: -16px auto 32px; font-size: 13.5px; }
+
+    .about-grid { grid-template-columns: 1fr; gap: 20px; }
+    .about-portrait { max-width: 300px; margin: 0 auto; padding: 16px 0; }
+    .about-portrait img { width: 66%; }
+    .about-text { text-align: left; }
+    .cloth-tag { display: flex; width: fit-content; margin: 0 auto 22px; }
     .about-text p { font-size: 14.5px; }
-    .stats { grid-template-columns: 1fr; }
-    .stat { border-right: none; border-bottom: 1px solid var(--line); padding: 18px 12px; }
-    .stat:last-child { border-bottom: none; }
-    .video-grid { gap: 24px; }
-    .link-card { padding: 20px 22px; gap: 16px; }
-    .link-card .title { font-size: 15px; }
-    .press-card { padding: 22px 22px; }
+    .stats { grid-template-columns: 1fr; gap: 26px; margin-top: 52px; }
+    .stat + .stat::before { display: none; }
+
+    #specialty { padding: 120px 0 130px; }
+    .diag-bg { clip-path: polygon(0 40px, 100% 0, 100% calc(100% - 40px), 0 100%); }
+    .diag-bg::after { clip-path: polygon(0 40px, 100% 0, 100% 4px, 0 44px); }
+    .tag-panel { padding: 26px 20px; }
+
+    .video-grid { grid-template-columns: 1fr; gap: 32px; }
+    .video-frame { box-shadow: 6px 6px 0 var(--sakura), 0 8px 20px rgba(27, 33, 80, 0.18); }
+
+    #channels { padding: 90px 0; }
+    .channels-wrap { grid-template-columns: 1fr; gap: 24px; }
+    .channels-chara { max-width: 220px; margin: 0 auto; }
+    .links { gap: 14px; }
+    .link-card { padding: 20px 20px 20px 24px; gap: 16px; }
+    .link-card .icon { width: 46px; height: 46px; }
+    .link-card .title { font-size: 16px; }
+
+    .press-card { grid-template-columns: 1fr; gap: 8px; padding: 22px 20px; }
+    .press-date { border-right: none; padding-right: 0; font-size: 16px; }
     .press-title { font-size: 14px; }
-    .inquiry-box { padding: 28px 22px; }
-    .inquiry-btn { padding: 14px 32px; font-size: 13px; }
+
+    #inquiry { padding: 120px 0 90px; }
+    #inquiry .diag-bg { clip-path: polygon(0 0, 100% 40px, 100% 100%, 0 100%); }
+    #inquiry .diag-bg::after { clip-path: polygon(0 0, 100% 40px, 100% 44px, 0 4px); }
+    .inquiry-box { padding: 36px 22px; }
+    .inquiry-box p br { display: none; }
+    .inquiry-btn { padding: 16px 24px; font-size: 13.5px; letter-spacing: 0.12em; }
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
+<!-- 共通アイコン -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-flower" viewBox="0 0 40 40">
+      <g transform="translate(20 20)">
+        <g fill="#f3d98c" stroke="#e2b143" stroke-width="1">
+          <ellipse rx="6" ry="10" cy="-9"/>
+          <ellipse rx="6" ry="10" cy="-9" transform="rotate(72)"/>
+          <ellipse rx="6" ry="10" cy="-9" transform="rotate(144)"/>
+          <ellipse rx="6" ry="10" cy="-9" transform="rotate(216)"/>
+          <ellipse rx="6" ry="10" cy="-9" transform="rotate(288)"/>
+        </g>
+        <circle r="4.5" fill="#d9648c"/>
+      </g>
+    </symbol>
+    <!-- ロゴのリボン -->
+    <symbol id="i-ribbon" viewBox="0 0 60 40">
+      <path d="M30 20 C22 8 6 2 4 10 C2 18 14 26 30 20 Z" fill="#8f86c9" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M30 20 C38 8 54 2 56 10 C58 18 46 26 30 20 Z" fill="#8f86c9" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M28 21 L20 38 L26 35 L29 39 Z M32 21 L40 38 L34 35 L31 39 Z" fill="#7a71b8" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="30" cy="20" r="5" fill="#a59de0" stroke="#fff" stroke-width="2.5"/>
+    </symbol>
+    <!-- きらきら星 -->
+    <symbol id="i-star" viewBox="0 0 40 40">
+      <path d="M20 2 C21.5 14 26 18.5 38 20 C26 21.5 21.5 26 20 38 C18.5 26 14 21.5 2 20 C14 18.5 18.5 14 20 2 Z" fill="#f3d98c" stroke="#fff" stroke-width="1.5"/>
+    </symbol>
+    <!-- カチンコ（夢は映画監督） -->
+    <symbol id="i-clapper" viewBox="0 0 48 44">
+      <rect x="4" y="16" width="40" height="26" rx="3" fill="#3346a6" stroke="#fff" stroke-width="2"/>
+      <g transform="rotate(-14 4 16)">
+        <rect x="4" y="6" width="40" height="10" rx="2" fill="#fff" stroke="#3346a6" stroke-width="2"/>
+        <path d="M10 6 L16 16 M20 6 L26 16 M30 6 L36 16" stroke="#d9648c" stroke-width="3.5"/>
+      </g>
+      <path d="M10 26 H38 M10 33 H30" stroke="#f4b9cb" stroke-width="2.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/>
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M18.2 2.3h3.4l-7.4 8.4 8.7 11.5h-6.8l-5.3-7-6.1 7H1.3l7.9-9L.9 2.3h7l4.8 6.4 5.5-6.4Zm-1.2 17.9h1.9L7 4.2H5l12 16Z"/>
+    </symbol>
+  </defs>
+</svg>
 
-  <header class="hero">
+<!-- ヘッダー -->
+<div class="topbar" id="topbar">
+  <a class="logo" href="#top" aria-label="幕張ことは トップへ">
+    <img src="logo.png" alt="幕張ことは ロゴ" width="640" height="220" draggable="false">
+  </a>
+  <button class="menu-btn" id="menuBtn" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav">
+    <span></span><span></span><span></span>
+  </button>
+</div>
 
-    <div class="hero-eyebrow">VTUBER &nbsp;&middot;&nbsp; ANIME LOVER</div>
-    <h1>幕張ことは</h1>
-    <div class="hero-romaji">M A K U H A R I &nbsp; K O T O H A</div>
-    <div class="hero-tagline">アニメが大好きな、アニメ語り系VTuber。</div>
+<nav class="nav" id="nav" aria-label="サイト内メニュー">
+  <ul>
+    <li><a href="#about"><span class="en">About</span><span class="ja">紹介</span></a></li>
+    <li><a href="#specialty"><span class="en">Specialty</span><span class="ja">好きな作品まとめ</span></a></li>
+    <li><a href="#highlights"><span class="en">Highlights</span><span class="ja">配信ハイライト</span></a></li>
+    <li><a href="#channels"><span class="en">Channels</span><span class="ja">配信</span></a></li>
+    <li><a href="#press"><span class="en">Press</span><span class="ja">メディア掲載・実績</span></a></li>
+    <li><a href="#inquiry"><span class="en">Inquiry</span><span class="ja">お問い合わせ</span></a></li>
+  </ul>
+</nav>
+
+<!-- 固定SNSボタン -->
+<div class="sns-fixed">
+  <a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener" aria-label="YouTube">
+    <svg aria-hidden="true"><use href="#i-youtube"/></svg>
+  </a>
+  <a href="https://x.com/cotton_makuhari" target="_blank" rel="noopener" aria-label="X (Twitter)">
+    <svg aria-hidden="true"><use href="#i-x"/></svg>
+  </a>
+</div>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-sky"></div>
+  <div class="hero-bg-top"></div>
+  <div class="petals" id="petalsBack"></div>
+  <div class="hero-bg-bottom"></div>
+
+  <div class="hero-inner">
+    <div class="hero-halo" aria-hidden="true"></div>
+
+    <div class="hero-chara">
+      <img src="tachie.png"
+           alt="幕張ことは 立ち絵"
+           width="990"
+           height="1400"
+           fetchpriority="high"
+           draggable="false"
+           oncontextmenu="return false;">
+    </div>
+
+    <div class="hero-copy">
+      <span class="hero-eyebrow">VTuber · Anime Lover</span>
+      <p class="vbox">アニメが大好きな、</p>
+      <p class="vbox">アニメ語り系VTuber。</p>
+    </div>
+
+    <div class="hero-name">
+      <h1>幕張ことは</h1>
+      <span class="ruby">まくはりことは</span>
+      <span class="romaji">MAKUHARI KOTOHA</span>
+    </div>
 
     <div class="hero-meta">
       <span>個人勢</span>
-      <span class="dot"></span>
       <span>Anime · Game · Anisong</span>
     </div>
+  </div>
 
-  </header>
+  <div class="petals front" id="petalsFront"></div>
+  <a class="scroll-cue" href="#about">Scroll</a>
+</header>
 
-  <section>
-    <div class="section-head">
-      <span class="section-num">— 01</span>
-      <h2>About</h2>
-      <span class="rule"></span>
-      <span class="ja">紹介</span>
-    </div>
+<main class="bg-paper">
 
-    <div class="about-grid">
-      <div class="about-text">
-        <p>はじめまして、幕張ことはと申します。アニメ・ゲーム・アニソンが大好きな個人VTuberです。</p>
-        <p>ごはんのお供にアニメを観るアニメ好きとして、好きな作品の魅力を、感想・考察・布教解説という形で毎週の配信や動画でお届けしています。落ち着いた語り口とリスナーさんとの心地よい距離感を大切に、温かく楽しい空間を目指しています。</p>
-        <p>夢は映画監督。今は動画やお芝居の勉強をしながら、自分だけの物語を少しずつ紡いでいます。</p>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="lace" aria-hidden="true"></div>
+    <svg class="float" style="left:5%;top:120px;width:64px;height:44px" aria-hidden="true"><use href="#i-ribbon"/></svg>
+    <svg class="float slow" style="left:3%;bottom:18%;width:36px;height:36px" aria-hidden="true"><use href="#i-star"/></svg>
+    <svg class="float rev slow" style="right:4%;bottom:8%;width:46px;height:46px" aria-hidden="true"><use href="#i-flower"/></svg>
+    <div class="container">
+      <div class="sec-title reveal">
+        <span class="en">About</span>
+        <span class="ja">紹介</span>
       </div>
 
-     <div class="about-portrait">
-        <img src="tachie.png"
-             alt="幕張ことは 立ち絵"
-             width="400"
-             height="600"
+      <div class="about-grid">
+        <div class="about-portrait reveal">
+          <img src="kotoha_jump.png"
+               alt="幕張ことは イラスト"
+               width="720"
+               height="1018"
+               loading="lazy"
+               draggable="false"
+               oncontextmenu="return false;">
+        </div>
+
+        <div class="about-text reveal">
+          <div class="cloth-tag" role="img" aria-label="コットン100% 個人勢VTuber">
+            <span class="ct-en">COTTON 100%</span>
+            <span class="ct-ja">個人勢VTuber</span>
+          </div>
+
+          <p>はじめまして、幕張ことはと申します。アニメ・ゲーム・アニソンが大好きな個人VTuberです。</p>
+          <p>ごはんのお供にアニメを観るアニメ好きとして、好きな作品の魅力を、感想・考察・布教解説という形で毎週の配信や動画でお届けしています。落ち着いた語り口とリスナーさんとの心地よい距離感を大切に、温かく楽しい空間を目指しています。</p>
+          <p><span class="dream">夢は映画監督。</span>今は動画やお芝居の勉強をしながら、自分だけの物語を少しずつ紡いでいます。</p>
+        </div>
+      </div>
+
+      <div class="stats reveal">
+        <div class="stat">
+          <svg class="stat-icon" aria-hidden="true"><use href="#i-star"/></svg>
+          <div class="stat-num">30,000<span class="unit">人＋</span></div>
+          <div class="stat-label">SUBSCRIBERS</div>
+        </div>
+        <div class="stat">
+          <svg class="stat-icon" aria-hidden="true"><use href="#i-clapper"/></svg>
+          <div class="stat-num">アニメ</div>
+          <div class="stat-label">SPECIALTY</div>
+        </div>
+        <div class="stat">
+          <svg class="stat-icon" aria-hidden="true"><use href="#i-flower"/></svg>
+          <div class="stat-num">個人勢</div>
+          <div class="stat-label">INDEPENDENT</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECIALTY -->
+  <section id="specialty" class="on-dark">
+    <div class="diag-bg" aria-hidden="true"></div>
+    <svg class="float" style="left:6%;top:140px;width:34px;height:34px" aria-hidden="true"><use href="#i-star"/></svg>
+    <svg class="float rev slow" style="right:8%;top:120px;width:24px;height:24px" aria-hidden="true"><use href="#i-star"/></svg>
+    <svg class="float slow" style="right:5%;bottom:140px;width:40px;height:40px" aria-hidden="true"><use href="#i-star"/></svg>
+    <div class="container">
+      <div class="sec-title reveal">
+        <span class="en">Specialty</span>
+        <span class="ja">好きな作品まとめ</span>
+      </div>
+      <p class="lead-text reveal">こんなジャンルや作品を視聴しています。</p>
+
+      <div class="tag-panels">
+        <div class="tag-panel reveal">
+          <div class="tag-label">Favorite Genre</div>
+          <div class="tag-label-ja">好きなジャンル</div>
+          <div class="tag-list">
+            <span class="tag">ロボットアニメ</span>
+            <span class="tag">ファンタジー</span>
+            <span class="tag">SF</span>
+            <span class="tag">RPG</span>
+          </div>
+        </div>
+
+        <div class="tag-panel reveal">
+          <div class="tag-label">Beloved Titles</div>
+          <div class="tag-label-ja">大好きな作品</div>
+          <div class="tag-list">
+            <span class="tag">聖戦士ダンバイン</span>
+            <span class="tag">機動戦士ガンダム</span>
+            <span class="tag">無職転生</span>
+            <span class="tag">ウマ娘</span>
+            <span class="tag">魔法科高校の劣等生</span>
+            <span class="tag">境界線上のホライゾン</span>
+            <span class="tag">Vivy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHTS -->
+  <section id="highlights">
+    <svg class="float" style="left:4%;top:60px;width:60px;height:55px" aria-hidden="true"><use href="#i-clapper"/></svg>
+    <svg class="float rev" style="right:5%;top:90px;width:40px;height:40px" aria-hidden="true"><use href="#i-star"/></svg>
+
+    <div class="container">
+      <div class="sec-title reveal">
+        <span class="en">Highlights</span>
+        <span class="ja">配信ハイライト</span>
+      </div>
+      <p class="lead-text reveal">代表的な配信アーカイブから3本セレクトしてお届けします。</p>
+
+      <div class="video-grid">
+
+        <div class="video-item reveal">
+          <div class="video-num">No.01</div>
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/R-0OnNVmaF0"
+                    title="撮影会2026"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    loading="lazy"
+                    allowfullscreen></iframe>
+          </div>
+          <div class="video-title">撮影会2026</div>
+        </div>
+
+        <div class="video-item reveal">
+          <div class="video-num">No.02</div>
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/Cy5BZIHLXAw"
+                    title="銀河英雄伝説 1話から3話 同時視聴"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    loading="lazy"
+                    allowfullscreen></iframe>
+          </div>
+          <div class="video-title">銀河英雄伝説 1話から3話 同時視聴</div>
+        </div>
+
+        <div class="video-item reveal">
+          <div class="video-num">No.03</div>
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/FKwc6IgOchw"
+                    title="（最終回）【FF10】ファイナルファンタジー10 実況・配信"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    loading="lazy"
+                    allowfullscreen></iframe>
+          </div>
+          <div class="video-title">（最終回）【FF10】ファイナルファンタジー10 実況・配信</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CHANNELS -->
+  <section id="channels">
+    <div class="lace" aria-hidden="true"></div>
+    <div class="lace bottom" aria-hidden="true"></div>
+    <svg class="float" style="right:6%;top:70px;width:64px;height:44px" aria-hidden="true"><use href="#i-ribbon"/></svg>
+    <svg class="float rev slow" style="left:5%;bottom:60px;width:44px;height:44px" aria-hidden="true"><use href="#i-flower"/></svg>
+    <div class="container">
+      <div class="sec-title reveal">
+        <span class="en">Channels</span>
+        <span class="ja">配信</span>
+      </div>
+      <div class="channels-wrap">
+      <div class="channels-chara reveal">
+        <img src="kotoha_summer.png"
+             alt="幕張ことは 夏のイラスト"
+             width="506"
+             height="900"
+             loading="lazy"
              draggable="false"
              oncontextmenu="return false;">
       </div>
-    </div>
-
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-num">30,000<span class="unit">人＋</span></div>
-        <div class="stat-label">SUBSCRIBERS</div>
+      <div class="links">
+        <a class="link-card shine yt reveal" href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">
+          <span class="icon"><svg aria-hidden="true"><use href="#i-youtube"/></svg></span>
+          <span class="info">
+            <span class="title">YouTube</span>
+            <span class="handle">@cotton-100　/　配信・アニメ解説ショート</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+        <a class="link-card shine x reveal" href="https://x.com/cotton_makuhari" target="_blank" rel="noopener">
+          <span class="icon"><svg aria-hidden="true"><use href="#i-x"/></svg></span>
+          <span class="info">
+            <span class="title">X (Twitter)</span>
+            <span class="handle">@cotton_makuhari　/　日々のつぶやき・配信告知</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
       </div>
-      <div class="stat">
-        <div class="stat-num">アニメ</div>
-        <div class="stat-label">SPECIALTY</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">個人勢</div>
-        <div class="stat-label">INDEPENDENT</div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="section-head">
-      <span class="section-num">— 02</span>
-      <h2>Specialty</h2>
-      <span class="rule"></span>
-      <span class="ja">好きな作品まとめ</span>
-    </div>
-    <p class="specialty-intro">こんなジャンルや作品を視聴しています。</p>
-
-    <div class="tag-group">
-      <div class="tag-label">— FAVORITE GENRE</div>
-      <div class="tag-list">
-        <span class="tag">ロボットアニメ</span>
-        <span class="tag">ファンタジー</span>
-        <span class="tag">SF</span>
-        <span class="tag">RPG</span>
-      </div>
-    </div>
-
-    <div class="tag-group">
-      <div class="tag-label">— BELOVED TITLES</div>
-      <div class="tag-list">
-        <span class="tag">聖戦士ダンバイン</span>
-        <span class="tag">機動戦士ガンダム</span>
-        <span class="tag">無職転生</span>
-        <span class="tag">ウマ娘</span>
-        <span class="tag">魔法科高校の劣等生</span>
-        <span class="tag">境界線上のホライゾン</span>
-        <span class="tag">Vivy</span>
       </div>
     </div>
   </section>
 
-  <section>
-    <div class="section-head">
-      <span class="section-num">— 03</span>
-      <h2>Highlights</h2>
-      <span class="rule"></span>
-      <span class="ja">配信ハイライト</span>
-    </div>
-    <p class="highlights-intro">代表的な配信アーカイブから3本セレクトしてお届けします。</p>
-
-    <div class="video-grid">
-
-      <div class="video-item">
-        <div class="video-num">— 01</div>
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/R-0OnNVmaF0"
-                  title="撮影会2026"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  loading="lazy"
-                  allowfullscreen></iframe>
-        </div>
-        <div class="video-title">撮影会2026</div>
+  <!-- PRESS -->
+  <section id="press">
+    <svg class="float" style="left:4%;top:90px;width:38px;height:38px" aria-hidden="true"><use href="#i-star"/></svg>
+    <svg class="float slow" style="left:3%;bottom:10%;width:58px;height:40px" aria-hidden="true"><use href="#i-ribbon"/></svg>
+    <div class="container">
+      <div class="sec-title reveal">
+        <span class="en">Press</span>
+        <span class="ja">メディア掲載・出展・参加実績</span>
       </div>
+      <p class="lead-text reveal">メディア掲載・大型イベント出展・コラボキャンペーン参加の記録です。</p>
 
-      <div class="video-item">
-        <div class="video-num">— 02</div>
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/Cy5BZIHLXAw"
-                  title="銀河英雄伝説 1話から3話 同時視聴"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  loading="lazy"
-                  allowfullscreen></iframe>
+      <div class="press-list">
+
+        <!-- ぶいマガ！ -->
+        <a class="press-card reveal" href="https://v-mag.jp/articles/10594" target="_blank" rel="noopener">
+          <div class="press-date">2026.07.21</div>
+          <div>
+            <div class="press-meta">
+              <span class="press-source">ぶいマガ！</span>
+              <span class="press-category">ARTICLE 記事</span>
+            </div>
+            <div class="press-title">
+              幕張ことは　プロの映像視点と言葉で魅せる、<br>
+              ギャップが愛らしい新感覚お姉さんVTuber
+            </div>
+            <div class="press-arrow">Read Article →</div>
+          </div>
+        </a>
+
+        <!-- ニコニコ超会議2026 -->
+        <a class="press-card reveal" href="https://chokaigi.jp/2026/creatorcross/0161/" target="_blank" rel="noopener">
+          <div class="press-date">2026.04</div>
+          <div>
+            <div class="press-meta">
+              <span class="press-source">ニコニコ超会議2026</span>
+              <span class="press-category">EVENT 出展</span>
+            </div>
+            <div class="press-title">
+              クリエイタークロス「幕張ことはwithフレンズ」<br>
+              個別ブース出展（推しと話せる1on1ブース）
+            </div>
+            <div class="press-arrow">View Detail →</div>
+          </div>
+        </a>
+
+        <!-- JOYSOUND ギネス -->
+        <a class="press-card reveal" href="https://streamer.joysound.com/anniversary/1st" target="_blank" rel="noopener">
+          <div class="press-date">2025.12.05-06</div>
+          <div>
+            <div class="press-meta">
+              <span class="press-source">JOYSOUND for STREAMER</span>
+              <span class="press-category">RECORD ギネス達成</span>
+            </div>
+            <div class="press-title">
+              ギネス世界記録™達成した企画<br>
+              「100人の歌枠リレーで目指せ、世界一！」に配信者として参加
+            </div>
+            <div class="press-arrow">View Detail →</div>
+          </div>
+        </a>
+
+        <!-- Melonbooks 周年企画 -->
+        <a class="press-card reveal" href="https://www.melonbooks.co.jp/tags/index.php?tag=Melonbooks%C3%97VTuber%E3%82%B9%E3%82%BF%E3%82%A4%E3%83%AB%E3%80%80%E3%83%9E%E3%83%B3%E3%82%B9%E3%83%AA%E3%83%BC%E3%82%A2%E3%83%B3%E3%83%90%E3%82%B5%E3%83%80%E3%83%BC%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%9A%E3%83%BC%E3%83%B3%E3%80%80%E3%82%B9%E3%83%9A%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" target="_blank" rel="noopener">
+          <div class="press-date">2025.11.14-21</div>
+          <div>
+            <div class="press-meta">
+              <span class="press-source">Melonbooks × VTuberスタイル</span>
+              <span class="press-category">CAMPAIGN 周年企画</span>
+            </div>
+            <div class="press-title">
+              マンスリーアンバサダーキャンペーン1周年記念企画<br>
+              メロンブックス店舗にて公式グッズ販売
+            </div>
+            <div class="press-arrow">View Detail →</div>
+          </div>
+        </a>
+
+        <!-- ニコニコ超会議2025 (リンクなし) -->
+        <div class="press-card reveal">
+          <div class="press-date">2025.04</div>
+          <div>
+            <div class="press-meta">
+              <span class="press-source">ニコニコ超会議2025</span>
+              <span class="press-category">EVENT 出展</span>
+            </div>
+            <div class="press-title">
+              クリエイタークロス出展<br>
+              ファン交流ブースを実施
+            </div>
+          </div>
         </div>
-        <div class="video-title">銀河英雄伝説 1話から3話 同時視聴</div>
-      </div>
 
-      <div class="video-item">
-        <div class="video-num">— 03</div>
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/FKwc6IgOchw"
-                  title="（最終回）【FF10】ファイナルファンタジー10 実況・配信"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  loading="lazy"
-                  allowfullscreen></iframe>
-        </div>
-        <div class="video-title">（最終回）【FF10】ファイナルファンタジー10 実況・配信</div>
-      </div>
+        <!-- 電撃オンライン -->
+        <a class="press-card reveal" href="https://dengekionline.com/article/202410/21296" target="_blank" rel="noopener">
+          <div class="press-date">2024.10</div>
+          <div>
+            <div class="press-meta">
+              <span class="press-source">電撃オンライン</span>
+              <span class="press-category">ARTICLE 記事</span>
+            </div>
+            <div class="press-title">
+              幕張ことはさんはアニメが大好き。<br>
+              ゲーム実況もアニメに関連した作品が中心。
+            </div>
+            <div class="press-arrow">Read Article →</div>
+          </div>
+        </a>
 
+      </div>
     </div>
   </section>
 
-  <section>
-    <div class="section-head">
-      <span class="section-num">— 04</span>
-      <h2>Channels</h2>
-      <span class="rule"></span>
-      <span class="ja">配信</span>
-    </div>
-    <div class="links">
-      <a class="link-card" href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">
-        <span class="icon">▶</span>
-        <span class="info">
-          <span class="title">YouTube</span>
-          <span class="handle">@cotton-100　/　配信・アニメ解説ショート</span>
-        </span>
-        <span class="arrow">→</span>
-      </a>
-      <a class="link-card" href="https://x.com/cotton_makuhari" target="_blank" rel="noopener">
-        <span class="icon">𝕏</span>
-        <span class="info">
-          <span class="title">X (Twitter)</span>
-          <span class="handle">@cotton_makuhari　/　日々のつぶやき・配信告知</span>
-        </span>
-        <span class="arrow">→</span>
-      </a>
-    </div>
-  </section>
-
-  <section>
-    <div class="section-head">
-      <span class="section-num">— 05</span>
-      <h2>Press</h2>
-      <span class="rule"></span>
-      <span class="ja">メディア掲載・出展・参加実績</span>
-    </div>
-    <p class="press-intro">メディア掲載・大型イベント出展・コラボキャンペーン参加の記録です。</p>
-
-    <div class="press-list">
-
-      <!-- ぶいマガ！ -->
-      <a class="press-card" href="https://v-mag.jp/articles/10594" target="_blank" rel="noopener">
-        <div class="press-meta">
-          <span class="press-source">ぶいマガ！</span>
-          <span class="press-category">ARTICLE 記事</span>
-          <span class="press-date">2026.07.21</span>
-        </div>
-        <div class="press-title">
-          幕張ことは　プロの映像視点と言葉で魅せる、<br>
-          ギャップが愛らしい新感覚お姉さんVTuber
-        </div>
-        <div class="press-arrow">READ ARTICLE →</div>
-      </a>
-
-      <!-- ニコニコ超会議2026 -->
-      <a class="press-card" href="https://chokaigi.jp/2026/creatorcross/0161/" target="_blank" rel="noopener">
-        <div class="press-meta">
-          <span class="press-source">ニコニコ超会議2026</span>
-          <span class="press-category">EVENT 出展</span>
-          <span class="press-date">2026.04</span>
-        </div>
-        <div class="press-title">
-          クリエイタークロス「幕張ことはwithフレンズ」<br>
-          個別ブース出展（推しと話せる1on1ブース）
-        </div>
-        <div class="press-arrow">VIEW DETAIL →</div>
-      </a>
-
-      <!-- JOYSOUND ギネス -->
-      <a class="press-card" href="https://streamer.joysound.com/anniversary/1st" target="_blank" rel="noopener">
-        <div class="press-meta">
-          <span class="press-source">JOYSOUND for STREAMER</span>
-          <span class="press-category">RECORD ギネス達成</span>
-          <span class="press-date">2025.12.05-06</span>
-        </div>
-        <div class="press-title">
-          ギネス世界記録™達成した企画<br>
-          「100人の歌枠リレーで目指せ、世界一！」に配信者として参加
-        </div>
-        <div class="press-arrow">VIEW DETAIL →</div>
-      </a>
-
-      <!-- Melonbooks 周年企画 -->
-      <a class="press-card" href="https://www.melonbooks.co.jp/tags/index.php?tag=Melonbooks%C3%97VTuber%E3%82%B9%E3%82%BF%E3%82%A4%E3%83%AB%E3%80%80%E3%83%9E%E3%83%B3%E3%82%B9%E3%83%AA%E3%83%BC%E3%82%A2%E3%83%B3%E3%83%90%E3%82%B5%E3%83%80%E3%83%BC%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%9A%E3%83%BC%E3%83%B3%E3%80%80%E3%82%B9%E3%83%9A%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" target="_blank" rel="noopener">
-        <div class="press-meta">
-          <span class="press-source">Melonbooks × VTuberスタイル</span>
-          <span class="press-category">CAMPAIGN 周年企画</span>
-          <span class="press-date">2025.11.14-21</span>
-        </div>
-        <div class="press-title">
-          マンスリーアンバサダーキャンペーン1周年記念企画<br>
-          メロンブックス店舗にて公式グッズ販売
-        </div>
-        <div class="press-arrow">VIEW DETAIL →</div>
-      </a>
-
-      <!-- ニコニコ超会議2025 (リンクなし) -->
-      <div class="press-card">
-        <div class="press-meta">
-          <span class="press-source">ニコニコ超会議2025</span>
-          <span class="press-category">EVENT 出展</span>
-          <span class="press-date">2025.04</span>
-        </div>
-        <div class="press-title">
-          クリエイタークロス出展<br>
-          ファン交流ブースを実施
-        </div>
+  <!-- INQUIRY -->
+  <section id="inquiry" class="on-dark">
+    <div class="diag-bg" aria-hidden="true"></div>
+    <div class="container">
+      <div class="sec-title reveal">
+        <span class="en">Inquiry</span>
+        <span class="ja">お問い合わせ</span>
       </div>
+      <div class="inquiry-box reveal">
+        <div class="lead">企業様・関係者各位へ</div>
+        <p>
+          お仕事のご依頼、タイアップ、作品PR、レビュー配信、<br>
+          イベント出演、ナレーション、コラボなどに関するお問い合わせは、<br>
+          下記の専用フォームより受け付けております。
+        </p>
 
-      <!-- 電撃オンライン -->
-      <a class="press-card" href="https://dengekionline.com/article/202410/21296" target="_blank" rel="noopener">
-        <div class="press-meta">
-          <span class="press-source">電撃オンライン</span>
-          <span class="press-category">ARTICLE 記事</span>
-          <span class="press-date">2024.10</span>
-        </div>
-        <div class="press-title">
-          幕張ことはさんはアニメが大好き。<br>
-          ゲーム実況もアニメに関連した作品が中心。
-        </div>
-        <div class="press-arrow">READ ARTICLE →</div>
-      </a>
+        <a class="inquiry-btn shine" href="https://forms.gle/634b2cHHkoWEK4QJ6" target="_blank" rel="noopener">
+          お問い合わせフォームを開く <span aria-hidden="true">→</span>
+        </a>
 
+        <div class="inquiry-note">※外部サイト（Googleフォーム）へ移動します</div>
+        <div class="inquiry-note">通常3営業日以内にご返信いたします</div>
+      </div>
     </div>
   </section>
 
-  <section>
-    <div class="section-head">
-      <span class="section-num">— 06</span>
-      <h2>Inquiry</h2>
-      <span class="rule"></span>
-      <span class="ja">お問い合わせ</span>
-    </div>
-    <div class="inquiry-box">
-      <div class="lead">企業様・関係者各位へ</div>
-      <p>
-        お仕事のご依頼、タイアップ、作品PR、レビュー配信、<br>
-        イベント出演、ナレーション、コラボなどに関するお問い合わせは、<br>
-        下記の専用フォームより受け付けております。
-      </p>
+</main>
 
-      <a class="inquiry-btn" href="https://forms.gle/634b2cHHkoWEK4QJ6" target="_blank" rel="noopener">
-        お問い合わせフォームを開く
-      </a>
+<footer>
+  <img class="mark" src="logo.png" alt="幕張ことは ロゴ" width="640" height="220" loading="lazy" draggable="false">
+  <div class="name">幕張ことは &nbsp;/&nbsp; MAKUHARI KOTOHA</div>
+  <div class="copy">© COTTON-100 &nbsp;ALL RIGHTS RESERVED</div>
+  <div class="hashtags">
+    <span>#幕張ことは</span>
+    <span>#コットン配信</span>
+    <span>#幕張美術館</span>
+  </div>
+</footer>
 
-      <div class="inquiry-note">※外部サイト（Googleフォーム）へ移動します</div>
-      <div class="inquiry-note">通常3営業日以内にご返信いたします</div>
-    </div>
-  </section>
+<script>
+  // ヘッダーの背景（スクロール時）
+  var topbar = document.getElementById('topbar');
+  function onScroll() {
+    topbar.classList.toggle('scrolled', window.scrollY > 40);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
-  <footer>
-    <div class="mark">❀</div>
-    <div class="name">幕張ことは &nbsp;/&nbsp; MAKUHARI KOTOHA</div>
-    <div class="copy">© COTTON-100 &nbsp;ALL RIGHTS RESERVED</div>
-    <div class="hashtags">
-      <span>#幕張ことは</span>
-      <span>#コットン配信</span>
-      <span>#幕張美術館</span>
-    </div>
-  </footer>
+  // ハンバーガーメニュー
+  var menuBtn = document.getElementById('menuBtn');
+  function setNav(open) {
+    document.body.classList.toggle('nav-open', open);
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuBtn.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  menuBtn.addEventListener('click', function () {
+    setNav(!document.body.classList.contains('nav-open'));
+  });
+  document.querySelectorAll('.nav a').forEach(function (a) {
+    a.addEventListener('click', function () { setNav(false); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setNav(false);
+  });
 
-</div>
+  // スクロールで表示
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // 桜の花びら
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    [['petalsBack', 12, 0.7], ['petalsFront', 6, 1.3]].forEach(function (cfg) {
+      var box = document.getElementById(cfg[0]);
+      for (var i = 0; i < cfg[1]; i++) {
+        var p = document.createElement('span');
+        p.className = 'petal';
+        var s = cfg[2] * (0.7 + Math.random() * 0.6);
+        p.style.left = (Math.random() * 105) + '%';
+        p.style.width = (12 * s) + 'px';
+        p.style.height = (10 * s) + 'px';
+        p.style.animationDuration = (9 + Math.random() * 8) + 's';
+        p.style.animationDelay = (-Math.random() * 16) + 's';
+        box.appendChild(p);
+      }
+    });
+  }
+</script>
 
 </body>
 </html>
