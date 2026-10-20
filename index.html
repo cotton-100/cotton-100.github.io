@@ -234,6 +234,10 @@
     -webkit-backdrop-filter: none;
   }
 
+  /* メニューを開いている間、透明なヘッダーがメニュー項目のタップを邪魔しないように */
+  .nav-open .topbar { pointer-events: none; }
+  .nav-open .menu-btn { pointer-events: auto; }
+
   .nav-open .logo { visibility: hidden; }
 
   .nav-open .menu-btn {
@@ -2420,18 +2424,34 @@
     setNav(!document.body.classList.contains('nav-open'), true);
   });
   navLinks.forEach(function (a) {
-    a.addEventListener('click', function () {
+    a.addEventListener('click', function (e) {
+      var hash = a.getAttribute('href');
+      var target = document.querySelector(hash);
+      if (!target) return;
+      // ブラウザ本来のジャンプは止めて、メニューを閉じてから自分でスクロールする
+      e.preventDefault();
       setNav(false, false);
-      // フォーカスを閉じたメニューに残さず、移動先のセクションへ移す
-      var target = document.querySelector(a.getAttribute('href'));
-      if (target) {
-        target.setAttribute('tabindex', '-1');
-        target.focus({ preventScroll: true });
-        // フォーカスが外れたら一時的な tabindex を外す
-        target.addEventListener('blur', function () {
-          target.removeAttribute('tabindex');
-        }, { once: true });
-      }
+      // スクロールのロック解除が画面に反映されるのを待ってから移動（スマホ対策）
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+          // 途中で画像の読み込みなどにより位置がずれたら、止まったあとに合わせ直す
+          var fix = function () {
+            if (Math.abs(target.getBoundingClientRect().top) > 2) target.scrollIntoView({ block: 'start' });
+          };
+          if ('onscrollend' in window) window.addEventListener('scrollend', fix, { once: true });
+          else setTimeout(fix, 1200);
+          if (history.pushState) history.pushState(null, '', hash);
+          // フォーカスを閉じたメニューに残さず、移動先のセクションへ移す
+          target.setAttribute('tabindex', '-1');
+          target.focus({ preventScroll: true });
+          // フォーカスが外れたら一時的な tabindex を外す
+          target.addEventListener('blur', function () {
+            target.removeAttribute('tabindex');
+          }, { once: true });
+        });
+      });
     });
   });
   document.addEventListener('keydown', function (e) {
