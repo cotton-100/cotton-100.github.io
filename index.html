@@ -429,12 +429,13 @@
     margin: 0 auto;
   }
 
+  /* 立ち絵は上半身を大きく見せる：画像を大きくして、腰から下は画面の下に隠す */
   .hero-chara {
     position: absolute;
     left: 50%;
-    bottom: 0;
+    top: 11%;
     transform: translateX(-46%);
-    height: min(86%, 760px);
+    height: 165%;
     aspect-ratio: 990 / 1400;
     z-index: 3;
   }
@@ -1715,7 +1716,7 @@
     .hero-bg-top { clip-path: polygon(0 0, 100% 0, 0 30%); }
     .hero-bg-bottom { clip-path: polygon(100% 70%, 100% 100%, 0 100%, 0 90%); }
     .hero-bg-bottom::after { clip-path: polygon(100% 68.6%, 100% 70%, 0 90%, 0 88.6%); }
-    .hero-chara { height: 70%; transform: translateX(-42%); }
+    .hero-chara { top: 19%; height: 140%; transform: translateX(-45%); }
     .hero-halo { width: 86vw; top: 52%; }
     .hero-name { right: 14px; top: 78px; }
     .hero-name h1 { font-size: 40px; }
