@@ -2034,7 +2034,8 @@
           <div class="video-frame">
             <a class="yt-lite" href="https://www.youtube.com/watch?v=74Ww80oHJ8k&amp;t=1517s" target="_blank" rel="noopener"
                data-id="74Ww80oHJ8k" data-start="1517" data-title="アニメ語り｜朝比奈ミクルの冒険は、なぜあの撮り方なのか">
-              <img src="https://i.ytimg.com/vi/74Ww80oHJ8k/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+              <img src="https://i.ytimg.com/vi/74Ww80oHJ8k/maxresdefault.jpg" alt="" width="1280" height="720" loading="lazy"
+                   data-fallback="https://i.ytimg.com/vi/74Ww80oHJ8k/hqdefault.jpg">
               <span class="yt-play" aria-hidden="true"></span>
               <span class="sr-only">動画を再生：アニメ語り｜朝比奈ミクルの冒険は、なぜあの撮り方なのか</span>
             </a>
@@ -2349,28 +2350,6 @@
         });
       }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
       reveals.forEach(function (el) { io.observe(el); });
-
-      // 二重の安全策：画面内にあるのに表示されていない要素があれば、演出をやめて全部表示する
-      var checkTimer = null;
-      var checkVisible = function () {
-        var vh = window.innerHeight;
-        for (var i = 0; i < reveals.length; i++) {
-          var el = reveals[i];
-          if (el.classList.contains('in')) continue;
-          var r = el.getBoundingClientRect();
-          if (r.height > 0 && r.top < vh * 0.8 && r.bottom > vh * 0.2) {
-            document.documentElement.classList.remove('js');
-            window.removeEventListener('scroll', scheduleCheck);
-            return;
-          }
-        }
-      };
-      var scheduleCheck = function () {
-        clearTimeout(checkTimer);
-        checkTimer = setTimeout(checkVisible, 1500);
-      };
-      window.addEventListener('scroll', scheduleCheck, { passive: true });
-      scheduleCheck();
     } else {
       reveals.forEach(function (el) { el.classList.add('in'); });
     }
@@ -2379,12 +2358,28 @@
     document.documentElement.classList.remove('js');
   }
 
+  // 高画質サムネイルが無かったときは標準画質に切り替える
+  document.querySelectorAll('.yt-lite img[data-fallback]').forEach(function (img) {
+    var useFallback = function () {
+      if (img.src !== img.dataset.fallback) img.src = img.dataset.fallback;
+    };
+    // YouTubeは高画質版が無いと 120×90 の灰色画像を返すので、小さすぎる画像も「無い」とみなす
+    var check = function () { if (img.naturalWidth < 200) useFallback(); };
+    img.addEventListener('error', useFallback);
+    img.addEventListener('load', check);
+    if (img.complete && img.getAttribute('src')) check();
+  });
+
   // YouTube：サムネイルを押したときだけ動画を読み込む
   document.querySelectorAll('.yt-lite').forEach(function (link) {
     link.addEventListener('click', function (e) {
+      var id = link.dataset.id || '';
+      var start = link.dataset.start || '';
+      // 動画IDと開始秒が想定どおりの形式でなければ、通常のリンクとしてYouTubeを開く
+      if (!/^[\w-]{11}$/.test(id) || !/^\d*$/.test(start)) return;
       e.preventDefault();
-      var src = 'https://www.youtube.com/embed/' + link.dataset.id + '?autoplay=1' +
-                (link.dataset.start ? '&start=' + link.dataset.start : '');
+      var src = 'https://www.youtube.com/embed/' + id + '?autoplay=1' +
+                (start ? '&start=' + start : '');
       var iframe = document.createElement('iframe');
       iframe.src = src;
       iframe.title = link.dataset.title;
