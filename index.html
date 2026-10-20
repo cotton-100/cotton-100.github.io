@@ -58,7 +58,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
-<script>document.documentElement.classList.add('js');</script>
+<script>
+  document.documentElement.classList.add('js');
+  // 安全策：スクロール表示の準備が3秒以内に終わらなければ、演出をやめて全部表示する
+  setTimeout(function () {
+    if (!window.revealReady) document.documentElement.classList.remove('js');
+  }, 3000);
+</script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -1213,6 +1219,35 @@
   .link-card.x  { --brand: #111111; }
   .link-card.mallow { --brand: #f08fb0; }
 
+  .link-card .info { flex: 1; min-width: 0; }
+
+  .link-card .title {
+    display: block;
+    font-family: var(--mincho);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    margin-bottom: 2px;
+  }
+
+  .link-card .handle {
+    display: block;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+  }
+
+  .link-card .arrow {
+    font-size: 18px;
+    color: var(--ink-faint);
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .link-card:hover .arrow {
+    transform: translateX(4px);
+    color: var(--pink);
+  }
+
   /* ---------- GOODS ---------- */
   #goods .container { position: relative; z-index: 2; }
 
@@ -1291,34 +1326,7 @@
     color: var(--pink);
   }
 
-  .link-card .info { flex: 1; min-width: 0; }
-
-  .link-card .title {
-    display: block;
-    font-family: var(--mincho);
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    margin-bottom: 2px;
-  }
-
-  .link-card .handle {
-    display: block;
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    letter-spacing: 0.04em;
-  }
-
-  .link-card .arrow {
-    font-size: 18px;
-    color: var(--ink-faint);
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
-
-  .link-card:hover .arrow {
-    transform: translateX(4px);
-    color: var(--pink);
-  }
+  section:focus { outline: none; }
 
   /* ---------- PRESS ---------- */
   #press .container { position: relative; z-index: 2; }
@@ -2226,6 +2234,7 @@
     } else {
       reveals.forEach(function (el) { el.classList.add('in'); });
     }
+    window.revealReady = true;
   } catch (e) {
     document.documentElement.classList.remove('js');
   }
@@ -2242,6 +2251,8 @@
   var menuBtn = document.getElementById('menuBtn');
   var nav = document.getElementById('nav');
   var navLinks = nav.querySelectorAll('a');
+  // メニューを開いている間、操作できなくするページ側の要素
+  var pageParts = document.querySelectorAll('.logo, .sns-fixed, header.hero, main, footer');
   nav.inert = true;
   function setNav(open, restoreFocus) {
     var wasOpen = document.body.classList.contains('nav-open');
@@ -2250,6 +2261,7 @@
     menuBtn.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
     document.body.style.overflow = open ? 'hidden' : '';
     nav.inert = !open;
+    pageParts.forEach(function (el) { el.inert = open; });
     if (open) navLinks[0].focus();
     else if (wasOpen && restoreFocus) menuBtn.focus();
   }
@@ -2257,7 +2269,15 @@
     setNav(!document.body.classList.contains('nav-open'), true);
   });
   navLinks.forEach(function (a) {
-    a.addEventListener('click', function () { setNav(false, false); });
+    a.addEventListener('click', function () {
+      setNav(false, false);
+      // フォーカスを閉じたメニューに残さず、移動先のセクションへ移す
+      var target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
+      }
+    });
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') setNav(false, true);
