@@ -276,13 +276,6 @@
     padding: 72px 0 40px;
   }
 
-  /* スマホ横向きなど、高さが低い画面ではメニューを詰める */
-  @media (max-height: 560px) {
-    .nav ul { padding: 60px 0 24px; }
-    .nav a { padding: 4px 24px; }
-    .nav a .en { font-size: 24px; }
-    .nav a .ja { font-size: 10px; }
-  }
 
   .nav li {
     opacity: 0;
@@ -321,6 +314,14 @@
     font-size: 11px;
     letter-spacing: 0.4em;
     color: var(--sakura);
+  }
+
+  /* スマホ横向きなど、高さが低い画面ではメニューを詰める（通常設定より後に置くこと） */
+  @media (max-height: 560px) {
+    .nav ul { padding: 60px 0 24px; }
+    .nav a { padding: 4px 24px; }
+    .nav a .en { font-size: 24px; }
+    .nav a .ja { font-size: 10px; }
   }
 
   .nav a:hover .en,
@@ -412,14 +413,6 @@
       linear-gradient(100deg, #f4b9cb 0%, #e7b6dc 45%, #c3b2ea 100%);
     background-size: 26px 26px, 26px 26px, auto;
     clip-path: polygon(100% 58%, 100% 100%, 0 100%, 0 96%);
-  }
-
-  .hero-bg-bottom::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--gold);
-    clip-path: polygon(100% 56.4%, 100% 58%, 0 96%, 0 94.4%);
   }
 
   .hero-inner {
@@ -667,6 +660,10 @@
   .sec-title {
     text-align: center;
     margin-bottom: 56px;
+    /* h2 の標準の文字サイズ・太さを打ち消して、見た目は中の span で決める */
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
   }
 
   .sec-title .en {
@@ -1715,7 +1712,6 @@
     .hero { min-height: 600px; }
     .hero-bg-top { clip-path: polygon(0 0, 100% 0, 0 30%); }
     .hero-bg-bottom { clip-path: polygon(100% 70%, 100% 100%, 0 100%, 0 90%); }
-    .hero-bg-bottom::after { clip-path: polygon(100% 68.6%, 100% 70%, 0 90%, 0 88.6%); }
     .hero-chara { top: 19%; height: 140%; transform: translateX(-45%); }
     .hero-halo { width: 86vw; top: 52%; }
     .hero-name { right: 14px; top: 78px; }
@@ -1923,10 +1919,10 @@
     <svg class="float slow" style="left:3%;bottom:18%;width:36px;height:36px" aria-hidden="true"><use href="#i-star"/></svg>
     <svg class="float rev slow" style="right:4%;bottom:8%;width:46px;height:46px" aria-hidden="true"><use href="#i-flower"/></svg>
     <div class="container">
-      <div class="sec-title reveal">
+      <h2 class="sec-title reveal">
         <span class="en">About</span>
         <span class="ja">紹介</span>
-      </div>
+      </h2>
 
       <div class="about-grid">
         <div class="about-portrait reveal">
@@ -1981,10 +1977,10 @@
     <svg class="float rev slow" style="right:8%;top:120px;width:24px;height:24px" aria-hidden="true"><use href="#i-star"/></svg>
     <svg class="float slow" style="right:5%;bottom:140px;width:40px;height:40px" aria-hidden="true"><use href="#i-star"/></svg>
     <div class="container">
-      <div class="sec-title reveal">
+      <h2 class="sec-title reveal">
         <span class="en">Specialty</span>
         <span class="ja">好きな作品まとめ</span>
-      </div>
+      </h2>
       <p class="lead-text reveal">こんなジャンルや作品を視聴しています。</p>
 
       <div class="tag-panels">
@@ -2022,10 +2018,10 @@
     <svg class="float rev" style="right:5%;top:90px;width:40px;height:40px" aria-hidden="true"><use href="#i-star"/></svg>
 
     <div class="container">
-      <div class="sec-title reveal">
+      <h2 class="sec-title reveal">
         <span class="en">Highlights</span>
         <span class="ja">配信ハイライト</span>
-      </div>
+      </h2>
       <p class="lead-text reveal">映像演出の解説から普段の配信まで、代表的なアーカイブをセレクトしてお届けします。</p>
 
       <div class="video-grid">
@@ -2109,10 +2105,10 @@
     <svg class="float" style="right:6%;top:70px;width:64px;height:44px" aria-hidden="true"><use href="#i-ribbon"/></svg>
     <svg class="float rev slow" style="left:5%;bottom:60px;width:44px;height:44px" aria-hidden="true"><use href="#i-flower"/></svg>
     <div class="container">
-      <div class="sec-title reveal">
+      <h2 class="sec-title reveal">
         <span class="en">Channels</span>
         <span class="ja">配信</span>
-      </div>
+      </h2>
       <div class="channels-wrap">
       <div class="channels-chara reveal">
         <picture>
@@ -2160,10 +2156,10 @@
     <svg class="float rev" style="right:6%;top:80px;width:40px;height:40px" aria-hidden="true"><use href="#i-star"/></svg>
     <svg class="float slow" style="left:5%;bottom:60px;width:44px;height:44px" aria-hidden="true"><use href="#i-flower"/></svg>
     <div class="container">
-      <div class="sec-title reveal">
+      <h2 class="sec-title reveal">
         <span class="en">Goods</span>
         <span class="ja">グッズ</span>
-      </div>
+      </h2>
       <p class="lead-text reveal">幕張ことはのオリジナルグッズは、こちらの通販ショップでお取り扱いしています。</p>
 
       <div class="goods-list">
@@ -2188,10 +2184,10 @@
     <svg class="float" style="left:4%;top:90px;width:38px;height:38px" aria-hidden="true"><use href="#i-star"/></svg>
     <svg class="float slow" style="left:3%;bottom:10%;width:58px;height:40px" aria-hidden="true"><use href="#i-ribbon"/></svg>
     <div class="container">
-      <div class="sec-title reveal">
+      <h2 class="sec-title reveal">
         <span class="en">Press</span>
         <span class="ja">メディア掲載・出展・参加実績</span>
-      </div>
+      </h2>
       <p class="lead-text reveal">メディア掲載・大型イベント出展・コラボキャンペーン参加の記録です。</p>
 
       <div class="press-list">
@@ -2299,10 +2295,10 @@
   <section id="inquiry" class="on-dark">
     <div class="diag-bg" aria-hidden="true"></div>
     <div class="container">
-      <div class="sec-title reveal">
+      <h2 class="sec-title reveal">
         <span class="en">Inquiry</span>
         <span class="ja">お問い合わせ</span>
-      </div>
+      </h2>
       <div class="inquiry-box reveal">
         <div class="lead">企業様・関係者各位へ</div>
         <p>
@@ -2374,6 +2370,8 @@
   // YouTube：サムネイルを押したときだけ動画を読み込む
   document.querySelectorAll('.yt-lite').forEach(function (link) {
     link.addEventListener('click', function (e) {
+      // Ctrl／Cmd／Shift／Alt付きのクリックや中クリックは、ブラウザ本来のリンク操作（新しいタブなど）に任せる
+      if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
       var id = link.dataset.id || '';
       var start = link.dataset.start || '';
       // 動画IDと開始秒が想定どおりの形式でなければ、通常のリンクとしてYouTubeを開く
