@@ -209,6 +209,24 @@
   .nav-open .menu-btn span:nth-child(2) { opacity: 0; }
   .nav-open .menu-btn span:nth-child(3) { top: 23px; transform: rotate(-45deg); }
 
+  /* メニューを開いたら、ヘッダーをメニューより前に出して×ボタンを見せる（ロゴは隠す） */
+  .nav-open .topbar,
+  .nav-open .topbar.scrolled {
+    z-index: 60;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .nav-open .logo { visibility: hidden; }
+
+  .nav-open .menu-btn {
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    background: rgba(18, 22, 58, 0.4);
+  }
+
   /* ---------- NAV OVERLAY ---------- */
   .nav {
     position: fixed;
