@@ -217,8 +217,9 @@
     background: var(--grid-dark), var(--aurora-dark);
     background-size: 22px 22px, 22px 22px, auto, auto, auto, auto;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    /* 画面が低いときはスクロールできるように（中央寄せは ul の margin:auto で行う） */
+    overflow-y: auto;
+    overscroll-behavior: contain;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s ease;
@@ -226,9 +227,10 @@
 
   .nav::before {
     content: "";
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: radial-gradient(circle at center, rgba(18, 22, 58, 0.5), transparent 70%);
+    pointer-events: none;
   }
 
   .nav-open .nav { opacity: 1; visibility: visible; transition: opacity 0.4s ease, visibility 0s; }
@@ -237,6 +239,16 @@
     list-style: none;
     position: relative;
     text-align: center;
+    margin: auto;
+    padding: 72px 0 40px;
+  }
+
+  /* スマホ横向きなど、高さが低い画面ではメニューを詰める */
+  @media (max-height: 560px) {
+    .nav ul { padding: 60px 0 24px; }
+    .nav a { padding: 4px 24px; }
+    .nav a .en { font-size: 24px; }
+    .nav a .ja { font-size: 10px; }
   }
 
   .nav li {
@@ -1326,7 +1338,13 @@
     color: var(--pink);
   }
 
-  section:focus { outline: none; }
+  /* メニューから移動したセクション：マウス操作では枠を出さず、キーボード操作のときだけ表示 */
+  section:focus:not(:focus-visible) { outline: none; }
+
+  section:focus-visible {
+    outline: 3px solid var(--gold-soft);
+    outline-offset: -6px;
+  }
 
   /* ---------- PRESS ---------- */
   #press .container { position: relative; z-index: 2; }
@@ -2231,6 +2249,28 @@
         });
       }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
       reveals.forEach(function (el) { io.observe(el); });
+
+      // 二重の安全策：画面内にあるのに表示されていない要素があれば、演出をやめて全部表示する
+      var checkTimer = null;
+      var checkVisible = function () {
+        var vh = window.innerHeight;
+        for (var i = 0; i < reveals.length; i++) {
+          var el = reveals[i];
+          if (el.classList.contains('in')) continue;
+          var r = el.getBoundingClientRect();
+          if (r.height > 0 && r.top < vh * 0.8 && r.bottom > vh * 0.2) {
+            document.documentElement.classList.remove('js');
+            window.removeEventListener('scroll', scheduleCheck);
+            return;
+          }
+        }
+      };
+      var scheduleCheck = function () {
+        clearTimeout(checkTimer);
+        checkTimer = setTimeout(checkVisible, 1500);
+      };
+      window.addEventListener('scroll', scheduleCheck, { passive: true });
+      scheduleCheck();
     } else {
       reveals.forEach(function (el) { el.classList.add('in'); });
     }
@@ -2276,6 +2316,10 @@
       if (target) {
         target.setAttribute('tabindex', '-1');
         target.focus({ preventScroll: true });
+        // フォーカスが外れたら一時的な tabindex を外す
+        target.addEventListener('blur', function () {
+          target.removeAttribute('tabindex');
+        }, { once: true });
       }
     });
   });
