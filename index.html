@@ -21,7 +21,12 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://cotton-100.github.io/">
 
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://cotton-100.github.io/ogp.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="幕張ことは公式サイト">
+
+<meta name="twitter:card" content="summary_large_image">
 
 <script type="application/ld+json">
 {
@@ -220,7 +225,7 @@
     background: radial-gradient(circle at center, rgba(18, 22, 58, 0.5), transparent 70%);
   }
 
-  .nav-open .nav { opacity: 1; visibility: visible; }
+  .nav-open .nav { opacity: 1; visibility: visible; transition: opacity 0.4s ease, visibility 0s; }
 
   .nav ul {
     list-style: none;
@@ -240,6 +245,7 @@
   .nav-open .nav li:nth-child(4) { transition-delay: 0.15s; }
   .nav-open .nav li:nth-child(5) { transition-delay: 0.2s; }
   .nav-open .nav li:nth-child(6) { transition-delay: 0.25s; }
+  .nav-open .nav li:nth-child(7) { transition-delay: 0.3s; }
 
   .nav a {
     display: block;
@@ -266,7 +272,15 @@
     color: var(--sakura);
   }
 
-  .nav a:hover .en { color: var(--gold-soft); }
+  .nav a:hover .en,
+  .nav a:focus-visible .en { color: var(--gold-soft); }
+
+  .nav a:focus-visible,
+  .menu-btn:focus-visible {
+    outline: 2px solid var(--gold-soft);
+    outline-offset: 4px;
+    border-radius: 6px;
+  }
 
   /* ---------- SNS (fixed) ---------- */
   .sns-fixed {
@@ -1018,12 +1032,35 @@
 
   .video-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 36px 28px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px 24px;
     position: relative;
   }
 
   .video-item:first-child { grid-column: 1 / -1; }
+
+  .video-item:not(:first-child) .video-title { font-size: 13.5px; }
+
+  .video-cat {
+    font-family: var(--mincho);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 2px 10px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 2px;
+  }
+
+  .video-item:first-child .video-cat { background: var(--pink); }
+
+  .video-desc {
+    margin-top: 6px;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
 
   .video-num {
     display: inline-flex;
@@ -1174,6 +1211,85 @@
 
   .link-card.yt { --brand: #e0303a; }
   .link-card.x  { --brand: #111111; }
+  .link-card.mallow { --brand: #f08fb0; }
+
+  /* ---------- GOODS ---------- */
+  #goods .container { position: relative; z-index: 2; }
+
+  .goods-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .goods-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    padding: 34px 24px 28px;
+    background: #fff;
+    border-radius: 14px;
+    text-decoration: none;
+    color: var(--ink);
+    box-shadow: 0 10px 28px rgba(27, 33, 80, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .goods-card::before {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 1.5px dashed var(--sakura);
+    border-radius: 10px;
+    pointer-events: none;
+  }
+
+  .goods-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 34px rgba(27, 33, 80, 0.16);
+  }
+
+  .goods-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--sakura), var(--lavender));
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .goods-icon svg { width: 30px; height: 30px; }
+
+  .goods-name {
+    font-family: var(--mincho);
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    color: var(--navy);
+  }
+
+  .goods-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+  }
+
+  .goods-more {
+    margin-top: 6px;
+    font-family: var(--latin);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    color: var(--pink);
+  }
 
   .link-card .info { flex: 1; min-width: 0; }
 
@@ -1520,6 +1636,7 @@
     .video-frame { box-shadow: 6px 6px 0 var(--sakura), 0 8px 20px rgba(27, 33, 80, 0.18); }
 
     #channels { padding: 90px 0; }
+    .goods-list { grid-template-columns: 1fr; gap: 16px; }
     .channels-wrap { grid-template-columns: 1fr; gap: 24px; }
     .channels-chara { max-width: 220px; margin: 0 auto; }
     .links { gap: 14px; }
@@ -1577,6 +1694,18 @@
       </g>
       <path d="M10 26 H38 M10 33 H30" stroke="#f4b9cb" stroke-width="2.5" stroke-linecap="round"/>
     </symbol>
+    <symbol id="i-mallow" viewBox="0 0 24 24">
+      <rect x="4" y="5" width="16" height="14" rx="6" fill="currentColor"/>
+      <path d="M8 10.5 Q9 9.5 10 10.5 M14 10.5 Q15 9.5 16 10.5 M10.5 14 Q12 15.2 13.5 14" fill="none" stroke="#f08fb0" stroke-width="1.4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24">
+      <path d="M5 8h14l-1 12H6L5 8Z" fill="currentColor"/>
+      <path d="M9 8V6.5a3 3 0 0 1 6 0V8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    </symbol>
+    <symbol id="i-shop" viewBox="0 0 24 24">
+      <path d="M3 9 5 4h14l2 5c0 1.4-1.1 2.5-2.5 2.5S16 10.4 16 9c0 1.4-1.1 2.5-2.5 2.5h-3C9.1 11.5 8 10.4 8 9c0 1.4-1.1 2.5-2.5 2.5S3 10.4 3 9Z" fill="currentColor"/>
+      <path d="M5 12.5V20h14v-7.5M10 20v-4.5h4V20" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    </symbol>
     <symbol id="i-youtube" viewBox="0 0 24 24">
       <path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/>
     </symbol>
@@ -1602,6 +1731,7 @@
     <li><a href="#specialty"><span class="en">Specialty</span><span class="ja">好きな作品まとめ</span></a></li>
     <li><a href="#highlights"><span class="en">Highlights</span><span class="ja">配信ハイライト</span></a></li>
     <li><a href="#channels"><span class="en">Channels</span><span class="ja">配信</span></a></li>
+    <li><a href="#goods"><span class="en">Goods</span><span class="ja">グッズ</span></a></li>
     <li><a href="#press"><span class="en">Press</span><span class="ja">メディア掲載・実績</span></a></li>
     <li><a href="#inquiry"><span class="en">Inquiry</span><span class="ja">お問い合わせ</span></a></li>
   </ul>
@@ -1692,6 +1822,7 @@
 
           <p>はじめまして、幕張ことはと申します。アニメ・ゲーム・アニソンが大好きな個人VTuberです。</p>
           <p>ごはんのお供にアニメを観るアニメ好きとして、好きな作品の魅力を、感想・考察・布教解説という形で毎週の配信や動画でお届けしています。落ち着いた語り口とリスナーさんとの心地よい距離感を大切に、温かく楽しい空間を目指しています。</p>
+          <p>元動画カメラマンとして自主制作映画にも携わってきた経験を生かし、「なぜこの画面なのか」「この撮り方にはどんな意味があるのか」といった映像演出の視点からも、アニメの魅力をひもといています。</p>
           <p><span class="dream">夢は映画監督。</span>今は動画やお芝居の勉強をしながら、自分だけの物語を少しずつ紡いでいます。</p>
         </div>
       </div>
@@ -1768,26 +1899,27 @@
         <span class="en">Highlights</span>
         <span class="ja">配信ハイライト</span>
       </div>
-      <p class="lead-text reveal">代表的な配信アーカイブから3本セレクトしてお届けします。</p>
+      <p class="lead-text reveal">映像演出の解説から普段の配信まで、代表的なアーカイブをセレクトしてお届けします。</p>
 
       <div class="video-grid">
 
         <div class="video-item reveal">
-          <div class="video-num">No.01</div>
+          <div class="video-num">No.01 <span class="video-cat">アニメ語り・映像演出解説</span></div>
           <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/R-0OnNVmaF0"
-                    title="撮影会2026"
+            <iframe src="https://www.youtube.com/embed/74Ww80oHJ8k?start=1517"
+                    title="アニメ語り｜朝比奈ミクルの冒険は、なぜあの撮り方なのか"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin"
                     loading="lazy"
                     allowfullscreen></iframe>
           </div>
-          <div class="video-title">撮影会2026</div>
+          <div class="video-title">アニメ語り｜朝比奈ミクルの冒険は、なぜあの撮り方なのか</div>
+          <p class="video-desc">元動画カメラマンの視点から、「なぜこの画面なのか」「この撮り方にはどんな意味があるのか」を読み解く映像演出の解説です。</p>
         </div>
 
         <div class="video-item reveal">
-          <div class="video-num">No.02</div>
+          <div class="video-num">No.02 <span class="video-cat">同時視聴</span></div>
           <div class="video-frame">
             <iframe src="https://www.youtube.com/embed/Cy5BZIHLXAw"
                     title="銀河英雄伝説 1話から3話 同時視聴"
@@ -1801,7 +1933,21 @@
         </div>
 
         <div class="video-item reveal">
-          <div class="video-num">No.03</div>
+          <div class="video-num">No.03 <span class="video-cat">イベント</span></div>
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/R-0OnNVmaF0"
+                    title="撮影会2026"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    loading="lazy"
+                    allowfullscreen></iframe>
+          </div>
+          <div class="video-title">撮影会2026</div>
+        </div>
+
+        <div class="video-item reveal">
+          <div class="video-num">No.04 <span class="video-cat">ゲーム実況</span></div>
           <div class="video-frame">
             <iframe src="https://www.youtube.com/embed/FKwc6IgOchw"
                     title="（最終回）【FF10】ファイナルファンタジー10 実況・配信"
@@ -1856,7 +2002,43 @@
           </span>
           <span class="arrow">→</span>
         </a>
+        <a class="link-card shine mallow reveal" href="https://marshmallow-qa.com/cotton_makuhari" target="_blank" rel="noopener">
+          <span class="icon"><svg aria-hidden="true"><use href="#i-mallow"/></svg></span>
+          <span class="info">
+            <span class="title">マシュマロ</span>
+            <span class="handle">匿名メッセージ・質問・感想はこちら</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
       </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOODS -->
+  <section id="goods">
+    <svg class="float rev" style="right:6%;top:80px;width:40px;height:40px" aria-hidden="true"><use href="#i-star"/></svg>
+    <svg class="float slow" style="left:5%;bottom:60px;width:44px;height:44px" aria-hidden="true"><use href="#i-flower"/></svg>
+    <div class="container">
+      <div class="sec-title reveal">
+        <span class="en">Goods</span>
+        <span class="ja">グッズ</span>
+      </div>
+      <p class="lead-text reveal">幕張ことはのオリジナルグッズは、こちらの通販ショップでお取り扱いしています。</p>
+
+      <div class="goods-list">
+        <a class="goods-card shine reveal" href="https://suzuri.jp/KOTOHA-MAKUHARI" target="_blank" rel="noopener">
+          <span class="goods-icon"><svg aria-hidden="true"><use href="#i-bag"/></svg></span>
+          <span class="goods-name">SUZURI</span>
+          <span class="goods-desc">オリジナルグッズ・<br>アイテム通販</span>
+          <span class="goods-more">Visit Shop →</span>
+        </a>
+        <a class="goods-card shine reveal" href="https://telomeregroup.net/Sales/cotton-100.html" target="_blank" rel="noopener">
+          <span class="goods-icon"><svg aria-hidden="true"><use href="#i-shop"/></svg></span>
+          <span class="goods-name">通販ショップポータル</span>
+          <span class="goods-desc">テロメアクリエイト<br>幕張ことは 通販ショップ一覧</span>
+          <span class="goods-more">Visit Shop →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -1912,7 +2094,7 @@
           <div>
             <div class="press-meta">
               <span class="press-source">JOYSOUND for STREAMER</span>
-              <span class="press-category">RECORD ギネス達成</span>
+              <span class="press-category">EVENT 世界記録達成企画に参加</span>
             </div>
             <div class="press-title">
               ギネス世界記録™達成した企画<br>
@@ -2013,6 +2195,26 @@
 </footer>
 
 <script>
+  // スクロールで表示（失敗したときは全部を表示したままにする）
+  try {
+    var reveals = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      reveals.forEach(function (el) { io.observe(el); });
+    } else {
+      reveals.forEach(function (el) { el.classList.add('in'); });
+    }
+  } catch (e) {
+    document.documentElement.classList.remove('js');
+  }
+
   // ヘッダーの背景（スクロール時）
   var topbar = document.getElementById('topbar');
   function onScroll() {
@@ -2023,37 +2225,36 @@
 
   // ハンバーガーメニュー
   var menuBtn = document.getElementById('menuBtn');
-  function setNav(open) {
+  var nav = document.getElementById('nav');
+  var navLinks = nav.querySelectorAll('a');
+  nav.inert = true;
+  function setNav(open, restoreFocus) {
+    var wasOpen = document.body.classList.contains('nav-open');
     document.body.classList.toggle('nav-open', open);
     menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     menuBtn.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
     document.body.style.overflow = open ? 'hidden' : '';
+    nav.inert = !open;
+    if (open) navLinks[0].focus();
+    else if (wasOpen && restoreFocus) menuBtn.focus();
   }
   menuBtn.addEventListener('click', function () {
-    setNav(!document.body.classList.contains('nav-open'));
+    setNav(!document.body.classList.contains('nav-open'), true);
   });
-  document.querySelectorAll('.nav a').forEach(function (a) {
-    a.addEventListener('click', function () { setNav(false); });
+  navLinks.forEach(function (a) {
+    a.addEventListener('click', function () { setNav(false, false); });
   });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') setNav(false);
+    if (e.key === 'Escape') setNav(false, true);
+    // メニューが開いている間はTabでメニュー内とボタンだけを移動
+    if (e.key === 'Tab' && document.body.classList.contains('nav-open')) {
+      var items = [menuBtn].concat(Array.prototype.slice.call(navLinks));
+      var i = items.indexOf(document.activeElement);
+      var next = e.shiftKey ? (i <= 0 ? items.length - 1 : i - 1) : (i + 1) % items.length;
+      e.preventDefault();
+      items[next].focus();
+    }
   });
-
-  // スクロールで表示
-  var reveals = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach(function (el) { io.observe(el); });
-  } else {
-    reveals.forEach(function (el) { el.classList.add('in'); });
-  }
 
   // 桜の花びら
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
