@@ -1775,6 +1775,44 @@
     .inquiry-box p br { display: none; }
     .inquiry-btn { padding: 16px 24px; font-size: 13.5px; letter-spacing: 0.12em; }
   }
+  /* ---------- STATS（目立たせる：白いカード＋日本語ラベル） ---------- */
+  .stats { gap: 20px; }
+  .stat {
+    padding: 30px 16px 24px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(27, 33, 80, 0.12);
+    border-top: 5px solid var(--pink);
+  }
+  .stat:nth-child(2) { border-top-color: var(--royal); }
+  .stat:nth-child(3) { border-top-color: var(--gold); }
+  .stat + .stat::before { display: none; }
+  .stat-num { font-size: 36px; }
+  .stat-num .unit { font-size: 16px; }
+  .stat-label { font-weight: 600; color: var(--pink-deep); }
+
+  .stat-ja {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 4px 14px;
+    border-radius: 999px;
+    background: var(--pink);
+    color: #fff;
+    font-family: var(--mincho);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    line-height: 1.6;
+  }
+  .stat:nth-child(2) .stat-ja { background: var(--royal); }
+  .stat:nth-child(3) .stat-ja { background: var(--gold); color: var(--navy); }
+
+  @media (max-width: 700px) {
+    .stats { gap: 14px; }
+    .stat { padding: 18px 16px 16px; }
+    .stat-num { font-size: 30px; }
+    .stat-ja { margin-bottom: 8px; font-size: 12px; }
+  }
 </style>
 </head>
 <body>
@@ -1956,17 +1994,17 @@
 
       <div class="stats reveal">
         <div class="stat">
-          <svg class="stat-icon" aria-hidden="true"><use href="#i-star"/></svg>
+          <div class="stat-ja">チャンネル登録者数</div>
           <div class="stat-num">30,000<span class="unit">人＋</span></div>
           <div class="stat-label">SUBSCRIBERS</div>
         </div>
         <div class="stat">
-          <svg class="stat-icon" aria-hidden="true"><use href="#i-clapper"/></svg>
+          <div class="stat-ja">得意ジャンル</div>
           <div class="stat-num">アニメ</div>
           <div class="stat-label">SPECIALTY</div>
         </div>
         <div class="stat">
-          <svg class="stat-icon" aria-hidden="true"><use href="#i-flower"/></svg>
+          <div class="stat-ja">活動スタイル</div>
           <div class="stat-num">個人勢</div>
           <div class="stat-label">INDEPENDENT</div>
         </div>
