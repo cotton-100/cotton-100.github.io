@@ -93,6 +93,7 @@
   .countdown .timer b{display:block;font-family:var(--num);font-weight:800;font-size:32px;line-height:1.1}
   .countdown .timer span{font-family:var(--num);font-size:12px;letter-spacing:.15em;opacity:.8}
   .countdown .timer[hidden]{display:none}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   .live-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--red);margin-right:8px;animation:blink 1.2s infinite;vertical-align:middle}
   @keyframes blink{50%{opacity:.25}}
 
@@ -296,15 +297,16 @@
       <span class="badge">コメントで回答</span>
       <span class="badge">初見歓迎</span>
     </div>
-    <div class="countdown" aria-live="polite">
+    <div class="countdown">
       <div class="label" id="cd-label">開催日</div>
       <div class="date" id="cd-date">日程は近日発表</div>
-      <div class="timer" id="cd-timer" hidden>
+      <div class="timer" id="cd-timer" aria-hidden="true" hidden>
         <div><b id="cd-d">00</b><span>DAYS</span></div>
         <div><b id="cd-h">00</b><span>HOURS</span></div>
         <div><b id="cd-m">00</b><span>MIN</span></div>
         <div><b id="cd-s">00</b><span>SEC</span></div>
       </div>
+      <p id="cd-status" class="sr-only" role="status" aria-live="polite"></p>
     </div>
   </div>
 </div>
@@ -356,8 +358,8 @@
     <div class="flow">
       <div class="col"><div class="pill first">参加者<br>全員</div><div class="bar"></div></div>
       <div class="box"><span class="k">本戦</span><span class="v">全15問 4択クイズ<small>正解ポイント＋スピードボーナスで競う</small></span></div>
-      <div class="col"><div class="pill"><b>3</b>人</div><div class="bar"></div></div>
-      <div class="box"><span class="k">表彰</span><span class="v">上位3名を発表<small>配信内でお名前を発表し、このページに掲載</small></span></div>
+      <div class="col"><div class="pill"><b>3</b>位以内</div><div class="bar"></div></div>
+      <div class="box"><span class="k">表彰</span><span class="v">3位以内を発表<small>配信内でお名前を発表し、このページに掲載</small></span></div>
       <div class="col"><div class="pill king"><b>1</b>人</div></div>
       <div class="box"><span class="k">王者</span><span class="v" id="flow-king">「○○王」の称号<small>歴代王者として殿堂入り</small></span></div>
     </div>
@@ -365,7 +367,7 @@
       <div class="rule"><h3>正解ポイント</h3><p>正解すると基本ポイントを獲得。全問の合計点で順位を決定します。</p></div>
       <div class="rule"><h3>スピードボーナス</h3><p>早く正解するほどボーナスが上乗せ。ほかの人の回答を待つより、自分の知識で即答するほうが有利です。</p></div>
       <div class="rule"><h3>回答は1問1回</h3><p>各問題で最初に書き込んだ回答のみ有効。書き直しは無効です。</p></div>
-      <div class="rule"><h3>表彰</h3><p>上位3名のお名前を配信内で発表し、このページに掲載します（賞品はありません）。</p></div>
+      <div class="rule"><h3>表彰</h3><p>3位以内の方のお名前を配信内で発表し、このページに掲載します（賞品はありません）。</p></div>
       <div class="rule"><h3>同点の場合</h3><p>合計点が同じ場合は、同じ順位とします。</p></div>
       <div class="rule"><h3>出題ミスがあった場合</h3><p>問題や正解に誤りがあった場合、その問題は無効とし、全員の得点から除外します。</p></div>
     </div>
@@ -474,6 +476,13 @@
        その月は休み → skip: true
    ・時刻は必ず +09:00 付き（24:00 は翌日の 00:00）
    ・endAt を書き忘れても、その月が終わった時点で自動的に次へ進みます
+   ・日程（startAt）も結果もないまま月が過ぎた大会は「開催されなかった」扱いで、
+     アーカイブにも載らず、回の番号も使いません
+     （日程なしで開催した場合は held: true を書く）
+   ・結果は results に全員分を書いても、表示は3位以内（同順位を含む）だけです
+   ---------------------------------------------------------
+   ※ <head> の og:title / og:description（Xのカード用）だけは自動で変わりません。
+     次回大会の告知を始める前に手で書き換えてください。
    ========================================================= */
 const FIRST_MONTH = "2026-11";   // 第1回の月（番号はここから数えます）
 
@@ -512,18 +521,18 @@ const EVENTS = {
 (function(){
   const SITE = "https://cotton-100.github.io/quiz.html";
   const CHANNEL = "https://www.youtube.com/@cotton-100";
+  const WINDOW = 14;
   const pad = n => String(n).padStart(2,"0");
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const title = e => `${e.name}${e.suffix||"決定戦"}`;
-  const now = new Date();
 
   // 日本時間で表示（閲覧者の端末の時差に左右されない）
   const jst = d => { const x = new Date(d.getTime() + 9*3600e3);
     return { y:x.getUTCFullYear(), mo:x.getUTCMonth()+1, d:x.getUTCDate(), h:x.getUTCHours(), mi:x.getUTCMinutes(), wd:x.getUTCDay() }; };
   const WD = ["日","月","火","水","木","金","土"];
   const dateLabel = e => {
-    if (!e.startAt){ const [y,m] = e.month.split("-").map(Number); return null; }
+    if (!e.startAt) return null;
     const s = jst(new Date(e.startAt));
     let txt = `${s.y}年${s.mo}月${s.d}日（${WD[s.wd]}）${pad(s.h)}:${pad(s.mi)}`;
     if (e.endAt){
@@ -534,176 +543,202 @@ const EVENTS = {
     return txt;
   };
   const shortDate = e => { if(!e.startAt) return e.month.replace("-","."); const s=jst(new Date(e.startAt)); return `${s.y}.${pad(s.mo)}.${pad(s.d)}`; };
+  const top3 = e => (e.results || []).filter(r => r.rank <= 3);
 
-  const WINDOW = 14;
-  const monthPassed = ym => { const [y,m] = ym.split("-").map(Number);
-    return now.getTime() >= Date.UTC(m===12 ? y+1 : y, m===12 ? 0 : m, 1) - 9*3600e3; };
-  const hasResult = e => !!(e.champion || (e.results && e.results.length));
-  const ended = e => hasResult(e) || (e.endAt ? new Date(e.endAt) <= now : monthPassed(e.month));
+  // ---------- 状態の計算（現在時刻から毎回作り直す） ----------
+  function compute(now){
+    const monthPassed = ym => { const [y,m] = ym.split("-").map(Number);
+      return now.getTime() >= Date.UTC(m===12 ? y+1 : y, m===12 ? 0 : m, 1) - 9*3600e3; };
+    const hasResult = e => !!(e.champion || (e.results && e.results.length));
+    // 次回候補から外れたか（終了時刻を過ぎた／その月が終わった／結果がある）
+    const passed = e => hasResult(e) || (e.endAt ? new Date(e.endAt) <= now : monthPassed(e.month));
+    // 実際に開催した大会か（結果がある／明示 held:true／日程があって終わった）
+    const held = e => hasResult(e) || e.held === true || (!!e.startAt && passed(e));
 
-  // ROTATION と EVENTS から大会一覧を作る（次回大会＋13か月分まで）
-  const SEASON = [];
-  let curIdx = -1;
-  { let [y, m] = FIRST_MONTH.split("-").map(Number), no = 0;
+    const season = [];
+    let curIdx = -1;
+    let [y, m] = FIRST_MONTH.split("-").map(Number), no = 0;
     for (let guard = 0; guard < 1200; guard++){
       const ym = `${y}-${pad(m)}`, ov = EVENTS[ym] || {}, base = ROTATION[m] || {};
       const val = v => typeof v === "function" ? v(y) : v;
       if (!ov.skip && base.name){
-        const e = { month:ym, name:val(base.name), suffix:val(base.suffix) || "決定戦", memo:val(base.memo), special:val(base.special), ...ov, no: ++no };
-        SEASON.push(e);
-        if (curIdx < 0 && !ended(e)) curIdx = SEASON.length - 1;
-        if (curIdx >= 0 && SEASON.length - curIdx >= WINDOW) break;
+        const e = { month:ym, name:val(base.name), suffix:val(base.suffix) || "決定戦", memo:val(base.memo), special:val(base.special), ...ov };
+        const p = passed(e);
+        if (!(p && !held(e))){            // 開催されずに過ぎた月は載せない・番号も使わない
+          e.no = ++no;
+          e.isPast = p;
+          if (!e.champion && e.results && e.results.length)
+            e.champion = e.results.filter(r => r.rank === 1).map(r => r.name).join("・");
+          season.push(e);
+          if (curIdx < 0 && !p) curIdx = season.length - 1;
+          if (curIdx >= 0 && season.length - curIdx >= WINDOW) break;
+        }
       }
       if (++m > 12){ m = 1; y++; }
-    } }
-  const isLive = e => !ended(e) && e.startAt && new Date(e.startAt) <= now;
-
-  // results があれば 1位（同点なら複数）を王者として扱う
-  SEASON.forEach(e => { if (!e.champion && e.results && e.results.length)
-    e.champion = e.results.filter(r => r.rank === 1).map(r => r.name).join("・"); });
-  const current = SEASON[curIdx >= 0 ? curIdx : SEASON.length-1];
-  const past = SEASON.filter(ended);
-  const [cy, cm] = current.month.split("-").map(Number);
-
-  // ---- ヒーロー・概要 ----
-  $("hero-no").textContent = `TOURNAMENT No.${pad(current.no)}`;
-  $("hero-name").textContent = current.name;
-  $("hero-suffix").textContent = current.suffix || "決定戦";
-  $("ov-name").textContent = `幕張ことは杯 第${current.no}回 ${title(current)}`;
-  $("ov-scope").textContent = current.scope || "近日発表";
-  if (current.scope){ $("hero-scope").textContent = `出題範囲：${current.scope}`; $("hero-scope").hidden = false; }
-  const lead = document.querySelector("#about .lead");
-  if (lead) lead.textContent = `YouTubeのライブ配信コメントで、誰でもその場で参加できるクイズ大会です。正解数と回答スピードで競い合い、「${current.name}」の称号を決定します。`;
-  const awardRule = [...document.querySelectorAll(".rule h3")].find(h => h.textContent==="表彰");
-  if (awardRule) awardRule.nextElementSibling.textContent = `上位3名のお名前を配信内で発表し、このページに掲載します。優勝者は「${current.name}」として歴代王者に記録されます（賞品はありません）。`;
-
-  const fk = $("flow-king"); if (fk) fk.firstChild.textContent = `「${current.name}」の称号`;
-  document.title = `幕張ことは杯 第${current.no}回 ${title(current)}｜視聴者参加型クイズ大会`;
-
-  const label = dateLabel(current);
-  if (label){ $("cd-date").textContent = label; $("ov-date").textContent = label; }
-  else { $("cd-date").textContent = `${cy}年${cm}月 開催予定 ── 日程は近日発表`; $("ov-date").textContent = `${cy}年${cm}月 開催予定（日程は近日発表）`; }
-
-  const streamHref = current.streamUrl || CHANNEL;
-  $("cta-stream").href = streamHref;
-  if (current.streamUrl) $("cta-stream").textContent = "配信ページへ（予約中）";
-
-  // X 参戦表明ボタン
-  const xText = `幕張ことは杯 第${current.no}回「${title(current)}」に挑戦します！`;
-  const xTag = `幕張ことは杯,${current.name.replace(/王$/,"")}クイズ`;
-  $("cta-x").href = `https://x.com/intent/post?text=${encodeURIComponent(xText)}&url=${encodeURIComponent(SITE)}&hashtags=${encodeURIComponent(xTag)}`;
-
-  // カウントダウン／開催中
-  if (current.startAt){
-    const start = new Date(current.startAt);
-    const tick = () => {
-      const t = new Date();
-      if (current.endAt && new Date(current.endAt) <= t){ location.reload(); return false; } // 終了したら次の大会へ切り替え
-      const diff = start - t;
-      if (diff <= 0){
-        $("cd-label").innerHTML = `<span class="live-dot"></span>ただいま開催中！`;
-        $("cd-timer").hidden = true;
-        $("cta-stream").href = streamHref;
-        $("cta-stream").textContent = "今すぐ参加する";
-        return true;
-      }
-      $("cd-timer").hidden = false;
-      $("cd-label").textContent = "開幕まで";
-      $("cd-d").textContent = Math.floor(diff/864e5);
-      $("cd-h").textContent = pad(Math.floor(diff/36e5)%24);
-      $("cd-m").textContent = pad(Math.floor(diff/6e4)%60);
-      $("cd-s").textContent = pad(Math.floor(diff/1e3)%60);
-      return true;
-    };
-    if (tick()){ const t = setInterval(()=>{ if(!tick()) clearInterval(t); }, 1000); }
+    }
+    const current = season[curIdx];
+    const live = !!current.startAt && new Date(current.startAt) <= now;
+    return { season, current, live, past: season.filter(e => e.isPast), key: `${current.month}|${live}` };
   }
 
-  // ---- 結果テーブル ----
+  // ---------- 画面の描画 ----------
   const resultTable = e => {
-    const rows = e.results.map(r =>
+    const rows = top3(e).map(r =>
       `<tr class="${r.rank===1?'top1':''}"><td class="r">${r.rank}位</td><td>${esc(r.name)}</td><td class="pt">${Number(r.score).toLocaleString()} pt</td></tr>`).join("");
     return `<table class="rank-table"><thead><tr><th>順位</th><th>名前</th><th style="text-align:right">得点</th></tr></thead><tbody>${rows}</tbody></table>`;
   };
 
-  // ---- 前回大会の結果 ----
-  const last = past[past.length-1];
-  if (last){
-    const head = `<p class="lead">第${last.no}回 ${esc(title(last))}（${shortDate(last)}）${last.participants ? `／参加者 ${last.participants}人` : ""}</p>`;
-    if (last.results && last.results.length){
-      $("ranking-area").innerHTML = head + resultTable(last) +
-        (last.archiveUrl ? `<p class="note"><a href="${esc(last.archiveUrl)}" target="_blank" rel="noopener">▶ 配信アーカイブを見る</a></p>` : "");
+  function render(st){
+    const { season, current, live, past } = st;
+    const [cy, cm] = current.month.split("-").map(Number);
+    const streamHref = current.streamUrl || CHANNEL;
+
+    // ヒーロー・概要
+    $("hero-no").textContent = `TOURNAMENT No.${pad(current.no)}`;
+    $("hero-name").textContent = current.name;
+    $("hero-suffix").textContent = current.suffix || "決定戦";
+    $("ov-name").textContent = `幕張ことは杯 第${current.no}回 ${title(current)}`;
+    $("ov-scope").textContent = current.scope || "近日発表";
+    $("hero-scope").textContent = current.scope ? `出題範囲：${current.scope}` : "";
+    $("hero-scope").hidden = !current.scope;
+    const lead = document.querySelector("#about .lead");
+    if (lead) lead.textContent = `YouTubeのライブ配信コメントで、誰でもその場で参加できるクイズ大会です。正解数と回答スピードで競い合い、「${current.name}」の称号を決定します。`;
+    const awardRule = [...document.querySelectorAll(".rule h3")].find(h => h.textContent==="表彰");
+    if (awardRule) awardRule.nextElementSibling.textContent = `3位以内の方のお名前を配信内で発表し、このページに掲載します。優勝者は「${current.name}」として歴代王者に記録されます（賞品はありません）。`;
+    const fk = $("flow-king"); if (fk) fk.firstChild.textContent = `「${current.name}」の称号`;
+
+    document.title = `幕張ことは杯 第${current.no}回 ${title(current)}｜視聴者参加型クイズ大会`;
+    const md = document.querySelector('meta[name="description"]');
+    if (md) md.content = `VTuber幕張ことは主催、YouTubeのコメントで誰でも参加できる視聴者参加型クイズ大会「幕張ことは杯」。第${current.no}回は${title(current)}。参加無料・事前登録不要・初見歓迎。`;
+
+    const label = dateLabel(current);
+    $("cd-date").textContent = label || `${cy}年${cm}月 開催予定 ── 日程は近日発表`;
+    $("ov-date").textContent = label || `${cy}年${cm}月 開催予定（日程は近日発表）`;
+
+    // 開催状況（ラベル・ボタン）
+    if (live){
+      $("cd-label").innerHTML = `<span class="live-dot"></span>ただいま開催中！`;
+      $("cta-stream").textContent = "今すぐ参加する";
     } else {
-      $("ranking-area").innerHTML = head + `<div class="placeholder"><div class="big">結果は集計中です</div><p>まもなく掲載します。ご参加ありがとうございました！</p></div>`;
+      $("cd-label").textContent = current.startAt ? "開幕まで" : "開催日";
+      $("cta-stream").textContent = current.streamUrl ? "配信ページへ（予約中）" : "YouTubeチャンネルへ";
     }
-  } else {
-    document.querySelector("#ranking-area .big").textContent = `第${current.no}回大会の結果は、大会終了後に掲載します`;
-  }
+    $("cta-stream").href = streamHref;
 
-  // ---- 大会アーカイブ ----
-  $("archive-area").innerHTML = past.length
-    ? `<div class="arc">` + [...past].reverse().map(e => `
-      <details>
-        <summary>
-          <span class="a-no">No.${pad(e.no)}</span>
-          <span class="a-date">${shortDate(e)}</span>
-          <span class="a-title">${esc(title(e))}</span>
-          <span class="a-champ">${e.champion ? `👑 ${esc(e.champion)}` : "結果集計中"}</span>
-        </summary>
-        <div class="a-body">
-          <p class="a-meta">${dateLabel(e) || ""}${e.participants ? `　参加者 ${e.participants}人` : ""}${e.archiveUrl ? `　<a href="${esc(e.archiveUrl)}" target="_blank" rel="noopener">▶ 配信アーカイブ</a>` : ""}</p>
-          ${e.results && e.results.length ? resultTable(e) : `<p class="a-meta">結果は後日掲載します。</p>`}
-        </div>
-      </details>`).join("") + `</div>`
-    : `<div class="arc"><p class="empty-note">終了した大会はここに記録されていきます。</p></div>`;
+    // X 参戦表明ボタン
+    const xText = `幕張ことは杯 第${current.no}回「${title(current)}」に挑戦します！`;
+    const xTag = `幕張ことは杯,${current.name.replace(/王$/,"")}クイズ`;
+    $("cta-x").href = `https://x.com/intent/post?text=${encodeURIComponent(xText)}&url=${encodeURIComponent(SITE)}&hashtags=${encodeURIComponent(xTag)}`;
 
-  // ---- 歴代王者 ----
-  const podium = e => {
-    if (!(e.results && e.results.length)) return `<div class="n">${esc(e.champion)}</div>`;
-    return [1,2,3].map(rk => {
-      const names = e.results.filter(r => r.rank === rk).map(r => esc(r.name));
-      return names.length ? `<div class="pd pd${rk}"><span>${rk}位</span>${names.join("・")}</div>` : "";
-    }).join("");
-  };
-  $("champions-area").innerHTML = SEASON.filter(e => e.champion).reverse().map(e =>
-    `<div class="champ"><div class="t">第${e.no}回 ${esc(title(e))}</div>${podium(e)}<div class="d">${shortDate(e)}</div></div>`
-  ).join("") +
-    `<div class="champ empty"><div class="t">第${current.no}回 ${esc(current.name)}</div><div class="n">？？？</div><div class="d">次の王者は、あなたかもしれない</div></div>`;
+    // 前回大会の結果（実際に開催した大会のみ）
+    const last = past[past.length-1];
+    if (last){
+      const head = `<p class="lead">第${last.no}回 ${esc(title(last))}（${shortDate(last)}）${last.participants ? `／参加者 ${last.participants}人` : ""}</p>`;
+      $("ranking-area").innerHTML = (last.results && last.results.length)
+        ? head + resultTable(last) + (last.archiveUrl ? `<p class="note"><a href="${esc(last.archiveUrl)}" target="_blank" rel="noopener">▶ 配信アーカイブを見る</a></p>` : "")
+        : head + `<div class="placeholder"><div class="big">結果は集計中です</div><p>まもなく掲載します。ご参加ありがとうございました！</p></div>`;
+    } else {
+      $("ranking-area").innerHTML = `<div class="placeholder"><div class="big">第${current.no}回大会の結果は、大会終了後に掲載します</div><p>あなたの名前がここに刻まれるかもしれません。</p></div>`;
+    }
 
-  // ---- 年間スケジュール ----
-  const byYear = {};
-  SEASON.slice(SEASON.indexOf(current), SEASON.indexOf(current) + WINDOW).forEach(e => (byYear[e.month.slice(0,4)] ||= []).push(e));
-  $("season-area").innerHTML = Object.entries(byYear).map(([y, list]) =>
-    `<h3 class="season-year">${y}</h3><ul class="season">` +
-    list.map(e => {
-      const m = Number(e.month.slice(5));
-      const done = ended(e), next = e === current && !done, live = next && isLive(e);
-      const cls = [done?"done":"", next?"next":"", live?"live":"", e.special?"special":""].join(" ");
-      const tag = done ? (e.champion ? `王者：${esc(e.champion)}` : "終了") : live ? "開催中" : next ? "次回" : "予定";
-      const hide = e.hidden && !done && !next;
-      const day = e.startAt ? `<span class="no">${shortDate(e).slice(5)}</span>` : "";
-      return `<li class="${cls}"><span class="tag">${tag}</span>` +
-        `<div><span class="m">${m}<small>月</small></span><span class="no">No.${pad(e.no)}</span>${day}</div>` +
-        `<div class="title">${hide ? "？？？王決定戦" : esc(title(e))}</div>` +
-        (e.memo && !hide ? `<div class="memo">${esc(e.memo)}</div>` : "") + `</li>`;
-    }).join("") + `</ul>`
-  ).join("");
+    // 大会アーカイブ（実際に開催した大会のみ）
+    $("archive-area").innerHTML = past.length
+      ? `<div class="arc">` + [...past].reverse().map(e => `
+        <details>
+          <summary>
+            <span class="a-no">No.${pad(e.no)}</span>
+            <span class="a-date">${shortDate(e)}</span>
+            <span class="a-title">${esc(title(e))}</span>
+            <span class="a-champ">${e.champion ? `👑 ${esc(e.champion)}` : "結果集計中"}</span>
+          </summary>
+          <div class="a-body">
+            <p class="a-meta">${dateLabel(e) || ""}${e.participants ? `　参加者 ${e.participants}人` : ""}${e.archiveUrl ? `　<a href="${esc(e.archiveUrl)}" target="_blank" rel="noopener">▶ 配信アーカイブ</a>` : ""}</p>
+            ${e.results && e.results.length ? resultTable(e) : `<p class="a-meta">結果は後日掲載します。</p>`}
+          </div>
+        </details>`).join("") + `</div>`
+      : `<div class="arc"><p class="empty-note">終了した大会はここに記録されていきます。</p></div>`;
 
-  // ---- 検索エンジン向けイベント情報（日程が決まっている次回大会） ----
-  if (current.startAt && !ended(current)){
-    const ld = {
-      "@context":"https://schema.org", "@type":"Event",
-      "name":`幕張ことは杯 第${current.no}回 ${title(current)}`,
-      "description":`YouTubeコメントで誰でも参加できる視聴者参加型クイズ大会「${title(current)}」。参加無料・事前登録不要。`,
-      "startDate":current.startAt, ...(current.endAt ? {"endDate":current.endAt} : {}),
-      "eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode",
-      "eventStatus":"https://schema.org/EventScheduled",
-      "location":{"@type":"VirtualLocation","url":streamHref},
-      "organizer":{"@type":"Person","name":"幕張ことは","url":"https://cotton-100.github.io/"},
-      "isAccessibleForFree":true, "url":SITE
+    // 歴代王者（3位以内）
+    const podium = e => {
+      if (!(e.results && e.results.length)) return `<div class="n">${esc(e.champion)}</div>`;
+      return [1,2,3].map(rk => {
+        const names = e.results.filter(r => r.rank === rk).map(r => esc(r.name));
+        return names.length ? `<div class="pd pd${rk}"><span>${rk}位</span>${names.join("・")}</div>` : "";
+      }).join("");
     };
-    const sc = document.createElement("script"); sc.type = "application/ld+json"; sc.textContent = JSON.stringify(ld);
-    document.head.appendChild(sc);
+    $("champions-area").innerHTML = past.filter(e => e.champion).reverse().map(e =>
+      `<div class="champ"><div class="t">第${e.no}回 ${esc(title(e))}</div>${podium(e)}<div class="d">${shortDate(e)}</div></div>`
+    ).join("") +
+      `<div class="champ empty"><div class="t">第${current.no}回 ${esc(current.name)}</div><div class="n">？？？</div><div class="d">次の王者は、あなたかもしれない</div></div>`;
+
+    // 年間スケジュール（次回大会から14件）
+    const ci = season.indexOf(current), byYear = {};
+    season.slice(ci, ci + WINDOW).forEach(e => (byYear[e.month.slice(0,4)] ||= []).push(e));
+    $("season-area").innerHTML = Object.entries(byYear).map(([y, list]) =>
+      `<h3 class="season-year">${y}</h3><ul class="season">` +
+      list.map(e => {
+        const m = Number(e.month.slice(5));
+        const next = e === current, isLive = next && live;
+        const cls = [next?"next":"", isLive?"live":"", e.special?"special":""].join(" ");
+        const tag = isLive ? "開催中" : next ? "次回" : "予定";
+        const hide = e.hidden && !next;
+        const day = e.startAt ? `<span class="no">${shortDate(e).slice(5)}</span>` : "";
+        return `<li class="${cls}"><span class="tag">${tag}</span>` +
+          `<div><span class="m">${m}<small>月</small></span><span class="no">No.${pad(e.no)}</span>${day}</div>` +
+          `<div class="title">${hide ? "？？？王決定戦" : esc(title(e))}</div>` +
+          (e.memo && !hide ? `<div class="memo">${esc(e.memo)}</div>` : "") + `</li>`;
+      }).join("") + `</ul>`
+    ).join("");
+
+    // 検索エンジン向けイベント情報（日程が決まっている次回大会）
+    const old = $("event-ld"); if (old) old.remove();
+    if (current.startAt){
+      const ld = {
+        "@context":"https://schema.org", "@type":"Event",
+        "name":`幕張ことは杯 第${current.no}回 ${title(current)}`,
+        "description":`YouTubeコメントで誰でも参加できる視聴者参加型クイズ大会「${title(current)}」。参加無料・事前登録不要。`,
+        "startDate":current.startAt, ...(current.endAt ? {"endDate":current.endAt} : {}),
+        "eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode",
+        "eventStatus":"https://schema.org/EventScheduled",
+        "location":{"@type":"VirtualLocation","url":streamHref},
+        "organizer":{"@type":"Person","name":"幕張ことは","url":"https://cotton-100.github.io/"},
+        "isAccessibleForFree":true, "url":SITE
+      };
+      const sc = document.createElement("script"); sc.type = "application/ld+json"; sc.id = "event-ld"; sc.textContent = JSON.stringify(ld);
+      document.head.appendChild(sc);
+    }
   }
+
+  // ---------- カウントダウン（毎秒）と状態変化の検知 ----------
+  function updateTimer(st, now){
+    const c = st.current;
+    const show = !!c.startAt && !st.live;
+    $("cd-timer").hidden = !show;
+    if (!show) return;
+    const diff = Math.max(0, new Date(c.startAt) - now);
+    $("cd-d").textContent = Math.floor(diff/864e5);
+    $("cd-h").textContent = pad(Math.floor(diff/36e5)%24);
+    $("cd-m").textContent = pad(Math.floor(diff/6e4)%60);
+    $("cd-s").textContent = pad(Math.floor(diff/1e3)%60);
+  }
+
+  let lastKey = null, lastMonth = null;
+  function tick(){
+    const now = new Date();
+    const st = compute(now);
+    if (st.key !== lastKey){
+      render(st);
+      if (lastKey !== null){   // 状態が変わったときだけ読み上げる
+        $("cd-status").textContent = st.current.month !== lastMonth
+          ? `次回大会は第${st.current.no}回 ${title(st.current)}になりました`
+          : (st.live ? "大会が開催中になりました" : "");
+      }
+      lastKey = st.key; lastMonth = st.current.month;
+    }
+    updateTimer(st, now);
+  }
+  tick();
+  setInterval(tick, 1000);
 })();
 </script>
 </body>
