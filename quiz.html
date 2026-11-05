@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>幕張ことは杯 第1回 ガンダム王決定戦｜視聴者参加型クイズ大会</title>
+<meta name="description" content="VTuber幕張ことは主催、YouTubeのコメントで誰でも参加できる視聴者参加型クイズ大会「幕張ことは杯」。第1回はガンダム王決定戦。参加無料・事前登録不要・初見歓迎。">
+<link rel="canonical" href="https://cotton-100.github.io/quiz.html">
+
+<!-- OGP（Xのカード表示用。告知を始める前に次回大会の内容へ手で書き換える） -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="幕張ことは公式サイト">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="幕張ことは杯 第1回 ガンダム王決定戦">
+<meta property="og:description" content="YouTubeコメントで誰でも参加できる視聴者参加型ガンダムクイズ大会。初代ガンダム王の座を奪え。">
+<meta property="og:url" content="https://cotton-100.github.io/quiz.html">
+<!-- 大会専用のOGP画像を作ったら差し替え（1200×630） -->
+<meta property="og:image" content="https://cotton-100.github.io/ogp.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@cotton_makuhari">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy:#1f2f70;
+    --navy-d:#111e5a;
+    --navy-m:#2e4186;
+    --red:#d80f3f;
+    --pink:#f23864;
+    --wine:#a3123a;
+    --sky:#05a9e9;
+    --sky-d:#0080bc;
+    --sky-l:#e8f6fb;
+    --mist:#f5f5fa;
+    --line:#b6bed6;
+    --muted:#5b6890;
+    --gold:#e8b21a;
+    --white:#fff;
+    --sans:"Noto Sans JP", sans-serif;
+    --num:"Barlow Condensed", "Noto Sans JP", sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--white);color:var(--navy);font-family:var(--sans);line-height:1.8;font-weight:500;-webkit-font-smoothing:antialiased}
+  a{color:var(--sky-d)}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+
+  /* ---------- header ---------- */
+  .site-header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);border-bottom:1px solid #e3e7f2}
+  .site-header .inner{max-width:1080px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .site-header .home{font-weight:700;font-size:14px;color:var(--navy);text-decoration:none}
+  .site-header nav{display:flex;gap:16px;flex-wrap:wrap}
+  .site-header nav a{font-size:13px;font-weight:700;color:var(--navy);text-decoration:none}
+  .site-header nav a:hover{color:var(--red)}
+  @media (max-width:720px){ .site-header nav{display:none} }
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;overflow:hidden;background:var(--mist);padding:56px 16px 48px}
+  .hero .shapes{position:absolute;inset:0;pointer-events:none}
+  .hero .shapes i{position:absolute;display:block}
+  .hero .s1{right:-60px;top:-40px;width:420px;height:420px;background:var(--sky);clip-path:polygon(25% 0,100% 0,100% 75%);opacity:.9}
+  .hero .s2{right:120px;top:40px;width:260px;height:260px;background:var(--red);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);opacity:.12}
+  .hero .s3{right:-20px;bottom:-80px;width:360px;height:300px;background:var(--navy);clip-path:polygon(40% 100%,100% 10%,100% 100%)}
+  .hero .s4{left:-80px;bottom:-60px;width:260px;height:260px;background:var(--pink);clip-path:polygon(0 30%,70% 100%,0 100%);opacity:.85}
+  @media (max-width:720px){ .hero .s1{width:240px;height:240px} .hero .s2{display:none} .hero .s3{width:200px;height:170px} .hero .s4{width:150px;height:150px} }
+  .hero .inner{position:relative;max-width:1000px;margin:0 auto}
+  .hero .series{display:inline-flex;align-items:center;gap:10px;font-weight:900;font-size:clamp(15px,2.4vw,20px);letter-spacing:.12em}
+  .hex{display:inline-grid;place-items:center;width:46px;height:40px;background:var(--red);color:#fff;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);font-family:var(--num);font-weight:800;font-size:18px;letter-spacing:0}
+  .hero .no{display:inline-block;margin-top:14px;font-family:var(--num);font-weight:700;font-size:15px;letter-spacing:.25em;color:var(--sky-d)}
+  .hero h1{margin-top:4px;font-weight:900;font-size:clamp(44px,10vw,104px);line-height:1.05;letter-spacing:.02em;color:var(--navy)}
+  .hero h1 small{display:inline-block;font-size:clamp(14px,2.2vw,18px);font-weight:700;letter-spacing:.15em;color:#fff;background:var(--navy);padding:2px 12px;margin-bottom:12px;line-height:1.7}
+  .hero h1 #hero-suffix{color:var(--red)}
+  .hero .catch{margin-top:14px;font-weight:900;font-size:clamp(17px,2.8vw,24px);letter-spacing:.1em}
+  .hero .scope{margin-top:8px;display:inline-block;font-weight:700;font-size:15px;background:#fff;border-left:5px solid var(--red);padding:4px 14px}
+  .hero .scope[hidden]{display:none}
+  .hero .badges{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+  .badge{font-size:13px;font-weight:700;padding:4px 14px;border-radius:999px;background:#fff;border:2px solid var(--navy);color:var(--navy)}
+
+  .countdown{margin-top:26px;display:inline-block;background:#fff;border-radius:14px;padding:16px 22px;box-shadow:0 6px 0 var(--sky-l),0 0 0 2px #e3e7f2;max-width:100%}
+  .countdown .label{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.1em}
+  .countdown .date{font-family:var(--num);font-weight:700;font-size:clamp(22px,4.4vw,34px);line-height:1.3;color:var(--navy)}
+  .countdown .timer{display:flex;gap:10px;margin-top:8px}
+  .countdown .timer div{background:var(--navy);color:#fff;border-radius:8px;min-width:62px;text-align:center;padding:4px 6px 6px}
+  .countdown .timer b{display:block;font-family:var(--num);font-weight:800;font-size:32px;line-height:1.1}
+  .countdown .timer span{font-family:var(--num);font-size:12px;letter-spacing:.15em;opacity:.8}
+  .countdown .timer[hidden]{display:none}
+  .live-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--red);margin-right:8px;animation:blink 1.2s infinite;vertical-align:middle}
+  @keyframes blink{50%{opacity:.25}}
+
+  /* ---------- band (status + cta) ---------- */
+  .band{background:var(--pink);padding:36px 16px}
+  .band .card{max-width:760px;margin:0 auto;background:#fff;padding:26px 20px;text-align:center}
+  .band .card p{font-weight:700;font-size:clamp(16px,2.4vw,20px)}
+  .cta{margin-top:16px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-width:240px;text-decoration:none;font-weight:700;font-size:15px;padding:12px 26px;border-radius:999px;transition:transform .15s, filter .15s}
+  .btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+  .btn-red{background:var(--red);color:#fff;box-shadow:0 4px 0 var(--wine)}
+  .btn-sky{background:var(--sky);color:#fff;box-shadow:0 4px 0 var(--sky-d)}
+  .btn-navy{background:var(--navy);color:#fff;box-shadow:0 4px 0 var(--navy-d)}
+
+  /* ---------- sections ---------- */
+  section{padding:72px 0}
+  .bg-white{background:#fff}
+  .bg-sky{background:var(--sky-l)}
+  .bg-grid{background-color:var(--sky);background-image:linear-gradient(rgba(255,255,255,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.22) 1px,transparent 1px);background-size:22px 22px}
+  .bg-mist{background:var(--mist)}
+
+  .sec-head{text-align:center;margin-bottom:36px}
+  .ribbon{display:inline-block;background:var(--navy);color:#fff;font-weight:900;font-size:clamp(20px,3.4vw,28px);letter-spacing:.08em;padding:10px 46px;clip-path:polygon(0 0,100% 0,calc(100% - 16px) 50%,100% 100%,0 100%,16px 50%)}
+  .ribbon.red{background:var(--red)}
+  .ribbon.sky{background:var(--sky-d)}
+  .sec-head .en{display:block;margin-top:8px;font-family:var(--num);font-weight:700;font-size:14px;letter-spacing:.3em;color:var(--sky-d)}
+  .bg-grid .sec-head .en{color:#fff}
+  .lead{font-size:16px;margin-bottom:24px}
+  .note{margin-top:16px;font-size:13px;color:var(--muted)}
+  .center{text-align:center}
+
+  /* zigzag paper card */
+  .paper{position:relative;background:#fff;padding:32px 26px;margin-top:10px}
+  .paper::before,.paper::after{content:"";position:absolute;left:0;right:0;height:10px;background-repeat:repeat-x;background-size:20px 100%}
+  .paper::before{top:-10px;background-image:conic-gradient(from 135deg at top,#fff 90deg,#0000 0)}
+  .paper::after{bottom:-10px;background-image:conic-gradient(from -45deg at bottom,#fff 90deg,#0000 0)}
+  @media (max-width:520px){ .paper{padding:26px 16px} }
+
+  /* overview */
+  .overview{width:100%;border-collapse:collapse}
+  .overview th,.overview td{padding:14px 12px;border-bottom:2px dotted var(--line);text-align:left;vertical-align:top}
+  .overview th{width:8.5em;white-space:nowrap}
+  .overview th span{display:inline-block;background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:2px 12px;border-radius:4px}
+  .overview td{font-weight:700}
+  @media (max-width:520px){ .overview th,.overview td{display:block;width:100%} .overview th{border-bottom:none;padding-bottom:0} }
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+  @media (max-width:820px){ .steps{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:480px){ .steps{grid-template-columns:1fr} }
+  .step{position:relative;background:#fff;border-radius:14px;padding:24px 18px 20px;text-align:center;box-shadow:0 0 0 2px #dde4f2}
+  .step .n{display:grid;place-items:center;width:56px;height:56px;margin:0 auto 10px;border-radius:50%;background:var(--sky);color:#fff;font-family:var(--num);font-weight:800;font-size:28px}
+  .step h3{font-weight:900;font-size:18px;margin-bottom:6px}
+  .step p{font-size:14px;color:var(--muted)}
+  .step:not(:last-child)::after{content:"";position:absolute;right:-22px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-left:12px solid var(--sky)}
+  @media (max-width:820px){ .step:not(:last-child)::after{display:none} }
+  .answer-sample{display:inline-block;margin-top:10px;background:var(--navy);color:#fff;font-family:var(--num);font-weight:700;font-size:18px;padding:0 14px;border-radius:6px}
+
+  /* rule flow */
+  .flow{display:grid;grid-template-columns:120px 1fr;gap:0 20px;max-width:760px;margin:0 auto}
+  .flow .col{display:flex;flex-direction:column;align-items:center}
+  .flow .pill{display:grid;place-items:center;text-align:center;width:96px;min-height:96px;border-radius:50%;background:var(--wine);color:#fff;font-weight:900;font-size:16px;line-height:1.3;padding:8px}
+  .flow .pill.first{border-radius:10px;min-height:72px}
+  .flow .pill.king{background:var(--gold);color:var(--navy)}
+  .flow .pill b{font-family:var(--num);font-size:30px;display:block}
+  .flow .bar{width:4px;flex:1;min-height:36px;background:var(--pink);position:relative}
+  .flow .bar::after{content:"";position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);border:8px solid transparent;border-top:10px solid var(--pink)}
+  .flow .box{align-self:start;background:#fff;border:2px solid var(--pink);border-radius:10px;display:flex;align-items:center;gap:14px;padding:14px 18px;margin:12px 0}
+  .flow .box .k{flex:none;background:#fde6ec;color:var(--red);font-weight:900;padding:4px 12px;border-radius:6px;border:1px solid var(--pink)}
+  .flow .box .v{font-weight:900;font-size:clamp(16px,2.4vw,20px)}
+  .flow .box small{display:block;font-weight:500;font-size:13px;color:var(--muted)}
+  .flow .spacer{height:24px}
+
+  .howto{margin-top:28px;background:#fff;border-radius:12px;padding:20px 22px;box-shadow:0 0 0 2px var(--sky)}
+  .howto h3{font-weight:900;font-size:17px;margin-bottom:10px}
+  .howto ul{list-style:none;display:grid;gap:8px}
+  .howto li{display:flex;gap:12px;align-items:baseline;font-size:14px}
+  .howto li b{flex:none;min-width:48px;text-align:center;background:var(--sky);color:#fff;font-size:12px;padding:1px 8px;border-radius:4px}
+  .howto li b.ng{background:var(--red)}
+  .live-guide{box-shadow:0 0 0 2px var(--pink)}
+  .live-guide p{font-size:14px;color:var(--muted);margin-bottom:10px}
+  .live-guide ol{padding-left:1.4em;display:grid;gap:6px;font-size:14px}
+  .live-guide b.dot{display:inline-block;background:var(--red);color:#fff;font-size:12px;padding:0 8px;border-radius:4px;margin:0 2px}
+  .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:40px}
+  .rule{background:#fff;border-radius:12px;padding:20px;box-shadow:0 0 0 2px #dde4f2}
+  .rule h3{font-weight:900;font-size:17px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .rule h3::before{content:"";width:14px;height:12px;background:var(--red);clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%)}
+  .rule p{font-size:14px;color:var(--muted)}
+
+  /* results */
+  .placeholder{text-align:center;padding:20px 0}
+  .placeholder .big{font-weight:900;font-size:clamp(18px,3vw,24px)}
+  .placeholder p{color:var(--muted);font-size:14px;margin-top:6px}
+  .rank-table{width:100%;border-collapse:collapse}
+  .rank-table th,.rank-table td{padding:10px 12px;border-bottom:2px dotted var(--line);text-align:left}
+  .rank-table th{font-size:12px;color:var(--muted);letter-spacing:.1em}
+  .rank-table td.r{font-family:var(--num);font-weight:800;font-size:22px;width:4.5em;color:var(--navy)}
+  .rank-table tr.top1 td{background:#fff7dc}
+  .rank-table tr.top1 td.r{color:var(--red)}
+  .rank-table td.pt{text-align:right;font-family:var(--num);font-weight:700;font-size:20px}
+
+  /* archive */
+  .arc details{background:#fff;border-radius:12px;margin-bottom:12px;box-shadow:0 0 0 2px #dde4f2;overflow:hidden}
+  .arc summary{cursor:pointer;padding:16px 48px 16px 18px;list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;position:relative}
+  .arc summary::-webkit-details-marker{display:none}
+  .arc summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:700}
+  .arc details[open] summary::after{content:"−"}
+  .arc .a-no{background:var(--red);color:#fff;font-family:var(--num);font-weight:700;padding:0 10px;border-radius:4px}
+  .arc .a-date{font-family:var(--num);font-weight:700;font-size:18px;color:var(--muted)}
+  .arc .a-title{font-weight:900;font-size:18px}
+  .arc .a-champ{font-size:14px;font-weight:700;margin-left:auto}
+  .arc .a-body{padding:0 18px 18px}
+  .arc .a-meta{font-size:13px;color:var(--muted);margin-bottom:10px}
+  .arc .empty-note{background:#fff;border-radius:12px;padding:28px;text-align:center;color:var(--muted);font-size:14px;box-shadow:0 0 0 2px #dde4f2}
+
+  /* champions */
+  .champions{display:flex;flex-wrap:wrap;justify-content:center;gap:28px 16px}
+  .champions .champ{flex:0 1 220px}
+  .champ{position:relative;background:#fff;border-radius:14px;padding:26px 18px 20px;text-align:center;box-shadow:0 6px 0 var(--navy-d)}
+  .champ::before{content:"👑";position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:26px}
+  .champ .t{font-size:12px;font-weight:700;color:var(--red);letter-spacing:.08em}
+  .champ .n{font-weight:900;font-size:22px;margin:4px 0}
+  .champ .pd{display:flex;align-items:baseline;justify-content:center;gap:8px;font-weight:700;font-size:15px;margin:2px 0}
+  .champ .pd span{font-family:var(--num);font-weight:800;font-size:15px;color:var(--muted);min-width:2.6em;text-align:right}
+  .champ .pd1{font-size:22px;font-weight:900;margin:6px 0 4px}
+  .champ .pd1 span{color:var(--red);font-size:20px}
+  .champ .d{font-family:var(--num);font-weight:700;color:var(--muted)}
+  .champ.empty{background:rgba(255,255,255,.85);box-shadow:0 6px 0 rgba(17,30,90,.4)}
+  .champ.empty::before{content:"？";font-weight:900;color:#fff;background:var(--red);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:18px}
+
+  /* season */
+  .season-year{display:flex;align-items:center;gap:12px;margin:32px 0 14px;font-family:var(--num);font-weight:800;font-size:34px;color:var(--navy);line-height:1}
+  .season-year::after{content:"";flex:1;height:3px;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 14px)}
+  .season-year:first-child{margin-top:0}
+  .season{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+  .season li{list-style:none;position:relative;background:#fff;border-radius:12px;padding:16px 16px 14px;box-shadow:0 0 0 2px #dde4f2;border-top:6px solid var(--sky)}
+  .season .m{font-family:var(--num);font-weight:800;font-size:34px;line-height:1;color:var(--navy)}
+  .season .m small{font-family:var(--sans);font-size:13px;font-weight:700;margin-left:2px}
+  .season .no{font-family:var(--num);font-weight:700;font-size:14px;color:var(--sky-d);margin-left:8px;letter-spacing:.05em}
+  .season .title{font-weight:900;font-size:16px;margin-top:8px;line-height:1.45}
+  .season .memo{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.6}
+  .season .tag{position:absolute;top:12px;right:12px;font-size:11px;font-weight:700;padding:1px 10px;border-radius:999px;background:var(--mist);color:var(--muted)}
+  .season li.special{border-top-color:var(--gold)}
+  .season li.special .title::before{content:"★ ";color:var(--gold)}
+  .season li.next{border-top-color:var(--red);box-shadow:0 0 0 3px var(--red)}
+  .season li.next .tag{background:var(--red);color:#fff}
+  .season li.live .tag{animation:blink 1.2s infinite}
+  .season li.done{opacity:.75;border-top-color:var(--line)}
+  .season li.done .tag{background:#fff3cf;color:#8a6500}
+
+  .callout{margin-top:36px;background:var(--navy);color:#fff;border-radius:16px;padding:32px 20px;text-align:center}
+  .callout h3{font-weight:900;font-size:22px;margin-bottom:6px}
+  .callout p{font-size:14px;opacity:.85}
+  .callout .sub{margin-top:18px;font-size:13px}
+  .callout .sub a{color:#fff;font-weight:700}
+
+  /* faq */
+  .faq details{background:#fff;border-radius:12px;margin-bottom:12px;box-shadow:0 0 0 2px #dde4f2}
+  .faq summary{cursor:pointer;list-style:none;padding:16px 48px 16px 60px;font-weight:700;position:relative}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"Q";position:absolute;left:16px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-family:var(--num);font-weight:800;font-size:18px}
+  .faq summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--navy);font-size:22px;font-weight:700}
+  .faq details[open] summary::after{content:"−"}
+  .faq details p{padding:0 20px 18px 60px;color:var(--muted);font-size:14px}
+
+  /* footer */
+  footer{background:var(--navy-m);color:#fff;padding:44px 16px 40px;text-align:center;font-size:12px}
+  footer .disclaimer{max-width:720px;margin:0 auto 14px;line-height:1.8;opacity:.85}
+  footer a{color:#fff}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="home" href="./">← 幕張ことは公式サイト</a>
+    <nav>
+      <a href="#about">大会概要</a>
+      <a href="#join">参加方法</a>
+      <a href="#rules">ルール</a>
+      <a href="#ranking">結果</a>
+      <a href="#archive">アーカイブ</a>
+      <a href="#season">スケジュール</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<div class="hero">
+  <div class="shapes" aria-hidden="true"><i class="s1"></i><i class="s2"></i><i class="s3"></i><i class="s4"></i></div>
+  <div class="inner">
+    <p class="series"><span class="hex">杯</span>幕張ことは杯</p><br>
+    <span class="no" id="hero-no">TOURNAMENT No.01</span>
+    <h1><small>視聴者参加型クイズ大会</small><br><span id="hero-name">ガンダム王</span><br><span id="hero-suffix">決定戦</span></h1>
+    <p class="catch">その知識で、頂点を奪え。</p>
+    <p class="scope" id="hero-scope" hidden></p>
+    <div class="badges">
+      <span class="badge">参加無料</span>
+      <span class="badge">事前登録不要</span>
+      <span class="badge">コメントで回答</span>
+      <span class="badge">初見歓迎</span>
+    </div>
+    <div class="countdown" aria-live="polite">
+      <div class="label" id="cd-label">開催日</div>
+      <div class="date" id="cd-date">日程は近日発表</div>
+      <div class="timer" id="cd-timer" hidden>
+        <div><b id="cd-d">00</b><span>DAYS</span></div>
+        <div><b id="cd-h">00</b><span>HOURS</span></div>
+        <div><b id="cd-m">00</b><span>MIN</span></div>
+        <div><b id="cd-s">00</b><span>SEC</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="band">
+  <div class="card">
+    <p>ここで問題。あなたは何問、答えられる？</p>
+    <div class="cta">
+      <a class="btn btn-red" id="cta-stream" href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">YouTubeチャンネルへ</a>
+      <a class="btn btn-navy" id="cta-x" href="https://x.com/" target="_blank" rel="noopener">Xで参戦表明する</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 大会概要 ===================== -->
+<section id="about" class="bg-white">
+  <div class="wrap">
+    <div class="sec-head"><span class="ribbon">大会概要</span><span class="en">ABOUT</span></div>
+    <p class="lead center">YouTubeのライブ配信コメントで、誰でもその場で参加できるクイズ大会です。</p>
+    <table class="overview">
+      <tr><th><span>大会名</span></th><td id="ov-name">幕張ことは杯 第1回 ガンダム王決定戦</td></tr>
+      <tr><th><span>開催日時</span></th><td id="ov-date">日程は近日発表</td></tr>
+      <tr><th><span>配信場所</span></th><td>YouTube「<a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">幕張ことは / cotton-100</a>」ライブ配信</td></tr>
+      <tr><th><span>出題範囲</span></th><td id="ov-scope">近日発表</td></tr>
+      <tr><th><span>問題数</span></th><td>全15問・すべて4択（予定）</td></tr>
+      <tr><th><span>参加資格</span></th><td>どなたでも。チャンネル登録・事前エントリー不要</td></tr>
+      <tr><th><span>主催・司会</span></th><td>幕張ことは</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===================== 参加方法 ===================== -->
+<section id="join" class="bg-sky">
+  <div class="wrap">
+    <div class="sec-head"><span class="ribbon red">参加方法</span><span class="en">HOW TO JOIN</span></div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>配信を開く</h3><p>開催時間にYouTubeのライブ配信へ。途中参加もOK。</p></div>
+      <div class="step"><div class="n">2</div><h3>問題を見る</h3><p>画面に問題と選択肢が表示されます。</p></div>
+      <div class="step"><div class="n">3</div><h3>コメントで回答</h3><p>1〜4の番号をチャットに書き込むだけ。番号のあとにスペースを空ければ、ひとことも添えられます。</p><span class="answer-sample">3</span> <span class="answer-sample">3 これかな</span></div>
+      <div class="step"><div class="n">4</div><h3>ランキング</h3><p>正解で得点加算。順位は画面にリアルタイム表示。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ルール ===================== -->
+<section id="rules" class="bg-sky" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><span class="ribbon">大会のルール</span><span class="en">RULES</span></div>
+    <div class="flow">
+      <div class="col"><div class="pill first">参加者<br>全員</div><div class="bar"></div></div>
+      <div class="box"><span class="k">本戦</span><span class="v">全15問 4択クイズ<small>正解ポイント＋スピードボーナスで競う</small></span></div>
+      <div class="col"><div class="pill"><b>3</b>人</div><div class="bar"></div></div>
+      <div class="box"><span class="k">表彰</span><span class="v">上位3名を発表<small>配信内でお名前を発表し、このページに掲載</small></span></div>
+      <div class="col"><div class="pill king"><b>1</b>人</div></div>
+      <div class="box"><span class="k">王者</span><span class="v" id="flow-king">「○○王」の称号<small>歴代王者として殿堂入り</small></span></div>
+    </div>
+    <div class="rules">
+      <div class="rule"><h3>正解ポイント</h3><p>正解すると基本ポイントを獲得。全問の合計点で順位を決定します。</p></div>
+      <div class="rule"><h3>スピードボーナス</h3><p>早く正解するほどボーナスが上乗せ。ほかの人の回答を待つより、自分の知識で即答するほうが有利です。</p></div>
+      <div class="rule"><h3>回答は1問1回</h3><p>各問題で最初に書き込んだ回答のみ有効。書き直しは無効です。</p></div>
+      <div class="rule"><h3>表彰</h3><p>上位3名のお名前を配信内で発表し、このページに掲載します（賞品はありません）。</p></div>
+      <div class="rule"><h3>同点の場合</h3><p>合計点が同じ場合は、同じ順位とします。</p></div>
+      <div class="rule"><h3>出題ミスがあった場合</h3><p>問題や正解に誤りがあった場合、その問題は無効とし、全員の得点から除外します。</p></div>
+    </div>
+    <div class="howto">
+      <h3>回答のしかた</h3>
+      <ul>
+        <li><b>OK</b><span>「3」「#3」「3 これかな」のように、番号だけ、または番号＋スペース</span></li>
+        <li><b class="ng">NG</b><span>「3これかな」のように、番号のすぐ後に文字を続けると無効になります</span></li>
+        <li><b>速さ</b><span>早く正解するほど高得点。回答スピードは視聴環境（通信や配信の遅れ）にも左右されます</span></li>
+      </ul>
+    </div>
+    <div class="howto live-guide">
+      <h3>参加前に：配信を「最新の状態」にしてください</h3>
+      <p>配信が数秒遅れて見えていると、問題が出るのも遅くなり、そのぶん不利になります。参加前に次をご確認ください。</p>
+      <ol>
+        <li>プレーヤー左下の<b class="dot">● ライブ</b>表示が<strong>灰色</strong>なら、そこをクリック（タップ）して最新の位置へ移動</li>
+        <li>一時停止や巻き戻しをした後は、もう一度「● ライブ」を押して最新に戻す</li>
+        <li>それでも遅れるときは、ページを再読み込み（アプリは開き直し）</li>
+        <li>通信が不安定なときは、画質を下げると遅れにくくなります</li>
+      </ol>
+    </div>
+    <p class="note">※ 詳細は配信冒頭でもご案内します。運営上の都合により変更する場合があります。<br>※ 大会結果には、YouTubeの表示名を掲載します。「匿名にしてほしい」「別の名前で載せてほしい」という方は、<strong>配信後1週間以内</strong>に<a href="https://x.com/cotton_makuhari" target="_blank" rel="noopener">X（@cotton_makuhari）</a>のDMで希望の掲載名を教えてください。期限を過ぎると結果を確定します。</p>
+  </div>
+</section>
+
+<!-- ===================== 前回大会の結果 ===================== -->
+<section id="ranking" class="bg-grid">
+  <div class="wrap">
+    <div class="sec-head"><span class="ribbon">前回大会の結果</span><span class="en">RESULTS</span></div>
+    <div class="paper">
+      <div id="ranking-area">
+        <div class="placeholder">
+          <div class="big">大会の結果は、終了後に掲載します</div>
+          <p>あなたの名前がここに刻まれるかもしれません。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== アーカイブ ===================== -->
+<section id="archive" class="bg-mist">
+  <div class="wrap">
+    <div class="sec-head"><span class="ribbon red">大会アーカイブ</span><span class="en">ARCHIVE</span></div>
+    <div id="archive-area"></div>
+  </div>
+</section>
+
+<!-- ===================== 歴代王者 ===================== -->
+<section id="champions" class="bg-grid">
+  <div class="wrap">
+    <div class="sec-head"><span class="ribbon">歴代王者</span><span class="en">HALL OF CHAMPIONS</span></div>
+    <div class="champions" id="champions-area"></div>
+  </div>
+</section>
+
+<!-- ===================== 年間スケジュール ===================== -->
+<section id="season" class="bg-white">
+  <div class="wrap">
+    <div class="sec-head"><span class="ribbon sky">年間スケジュール</span><span class="en">SCHEDULE</span></div>
+    <p class="lead center">毎月テーマを変えて開催し、1年ごとにひと回りします。各分野の「王」を目指して、何度でも挑戦してください。</p>
+    <div id="season-area"></div>
+    <p class="note">※ テーマ・開催月は予定です。都合により変更する場合があります。</p>
+    <div class="callout">
+      <h3>次はどの「王」を決めたい？</h3>
+      <p>挑みたいジャンルのリクエストや、大会へのご意見・ご感想を募集しています。</p>
+      <div class="cta">
+        <a class="btn btn-sky" href="https://docs.google.com/forms/d/e/1FAIpQLScsyOpSA9Efba86R9TrjXS8-WZITgJWSPeH1KtMUlIoyW58nw/viewform" target="_blank" rel="noopener">ご意見・リクエストを送る</a>
+      </div>
+      <p class="sub">Xでは <a href="https://x.com/search?q=%23%E5%B9%95%E5%BC%B5%E3%81%93%E3%81%A8%E3%81%AF%E6%9D%AF" target="_blank" rel="noopener">#幕張ことは杯</a> でも感想をお待ちしています。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section id="faq" class="faq bg-sky">
+  <div class="wrap">
+    <div class="sec-head"><span class="ribbon red">よくある質問</span><span class="en">FAQ</span></div>
+    <details><summary>参加するのに登録は必要ですか？</summary><p>必要ありません。YouTubeにログインしてライブチャットに書き込める状態であれば、どなたでも参加できます。</p></details>
+    <details><summary>回答が速いのに得点が伸びません</summary><p>配信が遅れて見えている可能性があります。プレーヤーの「● ライブ」表示が灰色なら押して最新の位置へ移動してください（「回答のしかた」の下に手順があります）。</p></details>
+    <details><summary>途中から参加してもいいですか？</summary><p>大歓迎です。参加した問題から得点が加算されます。</p></details>
+    <details><summary>テーマの作品に詳しくなくても楽しめますか？</summary><p>楽しめます。やさしい問題から難問まで用意する予定なので、見ているだけ・当てずっぽうでの参加もどうぞ。</p></details>
+    <details><summary>ことはさんも回答するんですか？</summary><p>当日のお楽しみです。</p></details>
+    <details><summary>結果に名前が載るのが恥ずかしいです</summary><p>匿名や、YouTubeとは別のお名前での掲載もできます。<strong>配信後1週間以内</strong>に<a href="https://x.com/cotton_makuhari" target="_blank" rel="noopener">X（@cotton_makuhari）</a>のDMで「匿名希望」または希望の掲載名を教えてください。</p></details>
+    <details><summary>アーカイブで後から参加できますか？</summary><p>ランキングはライブ中の回答のみが対象です。アーカイブではクイズに挑戦する気分でお楽しみください。</p></details>
+  </div>
+</section>
+
+<footer>
+  <p class="disclaimer">幕張ことは杯は幕張ことはが主催する非公式のファン企画です。各大会のテーマとなる作品の権利者様とは一切関係ありません。作品名・用語は各権利者に帰属します。</p>
+  <p><a href="./">幕張ことは公式サイト</a>　/　<a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">YouTube</a>　/　<a href="https://x.com/cotton_makuhari" target="_blank" rel="noopener">X</a></p>
+  <p style="margin-top:8px">© COTTON-100 ALL RIGHTS RESERVED</p>
+</footer>
+
+<script>
+/* =========================================================
+   設定は ROTATION（毎年くり返すテーマ）と EVENTS（各回の日程・結果）だけ
+   ---------------------------------------------------------
+   ・ページは「次回大会から14か月分」を自動でスケジュール表示します
+     （11月の大会が終わると12月がトップになり、一覧の末尾に翌々年1月が出現）
+   ・テーマは ROTATION の月ごとに毎年くり返します
+   ・EVENTS["YYYY-MM"] に書いた内容が、その回だけ優先されます
+       日程が決まったら → startAt / endAt / streamUrl / scope
+       大会が終わったら → champion / participants / archiveUrl / results
+       その回だけテーマを変える → name / memo
+       その月は休み → skip: true
+   ・時刻は必ず +09:00 付き（24:00 は翌日の 00:00）
+   ・endAt を書き忘れても、その月が終わった時点で自動的に次へ進みます
+   ========================================================= */
+const FIRST_MONTH = "2026-11";   // 第1回の月（番号はここから数えます）
+
+const ROTATION = {
+  1:  { name:"ドラゴンクエスト王" },
+  2:  { name:"ジブリ王" },
+  3:  { name:"銀河英雄伝説王" },
+  4:  { name:"三国志王" },
+  5:  { name:"エヴァンゲリオン王" },
+  6:  { name:"ポケモン王" },
+  7:  { name:"セガ王" },
+  8:  { name:"昭和アニメ王" },
+  9:  { name:"雑学王", memo:"ジャンル不問の雑学クイズ" },
+  10: { name:"アニメ総合王" },
+  11: { name:"ガンダム王", special:true,
+        memo: y => y === 2026 ? "記念すべき第1回" : `大会${y-2026}周年・前回王者の防衛なるか` },
+  12: { name: y => `${y}年アニメ王`, special:true, memo:"年末SP：その年に放送されたアニメから出題" },
+};
+
+const EVENTS = {
+  "2026-11": {
+    startAt:"2026-11-28T23:00:00+09:00",
+    endAt:  "2026-11-29T00:00:00+09:00",
+    streamUrl:null,      // YouTube予約枠URLができたら入れる
+    scope:"宇宙世紀・一年戦争のみ",
+    // ↓ 大会後に書き足す（results の name は掲載名）
+    // champion:"表示名",
+    // participants: 32,
+    // archiveUrl:"https://www.youtube.com/watch?v=xxxx",
+    // results:[ {rank:1,name:"表示名",score:1850}, {rank:2,name:"表示名",score:1720} ],
+  },
+  // "2026-12": { startAt:"2026-12-26T23:00:00+09:00", endAt:"2026-12-27T00:00:00+09:00" },
+};
+/* ========================================================= */
+
+(function(){
+  const SITE = "https://cotton-100.github.io/quiz.html";
+  const CHANNEL = "https://www.youtube.com/@cotton-100";
+  const pad = n => String(n).padStart(2,"0");
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const title = e => `${e.name}${e.suffix||"決定戦"}`;
+  const now = new Date();
+
+  // 日本時間で表示（閲覧者の端末の時差に左右されない）
+  const jst = d => { const x = new Date(d.getTime() + 9*3600e3);
+    return { y:x.getUTCFullYear(), mo:x.getUTCMonth()+1, d:x.getUTCDate(), h:x.getUTCHours(), mi:x.getUTCMinutes(), wd:x.getUTCDay() }; };
+  const WD = ["日","月","火","水","木","金","土"];
+  const dateLabel = e => {
+    if (!e.startAt){ const [y,m] = e.month.split("-").map(Number); return null; }
+    const s = jst(new Date(e.startAt));
+    let txt = `${s.y}年${s.mo}月${s.d}日（${WD[s.wd]}）${pad(s.h)}:${pad(s.mi)}`;
+    if (e.endAt){
+      const en = jst(new Date(e.endAt));
+      const nextDayMidnight = en.h===0 && en.mi===0 && en.d!==s.d;
+      txt += `〜${nextDayMidnight ? "24" : pad(en.h)}:${pad(en.mi)}`;
+    } else txt += "〜";
+    return txt;
+  };
+  const shortDate = e => { if(!e.startAt) return e.month.replace("-","."); const s=jst(new Date(e.startAt)); return `${s.y}.${pad(s.mo)}.${pad(s.d)}`; };
+
+  const WINDOW = 14;
+  const monthPassed = ym => { const [y,m] = ym.split("-").map(Number);
+    return now.getTime() >= Date.UTC(m===12 ? y+1 : y, m===12 ? 0 : m, 1) - 9*3600e3; };
+  const hasResult = e => !!(e.champion || (e.results && e.results.length));
+  const ended = e => hasResult(e) || (e.endAt ? new Date(e.endAt) <= now : monthPassed(e.month));
+
+  // ROTATION と EVENTS から大会一覧を作る（次回大会＋13か月分まで）
+  const SEASON = [];
+  let curIdx = -1;
+  { let [y, m] = FIRST_MONTH.split("-").map(Number), no = 0;
+    for (let guard = 0; guard < 1200; guard++){
+      const ym = `${y}-${pad(m)}`, ov = EVENTS[ym] || {}, base = ROTATION[m] || {};
+      const val = v => typeof v === "function" ? v(y) : v;
+      if (!ov.skip && base.name){
+        const e = { month:ym, name:val(base.name), suffix:val(base.suffix) || "決定戦", memo:val(base.memo), special:val(base.special), ...ov, no: ++no };
+        SEASON.push(e);
+        if (curIdx < 0 && !ended(e)) curIdx = SEASON.length - 1;
+        if (curIdx >= 0 && SEASON.length - curIdx >= WINDOW) break;
+      }
+      if (++m > 12){ m = 1; y++; }
+    } }
+  const isLive = e => !ended(e) && e.startAt && new Date(e.startAt) <= now;
+
+  // results があれば 1位（同点なら複数）を王者として扱う
+  SEASON.forEach(e => { if (!e.champion && e.results && e.results.length)
+    e.champion = e.results.filter(r => r.rank === 1).map(r => r.name).join("・"); });
+  const current = SEASON[curIdx >= 0 ? curIdx : SEASON.length-1];
+  const past = SEASON.filter(ended);
+  const [cy, cm] = current.month.split("-").map(Number);
+
+  // ---- ヒーロー・概要 ----
+  $("hero-no").textContent = `TOURNAMENT No.${pad(current.no)}`;
+  $("hero-name").textContent = current.name;
+  $("hero-suffix").textContent = current.suffix || "決定戦";
+  $("ov-name").textContent = `幕張ことは杯 第${current.no}回 ${title(current)}`;
+  $("ov-scope").textContent = current.scope || "近日発表";
+  if (current.scope){ $("hero-scope").textContent = `出題範囲：${current.scope}`; $("hero-scope").hidden = false; }
+  const lead = document.querySelector("#about .lead");
+  if (lead) lead.textContent = `YouTubeのライブ配信コメントで、誰でもその場で参加できるクイズ大会です。正解数と回答スピードで競い合い、「${current.name}」の称号を決定します。`;
+  const awardRule = [...document.querySelectorAll(".rule h3")].find(h => h.textContent==="表彰");
+  if (awardRule) awardRule.nextElementSibling.textContent = `上位3名のお名前を配信内で発表し、このページに掲載します。優勝者は「${current.name}」として歴代王者に記録されます（賞品はありません）。`;
+
+  const fk = $("flow-king"); if (fk) fk.firstChild.textContent = `「${current.name}」の称号`;
+  document.title = `幕張ことは杯 第${current.no}回 ${title(current)}｜視聴者参加型クイズ大会`;
+
+  const label = dateLabel(current);
+  if (label){ $("cd-date").textContent = label; $("ov-date").textContent = label; }
+  else { $("cd-date").textContent = `${cy}年${cm}月 開催予定 ── 日程は近日発表`; $("ov-date").textContent = `${cy}年${cm}月 開催予定（日程は近日発表）`; }
+
+  const streamHref = current.streamUrl || CHANNEL;
+  $("cta-stream").href = streamHref;
+  if (current.streamUrl) $("cta-stream").textContent = "配信ページへ（予約中）";
+
+  // X 参戦表明ボタン
+  const xText = `幕張ことは杯 第${current.no}回「${title(current)}」に挑戦します！`;
+  const xTag = `幕張ことは杯,${current.name.replace(/王$/,"")}クイズ`;
+  $("cta-x").href = `https://x.com/intent/post?text=${encodeURIComponent(xText)}&url=${encodeURIComponent(SITE)}&hashtags=${encodeURIComponent(xTag)}`;
+
+  // カウントダウン／開催中
+  if (current.startAt){
+    const start = new Date(current.startAt);
+    const tick = () => {
+      const t = new Date();
+      if (current.endAt && new Date(current.endAt) <= t){ location.reload(); return false; } // 終了したら次の大会へ切り替え
+      const diff = start - t;
+      if (diff <= 0){
+        $("cd-label").innerHTML = `<span class="live-dot"></span>ただいま開催中！`;
+        $("cd-timer").hidden = true;
+        $("cta-stream").href = streamHref;
+        $("cta-stream").textContent = "今すぐ参加する";
+        return true;
+      }
+      $("cd-timer").hidden = false;
+      $("cd-label").textContent = "開幕まで";
+      $("cd-d").textContent = Math.floor(diff/864e5);
+      $("cd-h").textContent = pad(Math.floor(diff/36e5)%24);
+      $("cd-m").textContent = pad(Math.floor(diff/6e4)%60);
+      $("cd-s").textContent = pad(Math.floor(diff/1e3)%60);
+      return true;
+    };
+    if (tick()){ const t = setInterval(()=>{ if(!tick()) clearInterval(t); }, 1000); }
+  }
+
+  // ---- 結果テーブル ----
+  const resultTable = e => {
+    const rows = e.results.map(r =>
+      `<tr class="${r.rank===1?'top1':''}"><td class="r">${r.rank}位</td><td>${esc(r.name)}</td><td class="pt">${Number(r.score).toLocaleString()} pt</td></tr>`).join("");
+    return `<table class="rank-table"><thead><tr><th>順位</th><th>名前</th><th style="text-align:right">得点</th></tr></thead><tbody>${rows}</tbody></table>`;
+  };
+
+  // ---- 前回大会の結果 ----
+  const last = past[past.length-1];
+  if (last){
+    const head = `<p class="lead">第${last.no}回 ${esc(title(last))}（${shortDate(last)}）${last.participants ? `／参加者 ${last.participants}人` : ""}</p>`;
+    if (last.results && last.results.length){
+      $("ranking-area").innerHTML = head + resultTable(last) +
+        (last.archiveUrl ? `<p class="note"><a href="${esc(last.archiveUrl)}" target="_blank" rel="noopener">▶ 配信アーカイブを見る</a></p>` : "");
+    } else {
+      $("ranking-area").innerHTML = head + `<div class="placeholder"><div class="big">結果は集計中です</div><p>まもなく掲載します。ご参加ありがとうございました！</p></div>`;
+    }
+  } else {
+    document.querySelector("#ranking-area .big").textContent = `第${current.no}回大会の結果は、大会終了後に掲載します`;
+  }
+
+  // ---- 大会アーカイブ ----
+  $("archive-area").innerHTML = past.length
+    ? `<div class="arc">` + [...past].reverse().map(e => `
+      <details>
+        <summary>
+          <span class="a-no">No.${pad(e.no)}</span>
+          <span class="a-date">${shortDate(e)}</span>
+          <span class="a-title">${esc(title(e))}</span>
+          <span class="a-champ">${e.champion ? `👑 ${esc(e.champion)}` : "結果集計中"}</span>
+        </summary>
+        <div class="a-body">
+          <p class="a-meta">${dateLabel(e) || ""}${e.participants ? `　参加者 ${e.participants}人` : ""}${e.archiveUrl ? `　<a href="${esc(e.archiveUrl)}" target="_blank" rel="noopener">▶ 配信アーカイブ</a>` : ""}</p>
+          ${e.results && e.results.length ? resultTable(e) : `<p class="a-meta">結果は後日掲載します。</p>`}
+        </div>
+      </details>`).join("") + `</div>`
+    : `<div class="arc"><p class="empty-note">終了した大会はここに記録されていきます。</p></div>`;
+
+  // ---- 歴代王者 ----
+  const podium = e => {
+    if (!(e.results && e.results.length)) return `<div class="n">${esc(e.champion)}</div>`;
+    return [1,2,3].map(rk => {
+      const names = e.results.filter(r => r.rank === rk).map(r => esc(r.name));
+      return names.length ? `<div class="pd pd${rk}"><span>${rk}位</span>${names.join("・")}</div>` : "";
+    }).join("");
+  };
+  $("champions-area").innerHTML = SEASON.filter(e => e.champion).reverse().map(e =>
+    `<div class="champ"><div class="t">第${e.no}回 ${esc(title(e))}</div>${podium(e)}<div class="d">${shortDate(e)}</div></div>`
+  ).join("") +
+    `<div class="champ empty"><div class="t">第${current.no}回 ${esc(current.name)}</div><div class="n">？？？</div><div class="d">次の王者は、あなたかもしれない</div></div>`;
+
+  // ---- 年間スケジュール ----
+  const byYear = {};
+  SEASON.slice(SEASON.indexOf(current), SEASON.indexOf(current) + WINDOW).forEach(e => (byYear[e.month.slice(0,4)] ||= []).push(e));
+  $("season-area").innerHTML = Object.entries(byYear).map(([y, list]) =>
+    `<h3 class="season-year">${y}</h3><ul class="season">` +
+    list.map(e => {
+      const m = Number(e.month.slice(5));
+      const done = ended(e), next = e === current && !done, live = next && isLive(e);
+      const cls = [done?"done":"", next?"next":"", live?"live":"", e.special?"special":""].join(" ");
+      const tag = done ? (e.champion ? `王者：${esc(e.champion)}` : "終了") : live ? "開催中" : next ? "次回" : "予定";
+      const hide = e.hidden && !done && !next;
+      const day = e.startAt ? `<span class="no">${shortDate(e).slice(5)}</span>` : "";
+      return `<li class="${cls}"><span class="tag">${tag}</span>` +
+        `<div><span class="m">${m}<small>月</small></span><span class="no">No.${pad(e.no)}</span>${day}</div>` +
+        `<div class="title">${hide ? "？？？王決定戦" : esc(title(e))}</div>` +
+        (e.memo && !hide ? `<div class="memo">${esc(e.memo)}</div>` : "") + `</li>`;
+    }).join("") + `</ul>`
+  ).join("");
+
+  // ---- 検索エンジン向けイベント情報（日程が決まっている次回大会） ----
+  if (current.startAt && !ended(current)){
+    const ld = {
+      "@context":"https://schema.org", "@type":"Event",
+      "name":`幕張ことは杯 第${current.no}回 ${title(current)}`,
+      "description":`YouTubeコメントで誰でも参加できる視聴者参加型クイズ大会「${title(current)}」。参加無料・事前登録不要。`,
+      "startDate":current.startAt, ...(current.endAt ? {"endDate":current.endAt} : {}),
+      "eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode",
+      "eventStatus":"https://schema.org/EventScheduled",
+      "location":{"@type":"VirtualLocation","url":streamHref},
+      "organizer":{"@type":"Person","name":"幕張ことは","url":"https://cotton-100.github.io/"},
+      "isAccessibleForFree":true, "url":SITE
+    };
+    const sc = document.createElement("script"); sc.type = "application/ld+json"; sc.textContent = JSON.stringify(ld);
+    document.head.appendChild(sc);
+  }
+})();
+</script>
+</body>
+</html>
