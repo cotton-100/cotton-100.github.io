@@ -751,10 +751,13 @@ const EVENTS = {
         `SUMMARY:${icsEsc(calTitle)}`,`DESCRIPTION:${icsEsc(details)}`,`URL:${streamHref}`,
         "BEGIN:VALARM","TRIGGER:-PT30M","ACTION:DISPLAY",`DESCRIPTION:${icsEsc(calTitle)}`,"END:VALARM",
         "END:VEVENT","END:VCALENDAR"].join("\r\n");
-      if (window.__icsUrl) URL.revokeObjectURL(window.__icsUrl);
-      window.__icsUrl = URL.createObjectURL(new Blob([ics], {type:"text/calendar"}));
+      let icsHref = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+      try {
+        if (window.__icsUrl) URL.revokeObjectURL(window.__icsUrl);
+        window.__icsUrl = icsHref = URL.createObjectURL(new Blob([ics], {type:"text/calendar"}));
+      } catch(_) {}
       document.querySelectorAll(".js-gcal").forEach(a => a.href = g);
-      document.querySelectorAll(".js-ics").forEach(a => a.href = window.__icsUrl);
+      document.querySelectorAll(".js-ics").forEach(a => a.href = icsHref);
     }
 
     // 練習問題
