@@ -1673,6 +1673,32 @@
     color: rgba(255, 255, 255, 0.5);
   }
 
+  footer .footer-sns {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin: 14px 0 16px;
+  }
+
+  footer .footer-sns a {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.85);
+    transition: background .2s, color .2s, border-color .2s;
+  }
+
+  footer .footer-sns a:hover {
+    background: #fff;
+    color: var(--navy-deep);
+    border-color: #fff;
+  }
+
+  footer .footer-sns svg { width: 18px; height: 18px; fill: currentColor; }
+
   footer .footer-quiz {
     display: inline-block;
     margin-top: 22px;
@@ -2420,6 +2446,14 @@
     <img class="mark" src="logo.png" alt="幕張ことは ロゴ" width="640" height="220" loading="lazy" draggable="false">
   </picture>
   <div class="name">幕張ことは &nbsp;/&nbsp; MAKUHARI KOTOHA</div>
+  <div class="footer-sns">
+    <a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg aria-hidden="true"><use href="#i-youtube"/></svg>
+    </a>
+    <a href="https://x.com/cotton_makuhari" target="_blank" rel="noopener" aria-label="X (Twitter)">
+      <svg aria-hidden="true"><use href="#i-x"/></svg>
+    </a>
+  </div>
   <div class="copy">© COTTON-100 &nbsp;ALL RIGHTS RESERVED</div>
   <div class="hashtags">
     <span>#幕張ことは</span>
