@@ -478,7 +478,7 @@
    ・endAt を書き忘れても、その月が終わった時点で自動的に次へ進みます
    ・日程（startAt）も結果もないまま月が過ぎた大会は「開催されなかった」扱いで、
      アーカイブにも載らず、回の番号も使いません
-     （日程なしで開催した場合は held: true を書く）
+     （日程なしで開催した場合は held: true を書く。書いた時点で履歴に入ります）
    ・結果は results に全員分を書いても、表示は3位以内（同順位を含む）だけです
    ---------------------------------------------------------
    ※ <head> の og:title / og:description（Xのカード用）だけは自動で変わりません。
@@ -551,7 +551,7 @@ const EVENTS = {
       return now.getTime() >= Date.UTC(m===12 ? y+1 : y, m===12 ? 0 : m, 1) - 9*3600e3; };
     const hasResult = e => !!(e.champion || (e.results && e.results.length));
     // 次回候補から外れたか（終了時刻を過ぎた／その月が終わった／結果がある）
-    const passed = e => hasResult(e) || (e.endAt ? new Date(e.endAt) <= now : monthPassed(e.month));
+    const passed = e => hasResult(e) || e.held === true || (e.endAt ? new Date(e.endAt) <= now : monthPassed(e.month));
     // 実際に開催した大会か（結果がある／明示 held:true／日程があって終わった）
     const held = e => hasResult(e) || e.held === true || (!!e.startAt && passed(e));
 
