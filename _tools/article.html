@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{robots}}
+<title>{{title}}｜アニメ語り図書館｜幕張ことは</title>
+<meta name="description" content="{{description}}">
+<link rel="canonical" href="{{url}}">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="幕張ことは公式サイト">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="{{title}}｜アニメ語り図書館">
+<meta property="og:description" content="{{description}}">
+<meta property="og:url" content="{{url}}">
+<meta property="og:image" content="https://i.ytimg.com/vi/{{video_id}}/maxresdefault.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@cotton_makuhari">
+{{head_common}}
+<script type="application/ld+json">
+{{jsonld}}
+</script>
+</head>
+<body>
+{{header}}
+
+<div class="art">
+  <nav class="crumb"><a href="/">幕張ことは 公式サイト</a> ／ <a href="/anime.html">アニメ語り図書館</a> ／ {{work}}</nav>
+
+  <header class="card">
+    <div class="row"><span class="cat">{{category}}</span><span>配信 {{streamed}}</span></div>
+    <h1>{{title}}</h1>
+    <p class="subtitle">{{subtitle}}</p>
+    <dl>
+      <dt>作品</dt><dd>{{work_info}}</dd>
+      <dt>ネタバレ</dt><dd><span class="spoiler">{{spoiler}}</span></dd>
+      <dt>語り手</dt><dd>幕張ことは</dd>
+    </dl>
+  </header>
+
+  <div class="player"><div id="yt"></div><noscript><iframe src="https://www.youtube.com/embed/{{video_id}}?start={{start}}" title="{{stream_title}}" allowfullscreen></iframe></noscript></div>
+  <p class="vcap">配信アーカイブ：{{stream_title}}<br>見出しの「▶」を押すと、その話をしているところから再生できます。</p>
+
+  <nav class="toc"><h2>目次</h2><ol>
+{{toc}}
+  </ol></nav>
+
+  <article>
+{{body}}
+  </article>
+
+  <section class="points">
+    <h2><span class="eyebrow">Kotoha's Picks</span>ことはの注目ポイント</h2>
+    <ol>
+{{highlights}}
+    </ol>
+  </section>
+
+  <section class="related">
+    <h2>関連する語り</h2>
+    <ul class="tagrow">{{tags}}</ul>
+{{related}}
+  </section>
+
+  <details class="full">
+    <summary>配信の発言全文を読む</summary>
+    <p class="note">配信の自動字幕をもとに、誤変換・固有名詞の補正と、言い淀みやごあいさつの削除のみを行ったものです。話し言葉のまま残しています。</p>
+    <div class="tr">
+{{transcript}}
+    </div>
+  </details>
+</div>
+
+{{footer}}
+
+<script>
+var player;
+function onYouTubeIframeAPIReady(){
+  player = new YT.Player("yt",{videoId:"{{video_id}}",playerVars:{start:{{start}},rel:0,playsinline:1}});
+}
+(function(){
+  var s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";document.head.appendChild(s);
+})();
+// ▶ボタンと発言全文の時刻：ページ内の動画をその位置から再生（APIが使えなければ通常のYouTubeリンクとして開く）
+document.addEventListener("click",function(e){
+  var a=e.target.closest("a[data-t]");
+  if(!a||!(a.classList.contains("jump")||a.closest(".full"))) return;
+  if(!player||!player.seekTo) return;
+  e.preventDefault();
+  player.seekTo(+a.dataset.t,true); player.playVideo();
+  document.querySelector(".player").scrollIntoView({behavior:"smooth",block:"center"});
+});
+</script>
+</body>
+</html>

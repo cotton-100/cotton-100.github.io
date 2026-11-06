@@ -1,0 +1,169 @@
+/* アニメ語り図書館 共通スタイル（index.html の配色・書体に合わせる） */
+:root{
+  --navy:#1b2150; --navy-deep:#12163a; --royal:#3346a6;
+  --sakura:#f4b9cb; --sakura-pale:#fde9ef; --pink:#d9648c; --pink-deep:#b9466f;
+  --gold:#e2b143; --gold-soft:#f3d98c; --lavender:#b9b4ec;
+  --cream:#fbf6ef; --paper:#fff; --ink:#24203a; --ink-soft:#5d5873; --ink-faint:#9893ab;
+  --line:rgba(36,32,58,.12);
+  --mincho:'Shippori Mincho B1',serif; --gothic:'Zen Kaku Gothic New',sans-serif;
+  --latin:'Cormorant Garamond','Shippori Mincho B1',serif;
+  --grid-light:
+    linear-gradient(90deg,rgba(217,100,140,.09) 1px,transparent 1px),
+    linear-gradient(rgba(217,100,140,.09) 1px,transparent 1px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--cream)}
+body{color:var(--ink);font-family:var(--gothic);line-height:1.85;-webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;font-feature-settings:"palt" 1;overflow-x:hidden}
+a{color:var(--pink-deep)}
+img{display:block;max-width:100%}
+
+/* ---------- header ---------- */
+.lib-top{position:sticky;top:0;z-index:40;background:rgba(18,22,58,.92);backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px)}
+.lib-top .inner{max-width:1040px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.lib-top .logo img{height:40px;width:auto}
+.lib-top nav{display:flex;gap:18px;font-size:13px;letter-spacing:.06em}
+.lib-top nav a{color:rgba(255,255,255,.85);text-decoration:none}
+.lib-top nav a:hover,.lib-top nav a[aria-current]{color:var(--sakura)}
+
+/* ---------- footer ---------- */
+.lib-foot{position:relative;margin-top:96px;background:var(--navy-deep);color:#fff;text-align:center;padding:48px 20px 64px;font-size:13px}
+.lib-foot::after{content:"";position:absolute;left:0;right:0;bottom:0;height:10px;
+  background:linear-gradient(90deg,var(--pink) 0%,var(--lavender) 50%,var(--royal) 100%)}
+.lib-foot .mark{width:180px;max-width:60%;margin:0 auto 14px}
+.lib-foot .name{font-family:var(--mincho);font-weight:600;letter-spacing:.35em;margin-bottom:10px}
+.lib-foot .links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:14px}
+.lib-foot .links a{color:rgba(255,255,255,.75);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+.lib-foot .links a:hover{color:#fff}
+.lib-foot .note{color:rgba(255,255,255,.5);font-size:11.5px;line-height:1.8}
+.lib-foot .copy{margin-top:8px;font-family:var(--latin);letter-spacing:.2em;color:rgba(255,255,255,.45);font-size:12px}
+
+/* ---------- 共通パーツ ---------- */
+.eyebrow{font-family:var(--latin);font-style:italic;font-weight:600;letter-spacing:.12em;color:var(--pink);font-size:17px}
+.cat{display:inline-block;background:var(--navy);color:#fff;font-size:12px;letter-spacing:.1em;padding:1px 10px}
+.spoiler{display:inline-block;border:1px solid var(--pink);color:var(--pink-deep);background:var(--sakura-pale);padding:0 8px;font-size:12.5px;line-height:1.8}
+
+/* =========================================================
+   一覧ページ（anime.html）
+   ========================================================= */
+.lib-hero{position:relative;background:var(--grid-light),var(--cream);background-size:24px 24px,24px 24px,auto;
+  border-bottom:1px solid var(--line);padding:72px 20px 56px;overflow:hidden}
+.lib-hero::before{content:"";position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(244,185,203,.55),transparent 65%)}
+.lib-hero::after{content:"";position:absolute;left:-100px;bottom:-160px;width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(185,180,236,.45),transparent 65%)}
+.lib-hero .inner{position:relative;z-index:1;max-width:1040px;margin:0 auto}
+.lib-hero h1{font-family:var(--mincho);font-weight:800;font-size:clamp(36px,7vw,64px);line-height:1.25;color:var(--navy);letter-spacing:.06em;margin:6px 0 18px}
+.lib-hero .lead{max-width:36em;font-size:16px;line-height:2.05;color:var(--ink-soft)}
+.lib-hero .count{margin-top:22px;display:inline-flex;align-items:baseline;gap:8px;background:var(--paper);border:1px solid var(--line);padding:6px 16px;font-size:13px;color:var(--ink-soft)}
+.lib-hero .count b{font-family:var(--latin);font-size:28px;color:var(--navy);line-height:1}
+
+.ways{max-width:1040px;margin:56px auto 0;padding:0 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.ways div{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--sakura);padding:18px 20px}
+.ways div:nth-child(2){border-top-color:var(--lavender)}
+.ways div:nth-child(3){border-top-color:var(--gold-soft)}
+.ways h2{font-family:var(--mincho);font-size:17px;color:var(--navy);margin-bottom:4px}
+.ways p{font-size:13.5px;line-height:1.85;color:var(--ink-soft)}
+
+.shelf{max-width:1040px;margin:64px auto 0;padding:0 20px}
+.shelf-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:26px}
+.shelf-head h2{font-family:var(--mincho);font-size:26px;color:var(--navy);letter-spacing:.08em}
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.filters button{font:inherit;font-size:13px;cursor:pointer;background:var(--paper);color:var(--ink);border:1px solid var(--line);padding:3px 14px;border-radius:999px}
+.filters button[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.filters button:disabled{opacity:.4;cursor:default}
+
+.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;list-style:none}
+.book a{display:flex;flex-direction:column;height:100%;background:var(--paper);border:1px solid var(--line);text-decoration:none;color:inherit;
+  transition:transform .25s,box-shadow .25s}
+.book a:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(27,33,80,.12)}
+.book .thumb{aspect-ratio:16/9;background:var(--navy) center/cover no-repeat}
+.book .meta{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.book .row{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--ink-faint)}
+.book h3{font-family:var(--mincho);font-weight:700;font-size:19px;line-height:1.55;color:var(--navy)}
+.book p{font-size:13.5px;line-height:1.8;color:var(--ink-soft)}
+.book .tags{margin-top:auto;font-size:12px;color:var(--pink-deep)}
+.empty{color:var(--ink-faint);font-size:14px;padding:24px 0}
+
+/* =========================================================
+   記事ページ（anime/<slug>.html）
+   ========================================================= */
+.art{max-width:760px;margin:0 auto;padding:0 22px}
+.crumb{font-size:12.5px;color:var(--ink-faint);padding:22px 0 0;letter-spacing:.04em}
+.crumb a{color:var(--ink-faint);text-decoration:none}
+.crumb a:hover{color:var(--pink)}
+
+.card{margin:26px 0 34px;background:var(--paper);border:1px solid var(--line);border-top:6px solid var(--navy);padding:30px 30px 24px;position:relative}
+.card::after{content:"";position:absolute;right:22px;top:-6px;width:56px;height:6px;background:var(--pink)}
+.card .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--ink-faint);letter-spacing:.06em}
+.card h1{word-break:auto-phrase;font-family:var(--mincho);font-weight:800;font-size:clamp(25px,5vw,35px);line-height:1.45;margin:14px 0 6px;color:var(--navy);letter-spacing:.02em}
+.card .subtitle{font-family:var(--mincho);font-size:clamp(15px,2.6vw,18.5px);color:var(--pink-deep);line-height:1.7;margin-bottom:18px}
+.card dl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:13.5px;line-height:1.75;border-top:1px dashed var(--line);padding-top:14px}
+.card dt{color:var(--ink-faint)}
+
+.player{position:relative;aspect-ratio:16/9;background:var(--navy-deep);margin-bottom:10px}
+.player iframe,.player #yt{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vcap{font-size:12.5px;color:var(--ink-faint);line-height:1.75;margin-bottom:34px}
+
+.toc{background:var(--sakura-pale);padding:20px 24px;margin-bottom:44px}
+.toc h2{font-family:var(--mincho);font-size:15px;letter-spacing:.12em;color:var(--navy);margin-bottom:8px}
+.toc ol{list-style:none;font-size:14.5px;line-height:1.9}
+.toc li.lv3{padding-left:1.4em;font-size:13.5px}
+.toc a{color:var(--ink);text-decoration:none;display:flex;gap:12px}
+.toc a:hover{color:var(--pink-deep)}
+.tc{font-variant-numeric:tabular-nums;color:var(--pink);min-width:3.6em;font-size:13px;padding-top:2px}
+
+article{font-size:17px;line-height:2}
+article > p:first-of-type{font-size:18px}
+article h2{word-break:auto-phrase;font-family:var(--mincho);font-weight:700;font-size:clamp(21px,3.4vw,25px);line-height:1.6;color:var(--navy);
+  margin:64px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);scroll-margin-top:72px}
+article h3{font-family:var(--mincho);font-weight:700;font-size:19px;color:var(--navy);margin:40px 0 10px;scroll-margin-top:72px}
+.jump{display:inline-block;margin-left:12px;vertical-align:middle;font-family:var(--gothic);font-size:12px;font-weight:500;
+  letter-spacing:.04em;text-decoration:none;color:var(--pink-deep);border:1px solid var(--pink);padding:0 8px;line-height:1.9;border-radius:2px;background:var(--paper)}
+.jump:hover{background:var(--pink);color:#fff}
+article p{margin-bottom:1.3em}
+article blockquote{margin:28px 0;padding:6px 0 6px 22px;border-left:3px solid var(--pink);font-family:var(--mincho);font-size:20px;line-height:1.85;color:var(--navy)}
+article blockquote p{margin:0}
+article strong{background:linear-gradient(transparent 62%,var(--gold-soft) 62%);font-weight:700}
+article ul{padding-left:1.2em}
+article li{margin:.3em 0}
+
+.points{margin-top:64px;background:var(--paper);border:1px solid var(--line);padding:26px 28px}
+.points h2{font-family:var(--mincho);font-size:21px;color:var(--navy);margin-bottom:14px}
+.points h2 .eyebrow{display:block;font-size:15px}
+.points ol{list-style:none;counter-reset:p}
+.points li{counter-increment:p;position:relative;padding:12px 0 12px 46px;border-top:1px dashed var(--line);font-family:var(--mincho);font-size:17.5px;line-height:1.85}
+.points li:first-child{border-top:0}
+.points li::before{content:counter(p,decimal-leading-zero);position:absolute;left:0;top:14px;font-family:var(--latin);font-weight:600;font-size:14px;color:#fff;background:var(--pink);padding:0 7px;line-height:1.7}
+
+.related{margin-top:48px}
+.related h2{font-family:var(--mincho);font-size:19px;color:var(--navy);margin-bottom:12px}
+.related .tagrow{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.related .tagrow li{font-size:12.5px;border:1px solid var(--line);background:var(--paper);padding:0 10px}
+.related .links{list-style:none}
+.related .links a{display:block;padding:10px 0;border-top:1px dashed var(--line);font-family:var(--mincho);text-decoration:none;color:var(--navy)}
+.related .links a:hover{color:var(--pink-deep)}
+.related .soon{font-size:14px;color:var(--ink-faint)}
+
+details.full{margin-top:48px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+details.full summary{cursor:pointer;padding:18px 0;font-family:var(--mincho);font-size:18px;color:var(--navy);list-style:none}
+details.full summary::-webkit-details-marker{display:none}
+details.full summary::before{content:"＋";color:var(--pink);margin-right:10px}
+details.full[open] summary::before{content:"－"}
+.full .note{font-size:13px;color:var(--ink-soft);line-height:1.8;background:var(--sakura-pale);padding:12px 16px}
+.full .tr{font-size:15px;line-height:2;color:#3b3650;padding-bottom:20px}
+.full .tr p{margin-bottom:1em}
+.full .ts{margin:24px 0 2px}
+.full .ts a{font-size:12.5px;text-decoration:none;color:var(--pink);font-variant-numeric:tabular-nums}
+
+@media (max-width:720px){
+  .ways{grid-template-columns:1fr}
+  .lib-top nav{gap:14px;font-size:12px}
+}
+@media (max-width:560px){
+  .card{padding:24px 20px 20px}
+  .toc,.points{padding:18px}
+  .jump{display:table;margin:6px 0 0}
+  article{font-size:16px}
+}
