@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>アニメ語り図書館｜幕張ことは</title>
+<meta name="description" content="VTuber幕張ことはが「アニメ語り」配信で語ってきたアニメを、読み物として残していく図書館。配信アーカイブ、読みやすく編集した語りの記事、配信の発言全文をまとめています。">
+<link rel="canonical" href="https://cotton-100.github.io/anime.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="幕張ことは公式サイト">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="アニメ語り図書館｜幕張ことは">
+<meta property="og:description" content="配信で語ったアニメを、読み物として。幕張ことはのアニメ語りアーカイブ。">
+<meta property="og:url" content="https://cotton-100.github.io/anime.html">
+<meta property="og:image" content="https://cotton-100.github.io/ogp.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@cotton_makuhari">
+{{head_common}}
+<script type="application/ld+json">
+{{jsonld}}
+</script>
+</head>
+<body>
+{{header}}
+
+<header class="lib-hero">
+  <div class="inner">
+    <p class="eyebrow">Anime Talk Library</p>
+    <h1>アニメ語り図書館</h1>
+    <p class="lead">配信「アニメ語り」で語ってきた作品を、読み物として残していく図書館です。<br>声で聴くのも、文字で読むのも、どちらでも。気になる作品の棚から、どうぞ。</p>
+    <p class="count">所蔵 <b>{{count}}</b> 作品</p>
+  </div>
+</header>
+
+<section class="ways" aria-label="この図書館の読み方">
+  <div><h2>語りを読む</h2><p>配信で話したことを、話題ごとに見出しを付けて読みやすく編集した記事です。</p></div>
+  <div><h2>配信で観る</h2><p>記事の見出しから、その話をしている場面へ動画で飛べます。</p></div>
+  <div><h2>発言全文を確かめる</h2><p>各記事の最後に、配信での発言をできるだけそのまま残しています。</p></div>
+</section>
+
+<section class="shelf" id="shelf">
+  <div class="shelf-head">
+    <h2>蔵書</h2>
+    <div class="filters" role="group" aria-label="分類で絞り込む">
+{{filters}}
+    </div>
+  </div>
+  <ul class="books">
+{{books}}
+  </ul>
+  <p class="empty" hidden>この分類の作品は、まだありません。</p>
+</section>
+
+{{footer}}
+
+<script>
+(function(){
+  var btns=document.querySelectorAll(".filters button"), books=document.querySelectorAll(".book"), empty=document.querySelector(".empty");
+  btns.forEach(function(b){
+    b.addEventListener("click",function(){
+      btns.forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+      var c=b.dataset.cat, n=0;
+      books.forEach(function(k){var show=!c||k.dataset.cat===c; k.hidden=!show; if(show)n++;});
+      empty.hidden=n>0;
+    });
+  });
+})();
+</script>
+</body>
+</html>
