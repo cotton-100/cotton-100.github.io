@@ -1895,6 +1895,26 @@
     .stat-num { font-size: 30px; }
     .stat-ja { margin-bottom: 8px; font-size: 12px; }
   }
+
+  /* 次のイベント告知（終了時刻を過ぎると自動で非表示） */
+  .event-notice { position: relative; z-index: 3; max-width: 980px; margin: 36px auto 0; padding: 0 22px; }
+  .event-notice a {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 4px 22px;
+    padding: 18px 26px; text-decoration: none; color: var(--navy);
+    background: #fff; border: 1px solid rgba(226, 177, 67, 0.6); border-left: 6px solid var(--gold);
+    box-shadow: 0 10px 26px rgba(27, 33, 80, 0.10); transition: transform 0.3s ease;
+  }
+  .event-notice a:hover { transform: translateY(-2px); }
+  .event-notice .en-label { grid-row: 1 / span 2; font-family: var(--latin); font-style: italic; font-weight: 600; font-size: 15px; letter-spacing: 0.12em; color: var(--pink); }
+  .event-notice .en-title { font-family: var(--mincho); font-weight: 800; font-size: 19px; letter-spacing: 0.06em; line-height: 1.5; }
+  .event-notice .en-sub { grid-column: 2; font-size: 13px; color: #5d5873; letter-spacing: 0.04em; }
+  .event-notice .en-cta { grid-column: 3; grid-row: 1 / span 2; font-size: 13px; font-weight: 700; color: #fff; background: var(--navy); padding: 6px 16px; white-space: nowrap; }
+  @media (max-width: 640px) {
+    .event-notice a { grid-template-columns: 1fr; padding: 16px 18px; }
+    .event-notice .en-label, .event-notice .en-sub, .event-notice .en-cta { grid-column: 1; grid-row: auto; }
+    .event-notice .en-title { font-size: 17px; }
+    .event-notice .en-cta { justify-self: start; margin-top: 6px; }
+  }
 </style>
 </head>
 <body>
@@ -2036,6 +2056,17 @@
 </header>
 
 <main class="bg-paper">
+
+  <!-- EVENT NOTICE：次の大会の告知。data-end を過ぎると非表示。次回は日付と文言を書き換える -->
+  <aside class="event-notice" aria-label="次のイベント" data-end="2026-11-29T00:00:00+09:00">
+    <a href="quiz.html">
+      <span class="en-label">Next Event</span>
+      <span class="en-title">11月28日（土）23時｜幕張ことは杯 ガンダム王決定戦</span>
+      <span class="en-sub">参加無料・登録不要・初見歓迎｜YouTubeのコメントで回答</span>
+      <span class="en-cta">大会の詳細・練習問題へ ›</span>
+    </a>
+  </aside>
+  <script>(function(){var n=document.querySelector(".event-notice");if(n&&Date.now()>Date.parse(n.dataset.end))n.hidden=true;})();</script>
 
   <!-- ABOUT -->
   <section id="about">

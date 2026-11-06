@@ -34,19 +34,20 @@
     <dl>
       <dt>作品</dt><dd>{{work_info}}</dd>
       <dt>ネタバレ</dt><dd><span class="spoiler">{{spoiler}}</span></dd>
-      <dt>語り手</dt><dd>幕張ことは</dd>
+      <dt>語り手</dt><dd><a href="/#about">幕張ことは</a></dd>
       {{note}}
     </dl>
+    <div class="card-go"><a href="#read">記事を読む ↓</a><a href="#watch">動画で観る ▶</a></div>
   </header>
 
-  <div class="player"><div id="yt"></div><noscript><iframe src="https://www.youtube.com/embed/{{video_id}}?start={{start}}" title="{{stream_title}}" allowfullscreen></iframe></noscript></div>
+  <div class="player" id="watch"><div id="yt"></div><noscript><iframe src="https://www.youtube.com/embed/{{video_id}}?start={{start}}" title="{{stream_title}}" allowfullscreen></iframe></noscript></div>
   <p class="vcap">配信アーカイブ：{{stream_title}}<br>見出しの「▶」を押すと、その話をしているところから再生できます。</p>
 
   <nav class="toc"><h2>目次</h2><ol>
 {{toc}}
   </ol></nav>
 
-  <article>
+  <article id="read">
 {{body}}
   </article>
 
@@ -63,6 +64,10 @@
 {{related}}
   </section>
 
+  <aside class="to-stream">
+    <p>この作品について、あなたの感想も配信で聞かせてください。</p>
+    <div class="btns"><a class="btn" href="https://www.youtube.com/@cotton-100/streams" target="_blank" rel="noopener">アニメ語りの配信・アーカイブを見る</a><a class="btn ghost" href="/">幕張ことはについて</a></div>
+  </aside>
   <details class="full">
     <summary>配信の発言全文を読む</summary>
     <p class="note">配信の自動字幕をもとに、誤字・固有名詞の補正、言い淀みやごあいさつの削除、読みやすさのための段落分けを行ったものです。話し言葉の口調はそのまま残しています。<span class="cmt">このように表示している部分</span>は、配信中に読み上げた視聴者のコメントです。</p>

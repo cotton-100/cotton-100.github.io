@@ -28,15 +28,18 @@
     <p class="eyebrow">Anime Talk Library</p>
     <h1>アニメ語り図書館</h1>
     <p class="lead">配信「アニメ語り」で語ってきた作品を、読み物として残していく図書館です。<br>声で聴くのも、文字で読むのも、どちらでも。気になる作品の棚から、どうぞ。</p>
-    <p class="count">所蔵 <b>{{count}}</b> 作品</p>
+    <div class="hero-row"><p class="count">所蔵 <b>{{count}}</b> 作品</p><a class="to-shelf" href="#shelf">作品一覧へ ↓</a></div>
   </div>
 </header>
 
-<section class="ways" aria-label="この図書館の読み方">
-  <div><h2>語りを読む</h2><p>配信で話したことを、話題ごとに見出しを付けて読みやすく編集した記事です。</p></div>
-  <div><h2>配信で観る</h2><p>記事の見出しから、その話をしている場面へ動画で飛べます。</p></div>
-  <div><h2>発言全文を確かめる</h2><p>各記事の最後に、配信での発言をできるだけそのまま残しています。</p></div>
-</section>
+<details class="ways" open>
+  <summary>この図書館の読み方</summary>
+  <div class="ways-grid">
+    <div><h2>語りを読む</h2><p>配信で話したことを、話題ごとに見出しを付けて読みやすく編集した記事です。</p></div>
+    <div><h2>配信で観る</h2><p>記事の見出しから、その話をしている場面へ動画で飛べます。</p></div>
+    <div><h2>発言全文を確かめる</h2><p>各記事の最後に、配信での発言をできるだけそのまま残しています。</p></div>
+  </div>
+</details>
 
 <section class="shelf" id="shelf">
   <div class="shelf-head">
@@ -45,24 +48,44 @@
 {{filters}}
     </div>
   </div>
+  <div class="finder">
+    <label class="search"><span>作品名で探す</span><input type="search" id="q" placeholder="例：ガンダム、Fate、恋愛" autocomplete="off"></label>
+    <label class="sort"><span>並び順</span><select id="sort"><option value="streamed">配信日が新しい順</option><option value="published">記事化が新しい順</option></select></label>
+  </div>
   <ul class="books">
 {{books}}
   </ul>
-  <p class="empty" hidden>この分類の作品は、まだありません。</p>
+  <p class="empty" hidden>条件に合う作品は、まだありません。</p>
 </section>
 
 {{footer}}
 
 <script>
 (function(){
-  var btns=document.querySelectorAll(".filters button"), books=document.querySelectorAll(".book"), empty=document.querySelector(".empty");
+  var btns=document.querySelectorAll(".filters button"), list=document.querySelector(".books"),
+      books=[].slice.call(document.querySelectorAll(".book")), empty=document.querySelector(".empty"),
+      q=document.getElementById("q"), sort=document.getElementById("sort"), cat="";
+  // 一画面目で読み方の説明が場所を取らないよう、スマホでは閉じておく
+  if(window.matchMedia("(max-width:720px)").matches) document.querySelector(".ways").removeAttribute("open");
+  function apply(){
+    var words=(q.value||"").trim().toLowerCase().split(/\s+/).filter(Boolean), n=0;
+    books.forEach(function(k){
+      var show=(!cat||k.dataset.cat===cat)&&words.every(function(w){return k.dataset.words.indexOf(w)>-1;});
+      k.hidden=!show; if(show)n++;
+    });
+    empty.hidden=n>0;
+  }
   btns.forEach(function(b){
     b.addEventListener("click",function(){
       btns.forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
-      var c=b.dataset.cat, n=0;
-      books.forEach(function(k){var show=!c||k.dataset.cat===c; k.hidden=!show; if(show)n++;});
-      empty.hidden=n>0;
+      cat=b.dataset.cat; apply();
     });
+  });
+  q.addEventListener("input",apply);
+  sort.addEventListener("change",function(){
+    var key=sort.value;
+    books.sort(function(a,b){return (b.dataset[key]+b.dataset.streamed).localeCompare(a.dataset[key]+a.dataset.streamed);});
+    books.forEach(function(k){list.appendChild(k);});
   });
 })();
 </script>

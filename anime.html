@@ -93,7 +93,7 @@
 <body>
 <div class="lib-top"><div class="inner">
   <a class="logo" href="/"><picture><source srcset="/logo.webp" type="image/webp"><img src="/logo.png" alt="幕張ことは" width="640" height="220"></picture></a>
-  <nav aria-label="サイト内メニュー"><a href="/">ホーム</a><a href="/anime.html" aria-current="page">アニメ語り図書館</a><a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">YouTube</a></nav>
+  <nav aria-label="サイト内メニュー"><a href="/">ホーム</a><a href="/anime.html" aria-current="page"><span class="lg">アニメ語り</span>図書館</a><a href="/quiz.html"><span class="lg">幕張ことは杯</span><span class="sm">クイズ</span></a><a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">YouTube</a></nav>
 </div></div>
 
 <header class="lib-hero">
@@ -101,15 +101,18 @@
     <p class="eyebrow">Anime Talk Library</p>
     <h1>アニメ語り図書館</h1>
     <p class="lead">配信「アニメ語り」で語ってきた作品を、読み物として残していく図書館です。<br>声で聴くのも、文字で読むのも、どちらでも。気になる作品の棚から、どうぞ。</p>
-    <p class="count">所蔵 <b>8</b> 作品</p>
+    <div class="hero-row"><p class="count">所蔵 <b>8</b> 作品</p><a class="to-shelf" href="#shelf">作品一覧へ ↓</a></div>
   </div>
 </header>
 
-<section class="ways" aria-label="この図書館の読み方">
-  <div><h2>語りを読む</h2><p>配信で話したことを、話題ごとに見出しを付けて読みやすく編集した記事です。</p></div>
-  <div><h2>配信で観る</h2><p>記事の見出しから、その話をしている場面へ動画で飛べます。</p></div>
-  <div><h2>発言全文を確かめる</h2><p>各記事の最後に、配信での発言をできるだけそのまま残しています。</p></div>
-</section>
+<details class="ways" open>
+  <summary>この図書館の読み方</summary>
+  <div class="ways-grid">
+    <div><h2>語りを読む</h2><p>配信で話したことを、話題ごとに見出しを付けて読みやすく編集した記事です。</p></div>
+    <div><h2>配信で観る</h2><p>記事の見出しから、その話をしている場面へ動画で飛べます。</p></div>
+    <div><h2>発言全文を確かめる</h2><p>各記事の最後に、配信での発言をできるだけそのまま残しています。</p></div>
+  </div>
+</details>
 
 <section class="shelf" id="shelf">
   <div class="shelf-head">
@@ -124,81 +127,85 @@
 <button type="button" aria-pressed="false" data-cat="再視聴・再評価">再視聴・再評価</button>
     </div>
   </div>
+  <div class="finder">
+    <label class="search"><span>作品名で探す</span><input type="search" id="q" placeholder="例：ガンダム、Fate、恋愛" autocomplete="off"></label>
+    <label class="sort"><span>並び順</span><select id="sort"><option value="streamed">配信日が新しい順</option><option value="published">記事化が新しい順</option></select></label>
+  </div>
   <ul class="books">
-<li class="book" data-cat="布教解説"><a href="/anime/fate-strange-fake.html">
+<li class="book" data-cat="布教解説" data-streamed="2026-03-15" data-published="2026-11-06" data-words="fate/strange fake 今期の覇権はこれ♪『fate/strange fake』は、安心の面白さ fateを観たことがなくても大丈夫。アメリカで始まった偽りの聖杯戦争と、13騎のサーヴァント tvアニメ／2026年1月放送開始／原作：成田良悟・type-moon（電撃文庫）／監督：榎戸駿・坂詰嵩仁／制作：a-1 pictures fate type-moon 群像劇 バトル シリーズ入門 2026年冬アニメ"><a href="/anime/fate-strange-fake.html">
   <div class="thumb" style="background-image:url('https://i.ytimg.com/vi/ce1qgSLV_7g/hqdefault.jpg')" role="img" aria-label="アニメ語り「fate/strange fake 」｜今期の覇権はこれ♪安心の面白さ｜"></div>
   <div class="meta">
-    <div class="row"><span class="cat">布教解説</span><span>配信 2026.03.15</span></div>
+    <div class="row"><span class="cat">布教解説</span><span>配信 2026.03.15</span><span>記事化 2026.11.06</span></div>
     <h3>Fate/strange Fake</h3>
     <p>Fateを観たことがなくても大丈夫。アメリカで始まった偽りの聖杯戦争と、13騎のサーヴァント</p>
     <p class="book-spoiler"><span class="spoiler">ネタバレ：サーヴァントの真名と、TV放送第11話までの内容に触れています</span></p>
     <div class="tags">#Fate #TYPE-MOON #群像劇 #バトル</div>
   </div>
 </a></li>
-<li class="book" data-cat="再視聴・再評価"><a href="/anime/angelic-layer.html">
+<li class="book" data-cat="再視聴・再評価" data-streamed="2026-03-08" data-published="2026-11-06" data-words="機動天使エンジェリックレイヤー 『機動天使エンジェリックレイヤー』は、今観るとすごいアニメだった バグも遊び方。脳波で動く小さな天使たちと、clampらしい恋の相関図 tvアニメ／2001年放送／全26話／原作：clamp／監督：錦織博／制作：ボンズ clamp 格闘 ホビーバトル 恋愛 家族 2001年"><a href="/anime/angelic-layer.html">
   <div class="thumb" style="background-image:url('https://i.ytimg.com/vi/yKS0RGHTZkk/hqdefault.jpg')" role="img" aria-label="アニメ語り「機動天使エンジェリックレイヤー」｜今見るとすごいアニメだった｜"></div>
   <div class="meta">
-    <div class="row"><span class="cat">再視聴・再評価</span><span>配信 2026.03.08</span></div>
+    <div class="row"><span class="cat">再視聴・再評価</span><span>配信 2026.03.08</span><span>記事化 2026.11.06</span></div>
     <h3>機動天使エンジェリックレイヤー</h3>
     <p>バグも遊び方。脳波で動く小さな天使たちと、CLAMPらしい恋の相関図</p>
     <p class="book-spoiler"><span class="spoiler">ネタバレ：終盤の展開に一部触れています</span></p>
     <div class="tags">#CLAMP #格闘 #ホビーバトル #恋愛</div>
   </div>
 </a></li>
-<li class="book" data-cat="布教解説"><a href="/anime/bokuyaba.html">
+<li class="book" data-cat="布教解説" data-streamed="2026-02-22" data-published="2026-11-06" data-words="僕の心のヤバイやつ 劇場版『僕の心のヤバイやつ』は、心がほっこりして勇気がもらえる 総集編9割、新規パート1割。それでも観てよかったと思える、等身大の初恋 劇場アニメ／2026年2月13日公開／原作：桜井のりお（秋田書店）／総監督：赤城博昭／監督：陳達理 劇場アニメ 恋愛 青春 総集編 ラブコメ 漫画原作"><a href="/anime/bokuyaba.html">
   <div class="thumb" style="background-image:url('https://i.ytimg.com/vi/YhB9ct6ONhE/hqdefault.jpg')" role="img" aria-label="劇場版「僕の心のヤバイやつ」｜心がほっこり勇気がもらえるアニメです｜アニメ語り"></div>
   <div class="meta">
-    <div class="row"><span class="cat">布教解説</span><span>配信 2026.02.22</span></div>
+    <div class="row"><span class="cat">布教解説</span><span>配信 2026.02.22</span><span>記事化 2026.11.06</span></div>
     <h3>僕の心のヤバイやつ</h3>
     <p>総集編9割、新規パート1割。それでも観てよかったと思える、等身大の初恋</p>
     <p class="book-spoiler"><span class="spoiler">ネタバレ：冒頭の新規シーンの内容に触れています</span></p>
     <div class="tags">#劇場アニメ #恋愛 #青春 #総集編</div>
   </div>
 </a></li>
-<li class="book" data-cat="布教解説"><a href="/anime/milky-subway.html">
+<li class="book" data-cat="布教解説" data-streamed="2026-02-15" data-published="2026-11-06" data-words="銀河特急 ミルキー☆サブウェイ 劇場版『銀河特急 ミルキー☆サブウェイ』を、初見で観なかったことを後悔した 演技しない演技の演技と、音ハメの気持ちよさ。くすっと笑えて、ほっこりする 劇場版『銀河特急 ミルキー☆サブウェイ 各駅停車劇場行き』／2026年2月6日公開／監督・原作：亀山陽平／企画制作：シンエイ動画 劇場アニメ sf 会話劇 3dcg 個人制作 声優 音ハメ"><a href="/anime/milky-subway.html">
   <div class="thumb" style="background-image:url('https://i.ytimg.com/vi/JRfuT9MFk2E/hqdefault.jpg')" role="img" aria-label="初見で観なかったことを後悔した-劇場版『銀河特急 ミルキー☆サブウェイ』でくすっと大爆笑｜アニメ語り"></div>
   <div class="meta">
-    <div class="row"><span class="cat">布教解説</span><span>配信 2026.02.15</span></div>
+    <div class="row"><span class="cat">布教解説</span><span>配信 2026.02.15</span><span>記事化 2026.11.06</span></div>
     <h3>銀河特急 ミルキー☆サブウェイ</h3>
     <p>演技しない演技の演技と、音ハメの気持ちよさ。くすっと笑えて、ほっこりする</p>
     <p class="book-spoiler"><span class="spoiler">ネタバレ：序盤の設定と、いくつかの場面に触れています</span></p>
     <div class="tags">#劇場アニメ #SF #会話劇 #3DCG</div>
   </div>
 </a></li>
-<li class="book" data-cat="布教解説"><a href="/anime/hathaway-circe.html">
+<li class="book" data-cat="布教解説" data-streamed="2026-02-01" data-published="2026-11-06" data-words="機動戦士ガンダム 閃光のハサウェイ キルケーの魔女 『閃光のハサウェイ キルケーの魔女』が全然よくわからないなりに面白かった けれん味ゼロの戦場と、ボタンを掛け違え続けるハサウェイ 劇場アニメ／2026年1月30日公開／三部作の第2章／監督：村瀬修功 ガンダム 劇場アニメ 宇宙世紀 戦争 作画 ロボット"><a href="/anime/hathaway-circe.html">
   <div class="thumb" style="background-image:url('https://i.ytimg.com/vi/BOBJIpr9HIU/hqdefault.jpg')" role="img" aria-label="「閃光のハサウェイキルケ―の魔女」が全然よくわからないなりに面白かったです♪｜幕張ことはのアニメ語り"></div>
   <div class="meta">
-    <div class="row"><span class="cat">布教解説</span><span>配信 2026.02.01</span></div>
+    <div class="row"><span class="cat">布教解説</span><span>配信 2026.02.01</span><span>記事化 2026.11.06</span></div>
     <h3>機動戦士ガンダム 閃光のハサウェイ キルケーの魔女</h3>
     <p>けれん味ゼロの戦場と、ボタンを掛け違え続けるハサウェイ</p>
     <p class="book-spoiler"><span class="spoiler">ネタバレ：物語の核心は伏せています（いくつかの場面には触れています）</span></p>
     <div class="tags">#ガンダム #劇場アニメ #宇宙世紀 #戦争</div>
   </div>
 </a></li>
-<li class="book" data-cat="布教解説"><a href="/anime/cho-kaguya-hime.html">
+<li class="book" data-cat="布教解説" data-streamed="2026-01-25" data-published="2026-11-06" data-words="超かぐや姫！ 『超かぐや姫！』が今年最高のアニメである理由 かぐや姫がvtuberになる。ずっと観たかったアニメに、やっと出会えた 長編アニメ映画／2026年1月22日 netflix世界独占配信／監督：山下清悟／アニメーション制作：スタジオコロリド、スタジオクロマト オリジナルアニメ 竹取物語 vtuber ボカロ 音楽 sf 青春 作画"><a href="/anime/cho-kaguya-hime.html">
   <div class="thumb" style="background-image:url('https://i.ytimg.com/vi/C_OpiPciXpE/hqdefault.jpg')" role="img" aria-label="「超かぐや姫」が今年最高のアニメである理由｜幕張ことはのアニメ語り"></div>
   <div class="meta">
-    <div class="row"><span class="cat">布教解説</span><span>配信 2026.01.25</span></div>
+    <div class="row"><span class="cat">布教解説</span><span>配信 2026.01.25</span><span>記事化 2026.11.06</span></div>
     <h3>超かぐや姫！</h3>
     <p>かぐや姫がVTuberになる。ずっと観たかったアニメに、やっと出会えた</p>
     <p class="book-spoiler"><span class="spoiler">ネタバレ：終盤の展開は伏せています（ハッピーエンドであることには触れています）</span></p>
     <div class="tags">#オリジナルアニメ #竹取物語 #VTuber #ボカロ</div>
   </div>
 </a></li>
-<li class="book" data-cat="布教解説"><a href="/anime/kono-hon-wo-nusumu-mono-wa.html">
+<li class="book" data-cat="布教解説" data-streamed="2026-01-18" data-published="2026-11-06" data-words="この本を盗む者は 『この本を盗む者は』アニメ映画版を語る 本の世界を冒険する楽しさと、ひとつだけ引っかかったラスト 劇場アニメ／2025年12月26日公開／原作：深緑野分（角川文庫）／監督：福岡大生／制作：かごめかんぱにー 劇場アニメ 原作比較 ファンタジー 本 冒険 謎解き"><a href="/anime/kono-hon-wo-nusumu-mono-wa.html">
   <div class="thumb" style="background-image:url('https://i.ytimg.com/vi/J221FNNbQh4/hqdefault.jpg')" role="img" aria-label="【アニメ語り】幕張ことはのアニメ三昧 #03｜「この本を盗む者は（ネタバレ有り）」を語る"></div>
   <div class="meta">
-    <div class="row"><span class="cat">布教解説</span><span>配信 2026.01.18</span></div>
+    <div class="row"><span class="cat">布教解説</span><span>配信 2026.01.18</span><span>記事化 2026.11.06</span></div>
     <h3>この本を盗む者は</h3>
     <p>本の世界を冒険する楽しさと、ひとつだけ引っかかったラスト</p>
     <p class="book-spoiler"><span class="spoiler">ネタバレ：結末まで（原作小説の結末にも触れています）</span></p>
     <div class="tags">#劇場アニメ #原作比較 #ファンタジー #本</div>
   </div>
 </a></li>
-<li class="book" data-cat="布教解説"><a href="/anime/all-you-need-is-kill.html">
+<li class="book" data-cat="布教解説" data-streamed="2026-01-11" data-published="2026-11-06" data-words="all you need is kill 『all you need is kill』アニメ映画版を語る 主人公はリタへ。初のアニメ映画化が描いた、もうひとつのループ 劇場アニメ／2026年1月9日公開／原作：桜坂洋（集英社刊）／監督：秋本賢一郎／制作：studio4℃ タイムループ sf ボーイ・ミーツ・ガール 劇場アニメ studio4℃ 原作比較"><a href="/anime/all-you-need-is-kill.html">
   <div class="thumb" style="background-image:url('https://i.ytimg.com/vi/fo9cbxy_sg4/hqdefault.jpg')" role="img" aria-label="【アニメ語り】幕張ことはのアニメ三昧｜「ALL YOU NEED IS KILL」を語る"></div>
   <div class="meta">
-    <div class="row"><span class="cat">布教解説</span><span>配信 2026.01.11</span></div>
+    <div class="row"><span class="cat">布教解説</span><span>配信 2026.01.11</span><span>記事化 2026.11.06</span></div>
     <h3>ALL YOU NEED IS KILL</h3>
     <p>主人公はリタへ。初のアニメ映画化が描いた、もうひとつのループ</p>
     <p class="book-spoiler"><span class="spoiler">ネタバレ：序盤の設定まで（結末は伏せています）</span></p>
@@ -206,7 +213,7 @@
   </div>
 </a></li>
   </ul>
-  <p class="empty" hidden>この分類の作品は、まだありません。</p>
+  <p class="empty" hidden>条件に合う作品は、まだありません。</p>
 </section>
 
 <footer class="lib-foot">
@@ -219,14 +226,30 @@
 
 <script>
 (function(){
-  var btns=document.querySelectorAll(".filters button"), books=document.querySelectorAll(".book"), empty=document.querySelector(".empty");
+  var btns=document.querySelectorAll(".filters button"), list=document.querySelector(".books"),
+      books=[].slice.call(document.querySelectorAll(".book")), empty=document.querySelector(".empty"),
+      q=document.getElementById("q"), sort=document.getElementById("sort"), cat="";
+  // 一画面目で読み方の説明が場所を取らないよう、スマホでは閉じておく
+  if(window.matchMedia("(max-width:720px)").matches) document.querySelector(".ways").removeAttribute("open");
+  function apply(){
+    var words=(q.value||"").trim().toLowerCase().split(/\s+/).filter(Boolean), n=0;
+    books.forEach(function(k){
+      var show=(!cat||k.dataset.cat===cat)&&words.every(function(w){return k.dataset.words.indexOf(w)>-1;});
+      k.hidden=!show; if(show)n++;
+    });
+    empty.hidden=n>0;
+  }
   btns.forEach(function(b){
     b.addEventListener("click",function(){
       btns.forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
-      var c=b.dataset.cat, n=0;
-      books.forEach(function(k){var show=!c||k.dataset.cat===c; k.hidden=!show; if(show)n++;});
-      empty.hidden=n>0;
+      cat=b.dataset.cat; apply();
     });
+  });
+  q.addEventListener("input",apply);
+  sort.addEventListener("change",function(){
+    var key=sort.value;
+    books.sort(function(a,b){return (b.dataset[key]+b.dataset.streamed).localeCompare(a.dataset[key]+a.dataset.streamed);});
+    books.forEach(function(k){list.appendChild(k);});
   });
 })();
 </script>
