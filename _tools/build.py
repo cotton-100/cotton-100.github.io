@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent
 TOOLS = ROOT / "_tools"
 SITE = "https://cotton-100.github.io"
 # チャンネルの分類（一覧ページの絞り込みボタンの並び順）
-CATEGORIES = ["積みアニメ", "布教解説", "アニメ発掘", "視聴供養", "演出解剖", "再視聴・再評価"]
+CATEGORIES = ["積みアニメ", "布教解説", "アニメ発掘", "視聴供養", "演出解剖", "再視聴・再評価", "イベント・上映会"]
 
 HEAD_COMMON = """<link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
