@@ -235,3 +235,10 @@ details.full[open] summary::before{content:"－"}
 
 /* 記事化時の補足 */
 article .aside{margin:28px 0;padding:12px 16px;border:1px dashed var(--pink);background:var(--paper);font-size:14.5px;line-height:1.85;color:var(--ink-soft)}
+
+/* 記事内の表（比較など） */
+article table{width:100%;border-collapse:collapse;margin:20px 0 26px;font-size:14px;line-height:1.75;background:var(--paper)}
+article th,article td{border:1px solid var(--line);padding:10px 12px;vertical-align:top;text-align:left}
+article thead th{background:var(--navy);color:#fff;font-family:var(--mincho);font-weight:600}
+article tbody th,article tbody td:first-child{color:var(--navy);font-weight:600;white-space:nowrap}
+@media (max-width:560px){article table{font-size:13px}article th,article td{padding:8px}}
