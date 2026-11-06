@@ -93,6 +93,7 @@ def render_article(meta, all_meta):
         tr = tr_path.read_text(encoding="utf-8")
         tr = re.sub(r'<p class="ts"><a href="#" data-t="(\d+)">[^<]*</a></p>',
                     lambda m: f'<p class="ts"><a href="https://www.youtube.com/watch?v={vid}&amp;t={m.group(1)}s" data-t="{m.group(1)}">{fmt(m.group(1))}</a></p>', tr)
+        tr = re.sub(r"（コメント：(.+?)）", r'<span class="cmt">\1</span>', tr)
         transcript_html = markdown.markdown(tr)
 
     # 関連：タグか分類が重なる他の記事
