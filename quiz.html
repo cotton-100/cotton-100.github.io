@@ -215,6 +215,8 @@
   .overview th{width:8.5em;white-space:nowrap}
   .overview th span{display:inline-block;background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:2px 12px;border-radius:4px}
   .overview td{font-weight:700}
+  .overview .place-link{display:inline-block;margin-top:6px;color:var(--red)}
+  .overview .place-url{display:block;font-size:12px;font-weight:500;color:var(--muted);word-break:break-all}
   @media (max-width:520px){ .overview th,.overview td{display:block;width:100%} .overview th{border-bottom:none;padding-bottom:0} }
 
   /* steps */
@@ -430,7 +432,7 @@
     <table class="overview">
       <tr><th><span>大会名</span></th><td id="ov-name">幕張ことは杯 第1回 ガンダム王決定戦</td></tr>
       <tr><th><span>開催日時</span></th><td id="ov-date">日程は近日発表</td></tr>
-      <tr><th><span>配信場所</span></th><td>YouTube「<a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">幕張ことは / cotton-100</a>」ライブ配信</td></tr>
+      <tr><th><span>配信場所</span></th><td id="ov-place">YouTube「<a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">幕張ことは / cotton-100</a>」ライブ配信</td></tr>
       <tr><th><span>出題範囲</span></th><td id="ov-scope">近日発表</td></tr>
       <tr><th><span>問題数</span></th><td>全15問・すべて4択（予定）</td></tr>
       <tr><th><span>参加資格</span></th><td>どなたでも。チャンネル登録・事前エントリー不要</td></tr>
@@ -783,6 +785,12 @@ const EVENTS = {
     else $("cd-label").textContent = current.startAt ? "開幕まで" : "開催日";
     const streamText = live ? "今すぐ参加する" : current.streamUrl ? "大会の待機所へ（YouTube）" : "YouTubeチャンネルへ";
     document.querySelectorAll(".js-stream").forEach(a => { a.href = streamHref; a.textContent = streamText; });
+
+    // 大会概要の配信場所
+    const ch = `<a href="${CHANNEL}" target="_blank" rel="noopener">幕張ことは / cotton-100</a>`;
+    $("ov-place").innerHTML = current.streamUrl
+      ? `YouTube「${ch}」ライブ配信<br><a class="place-link" href="${esc(current.streamUrl)}" target="_blank" rel="noopener">▶ この大会の配信ページ</a><span class="place-url">${esc(current.streamUrl)}</span>`
+      : `YouTube「${ch}」ライブ配信<span class="place-url">配信ページは近日公開</span>`;
 
     // ページ末尾の参加ブロック
     $("final-title").textContent = `第${current.no}回 ${title(current)}`;
