@@ -172,3 +172,9 @@ details.full[open] summary::before{content:"－"}
 .spoiler-note{margin:56px 0 0;padding:14px 18px;background:var(--navy);color:#fff;font-size:14px;letter-spacing:.06em;text-align:center}
 .spoiler-note::before{content:"ネタバレ注意　";color:var(--sakura);font-weight:700}
 .spoiler-note + h2{margin-top:36px}
+
+/* 発言全文：読み上げたコメント */
+.full .cmt{display:inline-block;font-size:13.5px;line-height:1.7;color:var(--ink-soft);background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--lavender);padding:1px 10px;margin:0 6px 0 0}
+.full .cmt::before{content:"コメント";font-size:11px;color:var(--royal);letter-spacing:.08em;margin-right:8px}
+.full .note .cmt::before{content:""}
+.full .note .cmt{margin:0 2px}
