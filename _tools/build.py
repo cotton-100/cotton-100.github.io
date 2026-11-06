@@ -5,7 +5,7 @@ _anime/*.md（記事）と _transcripts/*.md（発言全文）から
   anime.html        … 一覧ページ
 を生成します。必要: pip install markdown pyyaml
 """
-import html, json, re
+import html, json, re, sys
 from pathlib import Path
 import markdown, yaml
 
@@ -27,7 +27,7 @@ def header(current):
     cur = ' aria-current="page"' if current == "library" else ""
     return f"""<div class="lib-top"><div class="inner">
   <a class="logo" href="/"><picture><source srcset="/logo.webp" type="image/webp"><img src="/logo.png" alt="幕張ことは" width="640" height="220"></picture></a>
-  <nav aria-label="サイト内メニュー"><a href="/">ホーム</a><a href="/anime.html"{cur}>アニメ語り図書館</a><a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">YouTube</a></nav>
+  <nav aria-label="サイト内メニュー"><a href="/">ホーム</a><a href="/anime.html"{cur}><span class="lg">アニメ語り</span>図書館</a><a href="/quiz.html"><span class="lg">幕張ことは杯</span><span class="sm">クイズ</span></a><a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">YouTube</a></nav>
 </div></div>"""
 
 FOOTER = """<footer class="lib-foot">
@@ -155,10 +155,11 @@ def render_article(meta, all_meta):
 def render_library(all_meta):
     books = []
     for m in sorted(all_meta, key=lambda m: m["streamed"], reverse=True):
-        books.append(f"""<li class="book" data-cat="{html.escape(m.get('category', ''))}"><a href="/anime/{m['slug']}.html">
+        words = " ".join([m["work"], m["title"], m.get("subtitle", ""), m.get("work_info", ""), " ".join(m.get("tags", []))])
+        books.append(f"""<li class="book" data-cat="{html.escape(m.get('category', ''))}" data-streamed="{m['streamed']}" data-published="{m['published']}" data-words="{html.escape(words.lower())}"><a href="/anime/{m['slug']}.html">
   <div class="thumb" style="background-image:url('https://i.ytimg.com/vi/{m['video_id']}/hqdefault.jpg')" role="img" aria-label="{html.escape(m['stream_title'])}"></div>
   <div class="meta">
-    <div class="row"><span class="cat">{html.escape(m.get('category', ''))}</span><span>配信 {m['streamed'].replace('-', '.')}</span></div>
+    <div class="row"><span class="cat">{html.escape(m.get('category', ''))}</span><span>配信 {m['streamed'].replace('-', '.')}</span><span>記事化 {m['published'].replace('-', '.')}</span></div>
     <h3>{html.escape(m['work'])}</h3>
     <p>{html.escape(m.get('subtitle', ''))}</p>
     <p class="book-spoiler"><span class="spoiler">ネタバレ：{html.escape(m.get('spoiler', 'なし'))}</span></p>
@@ -179,8 +180,72 @@ def render_library(all_meta):
         jsonld=json.dumps(ld, ensure_ascii=False, indent=1),
         head_common=HEAD_COMMON, header=header("library"), footer=FOOTER)
 
+REQUIRED = ["title", "slug", "work", "video_id", "stream_title", "streamed", "segment", "category", "description"]
+
+def validate(all_meta, paths):
+    """記事を増やすときの事故（上書き・秒数の範囲外・書き忘れ）を生成前に止める"""
+    errors, seen = [], {}
+    for m, p in zip(all_meta, paths):
+        name = p.name
+        for k in REQUIRED:
+            if not m.get(k):
+                errors.append(f"{name}: {k} がありません")
+        slug = m.get("slug", "")
+        if slug != p.stem:
+            errors.append(f"{name}: slug「{slug}」がファイル名と違います（{p.stem}.md にそろえてください）")
+        if slug in seen:
+            errors.append(f"{name}: slug「{slug}」が {seen[slug]} と重複しています（別の記事を上書きしてしまいます）")
+        seen[slug] = name
+        if not re.fullmatch(r"[A-Za-z0-9_-]{11}", str(m.get("video_id", ""))):
+            errors.append(f"{name}: video_id「{m.get('video_id')}」がYouTubeの動画IDの形ではありません")
+        for k in ("streamed", "published", "updated"):
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", m[k]):
+                errors.append(f"{name}: {k}「{m[k]}」は YYYY-MM-DD で書いてください")
+        if m["published"] < m["streamed"]:
+            errors.append(f"{name}: published（記事化日）が streamed（配信日）より前になっています")
+        if m.get("category") and m["category"] not in CATEGORIES:
+            errors.append(f"{name}: category「{m['category']}」は分類一覧（{'、'.join(CATEGORIES)}）にありません")
+        seg = m.get("segment") or [0, 0]
+        if len(seg) != 2 or not seg[0] < seg[1]:
+            errors.append(f"{name}: segment は [開始秒, 終了秒] で、開始 < 終了にしてください")
+            continue
+        for t in re.findall(r"<!-- t=(\d+) -->", m["_body"]):
+            if not seg[0] <= int(t) <= seg[1]:
+                errors.append(f"{name}: 見出しの t={t}（{fmt(t)}）が配信の対象範囲 {fmt(seg[0])}〜{fmt(seg[1])} の外です")
+        tr = ROOT / "_transcripts" / f"{slug}.md"
+        if not tr.exists():
+            errors.append(f"{name}: 発言全文 _transcripts/{slug}.md がありません")
+        else:
+            for t in re.findall(r'data-t="(\d+)"', tr.read_text(encoding="utf-8")):
+                if not seg[0] - 60 <= int(t) <= seg[1] + 60:
+                    errors.append(f"_transcripts/{slug}.md: 時刻 {fmt(t)} が対象範囲の外です")
+        if "<!-- highlights -->" not in m["_body"]:
+            errors.append(f"{name}: 「ことはの注目ポイント」（<!-- highlights -->）がありません")
+    if errors:
+        print("入力チェックで止めました：", *errors, sep="\n  - ")
+        sys.exit(1)
+
 def main():
-    all_meta = [load(p) for p in sorted((ROOT / "_anime").glob("*.md"))]
+    check = "--check" in sys.argv
+    paths = sorted((ROOT / "_anime").glob("*.md"))
+    all_meta = [load(p) for p in paths]
+    validate(all_meta, paths)
+    if check:
+        # 公開中のHTMLが、今の記事データから作り直したものと一致するか（再生成し忘れの検出）
+        outputs = {ROOT / "anime" / f"{m['slug']}.html": render_article(m, all_meta) for m in all_meta}
+        outputs[ROOT / "anime.html"] = render_library(all_meta)
+        stale = [p for p, v in outputs.items() if not p.exists() or p.read_text(encoding="utf-8") != v]
+        known = {p.name for p in outputs}
+        orphans = [p for p in (ROOT / "anime").glob("*.html") if p.name not in known]
+        for p in stale:
+            print("再生成が必要：", p.relative_to(ROOT))
+        for p in orphans:
+            print("元の記事がないHTML：", p.relative_to(ROOT))
+        if stale or orphans:
+            print("→ python3 _tools/build.py を実行してからコミットしてください")
+            sys.exit(1)
+        print(f"OK：{len(all_meta)}記事と一覧はすべて最新です")
+        return
     (ROOT / "anime").mkdir(exist_ok=True)
     for m in all_meta:
         out = ROOT / "anime" / f"{m['slug']}.html"

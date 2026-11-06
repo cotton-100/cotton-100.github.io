@@ -169,6 +169,7 @@
   .pq-score b{font-size:84px;font-weight:800;color:var(--red)}
   .pq-score span{font-family:var(--sans);font-size:20px;font-weight:900;margin-left:6px}
   .band .card .pq-rank{display:inline-block;margin-top:10px;font-weight:900;font-size:clamp(18px,3vw,24px);color:var(--navy);border-bottom:4px solid var(--gold);padding:0 6px 2px}
+  .band .card .pq-rank.partial{font-size:15px;font-weight:700;border-bottom-width:2px}
   .pq-share .btn{min-width:220px}
   .pq-preview{margin:16px auto 0;max-width:460px;text-align:left;font-size:13px;line-height:1.7;color:var(--navy);background:var(--mist);border-radius:10px;padding:12px 14px;word-break:break-all}
   .pq-preview span{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:2px}
@@ -840,10 +841,13 @@ const EVENTS = {
 
       const showResult = () => {
         const rate = played ? score / played : 0;
-        const rank = RANKS.find(r => rate >= r.min) || RANKS[RANKS.length - 1];
+        // 称号は全問に答えたときだけ判定（途中で終えた場合は途中結果として表示）
+        const done = played >= pool.length;
+        const rank = done ? (RANKS.find(r => rate >= r.min) || RANKS[RANKS.length - 1])
+                          : { title:`途中結果（全${pool.length}問に答えると称号が決まります）` };
         const when = shortJst(current);
         const text = `「幕張ことは杯 第${current.no}回 ${title(current)}」の練習問題に挑戦！\n` +
-          `結果：${played}問中${score}問正解【${rank.title}】\n` +
+          (done ? `結果：${pool.length}問中${score}問正解【${rank.title}】\n` : `途中結果：${played}問中${score}問正解\n`) +
           (when ? `本番は ${when} あなたは何問わかる？` : `本番であなたは何問わかる？`);
         const tag = `幕張ことは杯,${current.name.replace(/王$/,"")}クイズ`;
         const share = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(SITE)}&hashtags=${encodeURIComponent(tag)}`;
@@ -852,7 +856,7 @@ const EVENTS = {
         $("pq-choices").innerHTML = "";
         $("pq-result").innerHTML =
           `<div class="pq-score"><b>${score}</b><span>／${played}問 正解</span></div>` +
-          `<div class="pq-rank">${esc(rank.title)}</div>` +
+          `<div class="pq-rank${done ? "" : " partial"}">${esc(rank.title)}</div>` +
           `<div class="pq-share">` +
             `<a class="btn btn-navy" href="${esc(share)}" target="_blank" rel="noopener">𝕏 結果をポストする</a>` +
             `<button type="button" class="pq-next" id="pq-retry">もう一度挑戦する</button>` +
@@ -888,7 +892,7 @@ const EVENTS = {
             `<div class="pq-share">` +
               (allDone ? `<button type="button" class="pq-next" id="pq-res">結果を見る ›</button>`
                        : `<button type="button" class="pq-next" id="pq-next">次の問題へ ›</button>` +
-                         `<button type="button" class="pq-stop" id="pq-res">ここで終わって結果を見る</button>`) +
+                         `<button type="button" class="pq-stop" id="pq-res">ここで終わって途中結果を見る</button>`) +
             `</div>` +
             (played === 1 ? `<div class="next">本番では、この番号「${pr.answer}」をコメントで送ります。</div>` : "");
           const nx = $("pq-next");
