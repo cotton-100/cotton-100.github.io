@@ -137,6 +137,7 @@
   @keyframes blink{50%{opacity:.25}}
 
   /* ---------- band (status + cta) ---------- */
+  .band[hidden]{display:none}
   .band{background:var(--pink);padding:36px 16px}
   .band .card{max-width:760px;margin:0 auto;background:#fff;padding:26px 20px;text-align:center}
   .band .card p{font-weight:700;font-size:clamp(16px,2.4vw,20px)}
@@ -748,6 +749,7 @@ const EVENTS = {
     return `<table class="rank-table"><thead><tr><th>順位</th><th>名前</th><th style="text-align:right">得点</th></tr></thead><tbody>${rows}</tbody></table>`;
   };
 
+  let practiceFor = null;   // 練習問題を初期化した大会（月）
   function render(st){
     const { season, current, live, past } = st;
     const [cy, cm] = current.month.split("-").map(Number);
@@ -813,7 +815,11 @@ const EVENTS = {
     // 練習問題（ランダム出題 → リザルト → Xでシェア）
     const pool = current.practice ? [].concat(current.practice) : [];
     $("practice").hidden = !pool.length;
-    if (pool.length){
+    document.querySelector(".band").hidden = !pool.length;      // 問題がない大会では帯ごと隠す
+    if (!pool.length) practiceFor = null;
+    // 同じ大会のまま開催状況だけ変わった場合は、遊んでいる途中の成績を残す
+    if (pool.length && practiceFor !== current.month){
+      practiceFor = current.month;
       const RANKS = current.practiceRanks || [
         { min:1.0, title:"全問正解！ 王の資格あり" },
         { min:0.7, title:"上位入賞を狙える実力" },
