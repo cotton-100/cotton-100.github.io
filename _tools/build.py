@@ -14,6 +14,25 @@ TOOLS = ROOT / "_tools"
 SITE = "https://cotton-100.github.io"
 # チャンネルの分類（一覧ページの絞り込みボタンの並び順）
 CATEGORIES = ["積みアニメ", "布教解説", "アニメ発掘", "視聴供養", "演出解剖", "再視聴・再評価", "イベント・上映会"]
+# 分類の意味（一覧ページで、選んだ分類の説明として表示する）
+CATEGORY_NOTES = {
+    "積みアニメ": "観ようと思って積んでいた作品を、観はじめて語る回",
+    "布教解説": "好きな作品の魅力を、まだ観ていない人に向けて紹介する回",
+    "アニメ発掘": "あまり知られていない作品や、昔の作品を掘り起こす回",
+    "視聴供養": "完走感想。最後まで観終えた作品を、振り返って語る回",
+    "演出解剖": "映像演出に注目して、「なぜこの撮り方なのか」を読み解く回",
+    "再視聴・再評価": "観直して印象が変わった作品を、あらためて語る回",
+    "イベント・上映会": "イベントや上映会に参加した感想を語る回",
+}
+# ネタバレの程度（一覧ページではこの短い表記だけを出し、具体的な範囲は記事内で開いたときだけ見せる）
+SPOILER_LEVELS = {
+    "なし": "なし",
+    "序盤": "序盤の設定・展開まで",
+    "一部": "いくつかの場面に触れます（核心は伏せています）",
+    "終盤": "終盤の展開に一部触れます",
+    "重大": "物語の重大な展開を含みます",
+    "結末": "最終話までの重大な展開を含みます",
+}
 
 HEAD_COMMON = """<link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -142,7 +161,7 @@ def render_article(meta, all_meta):
         title=html.escape(meta["title"]), subtitle=html.escape(meta.get("subtitle", "")),
         description=html.escape(meta["description"]), url=meta["_url"], work=html.escape(meta["work"]),
         category=html.escape(meta.get("category", "")), work_info=html.escape(meta.get("work_info", "")),
-        spoiler=html.escape(meta.get("spoiler", "")), streamed=meta["streamed"].replace("-", "."),
+        spoiler=spoiler_html(meta), streamed=meta["streamed"].replace("-", "."),
         published=meta["published"].replace("-", "."),
         note=(f'<dt>補足</dt><dd>{html.escape(meta["note"])}</dd>' if meta.get("note") else ""),
         stream_title=html.escape(meta["stream_title"]), video_id=vid, start=start, toc=toc, body=body_html,
@@ -151,6 +170,18 @@ def render_article(meta, all_meta):
         related=related, transcript=transcript_html,
         jsonld=json.dumps(ld, ensure_ascii=False, indent=1),
         head_common=HEAD_COMMON, header=header("article"), footer=FOOTER)
+
+def spoiler_label(meta):
+    return SPOILER_LEVELS[meta.get("spoiler_level", "なし")]
+
+def spoiler_html(meta):
+    """記事ページ：程度だけを見せ、具体的な範囲は開いた人だけが読めるようにする"""
+    label = f'<span class="spoiler">{html.escape(spoiler_label(meta))}</span>'
+    detail = meta.get("spoiler")
+    if not detail:
+        return label
+    return (f'{label}<details class="spoiler-detail"><summary>詳しい範囲を見る（ネタバレを含みます）</summary>'
+            f'<p>{html.escape(detail)}</p></details>')
 
 def render_library(all_meta):
     books = []
@@ -162,13 +193,13 @@ def render_library(all_meta):
     <div class="row"><span class="cat">{html.escape(m.get('category', ''))}</span><span>配信 {m['streamed'].replace('-', '.')}</span><span>記事化 {m['published'].replace('-', '.')}</span></div>
     <h3>{html.escape(m['work'])}</h3>
     <p>{html.escape(m.get('subtitle', ''))}</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：{html.escape(m.get('spoiler', 'なし'))}</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：{html.escape(spoiler_label(m))}</span></p>
     <div class="tags">{' '.join('#' + html.escape(t) for t in m.get('tags', [])[:4])}</div>
   </div>
 </a></li>""")
     used = {m.get("category") for m in all_meta}
     filters = ['<button type="button" aria-pressed="true" data-cat="">すべて</button>'] + [
-        f'<button type="button" aria-pressed="false" data-cat="{c}"{"" if c in used else " disabled"}>{c}</button>' for c in CATEGORIES]
+        f'<button type="button" aria-pressed="false" data-cat="{c}" data-note="{html.escape(CATEGORY_NOTES[c])}" title="{html.escape(CATEGORY_NOTES[c])}"{"" if c in used else " disabled"}>{c}</button>' for c in CATEGORIES]
     ld = {"@context": "https://schema.org", "@type": "CollectionPage", "name": "アニメ語り図書館",
           "url": SITE + "/anime.html", "inLanguage": "ja",
           "author": {"@type": "Person", "name": "幕張ことは", "url": SITE + "/"},
@@ -205,6 +236,10 @@ def validate(all_meta, paths):
             errors.append(f"{name}: published（記事化日）が streamed（配信日）より前になっています")
         if m.get("category") and m["category"] not in CATEGORIES:
             errors.append(f"{name}: category「{m['category']}」は分類一覧（{'、'.join(CATEGORIES)}）にありません")
+        if m.get("spoiler_level", "なし") not in SPOILER_LEVELS:
+            errors.append(f"{name}: spoiler_level「{m.get('spoiler_level')}」は {'／'.join(SPOILER_LEVELS)} のどれかにしてください")
+        if m.get("spoiler") and "spoiler_level" not in m:
+            errors.append(f"{name}: spoiler（詳しい範囲）があるのに spoiler_level（一覧に出す程度）がありません")
         seg = m.get("segment") or [0, 0]
         if len(seg) != 2 or not seg[0] < seg[1]:
             errors.append(f"{name}: segment は [開始秒, 終了秒] で、開始 < 終了にしてください")

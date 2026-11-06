@@ -48,6 +48,7 @@
 {{filters}}
     </div>
   </div>
+  <p class="cat-note" aria-live="polite">分類を選ぶと、その分類の説明がここに出ます（例：視聴供養＝最後まで観終えた作品の完走感想）。</p>
   <div class="finder">
     <label class="search"><span>作品名で探す</span><input type="search" id="q" placeholder="例：ガンダム、Fate、恋愛" autocomplete="off"></label>
     <label class="sort"><span>並び順</span><select id="sort"><option value="streamed">配信日が新しい順</option><option value="published">記事化が新しい順</option></select></label>
@@ -64,7 +65,8 @@
 (function(){
   var btns=document.querySelectorAll(".filters button"), list=document.querySelector(".books"),
       books=[].slice.call(document.querySelectorAll(".book")), empty=document.querySelector(".empty"),
-      q=document.getElementById("q"), sort=document.getElementById("sort"), cat="";
+      q=document.getElementById("q"), sort=document.getElementById("sort"), cat="",
+      note=document.querySelector(".cat-note"), noteDefault=note.textContent;
   // 一画面目で読み方の説明が場所を取らないよう、スマホでは閉じておく
   if(window.matchMedia("(max-width:720px)").matches) document.querySelector(".ways").removeAttribute("open");
   function apply(){
@@ -78,7 +80,7 @@
   btns.forEach(function(b){
     b.addEventListener("click",function(){
       btns.forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
-      cat=b.dataset.cat; apply();
+      cat=b.dataset.cat; note.textContent=b.dataset.note?cat+"："+b.dataset.note:noteDefault; apply();
     });
   });
   q.addEventListener("input",apply);
