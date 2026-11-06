@@ -54,6 +54,9 @@ def load(md_path):
     _, fm, body = md_path.read_text(encoding="utf-8").split("---", 2)
     meta = yaml.safe_load(fm)
     meta["streamed"] = str(meta["streamed"])
+    # 配信日（streamed）と記事の公開日（published）・更新日（updated）は分けて持つ
+    meta["published"] = str(meta.get("published") or meta["streamed"])
+    meta["updated"] = str(meta.get("updated") or meta["published"])
     meta["_body"] = body.strip()
     meta["_url"] = f"{SITE}/anime/{meta['slug']}.html"
     return meta
@@ -67,9 +70,11 @@ def render_article(meta, all_meta):
         highlights = [l[2:].strip() for l in hl.strip().splitlines() if l.startswith("- ")]
 
     chapters = []
+    spoiler_at = body.find('class="spoiler-note"')
     def heading(m):
         t = int(m.group(3))
-        chapters.append((len(m.group(1)), m.group(2).strip(), t))
+        after = spoiler_at != -1 and m.start() > spoiler_at
+        chapters.append((len(m.group(1)), m.group(2).strip(), t, after))
         return f"{m.group(1)} {m.group(2).strip()} {{#t{t}}}"
     body = re.sub(r"^(#{2,3}) (.+?) <!-- t=(\d+) -->\s*$", heading, body, flags=re.M)
     body_html = markdown.markdown(body, extensions=["attr_list", "extra"])
@@ -84,8 +89,13 @@ def render_article(meta, all_meta):
                 f'data-t="{t}">▶ {fmt(t)}</a></{tag}>')
     body_html = re.sub(r"<(h[23])([^>]*)>(.*?)</\1>", add_btn, body_html)
 
-    toc = "\n".join(f'<li class="lv{lv}"><a href="#t{t}"><span class="tc">{fmt(t)}</span>{html.escape(tx)}</a></li>'
-                    for lv, tx, t in chapters)
+    toc_items, marked = [], False
+    for lv, tx, t, after in chapters:
+        if after and not marked:
+            toc_items.append('<li class="toc-spoiler">ここから先は結末に触れています</li>')
+            marked = True
+        toc_items.append(f'<li class="lv{lv}"><a href="#t{t}"><span class="tc">{fmt(t)}</span>{html.escape(tx)}</a></li>')
+    toc = "\n".join(toc_items)
 
     transcript_html = ""
     tr_path = ROOT / "_transcripts" / f"{meta['slug']}.md"
@@ -94,6 +104,7 @@ def render_article(meta, all_meta):
         tr = re.sub(r'<p class="ts"><a href="#" data-t="(\d+)">[^<]*</a></p>',
                     lambda m: f'<p class="ts"><a href="https://www.youtube.com/watch?v={vid}&amp;t={m.group(1)}s" data-t="{m.group(1)}">{fmt(m.group(1))}</a></p>', tr)
         tr = re.sub(r"（コメント：(.+?)）", r'<span class="cmt">\1</span>', tr)
+        tr = re.sub(r"〔注：(.+?)〕", r'<span class="fix">\1</span>', tr)
         transcript_html = markdown.markdown(tr)
 
     # 関連：タグか分類が重なる他の記事
@@ -104,10 +115,10 @@ def render_article(meta, all_meta):
                if rel else '<p class="soon">同じテーマの記事は準備中です。</p>')
 
     start, end = meta["segment"]
-    clips = sorted(chapters, key=lambda c: c[2])
+    clips = sorted(((lv, tx, t) for lv, tx, t, _ in chapters), key=lambda c: c[2])
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "Article", "headline": meta["title"], "description": meta["description"],
-         "datePublished": meta["streamed"], "inLanguage": "ja", "mainEntityOfPage": meta["_url"],
+         "datePublished": meta["published"], "dateModified": meta["updated"], "inLanguage": "ja", "mainEntityOfPage": meta["_url"],
          "image": f"https://i.ytimg.com/vi/{vid}/maxresdefault.jpg",
          "author": {"@type": "Person", "name": "幕張ことは", "url": SITE + "/"},
          "isPartOf": {"@type": "CollectionPage", "name": "アニメ語り図書館", "url": SITE + "/anime.html"},
@@ -132,6 +143,8 @@ def render_article(meta, all_meta):
         description=html.escape(meta["description"]), url=meta["_url"], work=html.escape(meta["work"]),
         category=html.escape(meta.get("category", "")), work_info=html.escape(meta.get("work_info", "")),
         spoiler=html.escape(meta.get("spoiler", "")), streamed=meta["streamed"].replace("-", "."),
+        published=meta["published"].replace("-", "."),
+        note=(f'<dt>補足</dt><dd>{html.escape(meta["note"])}</dd>' if meta.get("note") else ""),
         stream_title=html.escape(meta["stream_title"]), video_id=vid, start=start, toc=toc, body=body_html,
         highlights="\n".join(f"<li>{html.escape(h)}</li>" for h in highlights),
         tags="".join(f"<li>#{html.escape(t)}</li>" for t in meta.get("tags", [])),
@@ -148,6 +161,7 @@ def render_library(all_meta):
     <div class="row"><span class="cat">{html.escape(m.get('category', ''))}</span><span>配信 {m['streamed'].replace('-', '.')}</span></div>
     <h3>{html.escape(m['work'])}</h3>
     <p>{html.escape(m.get('subtitle', ''))}</p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：{html.escape(m.get('spoiler', 'なし'))}</span></p>
     <div class="tags">{' '.join('#' + html.escape(t) for t in m.get('tags', [])[:4])}</div>
   </div>
 </a></li>""")
