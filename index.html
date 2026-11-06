@@ -95,7 +95,7 @@
     --paper: #ffffff;
     --ink: #24203a;
     --ink-soft: #5d5873;
-    --ink-faint: #9893ab;
+    --ink-faint: #6e6987;
     --line: rgba(36, 32, 58, 0.12);
 
     --mincho: 'Shippori Mincho B1', serif;
@@ -1653,7 +1653,7 @@
 
   .inquiry-note {
     margin-top: 16px;
-    font-size: 11.5px;
+    font-size: 12.5px;
     color: var(--ink-faint);
     letter-spacing: 0.12em;
   }
@@ -1699,7 +1699,7 @@
     font-family: var(--latin);
     font-size: 12px;
     letter-spacing: 0.2em;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.72);
   }
 
   footer .footer-sns {
@@ -1731,9 +1731,9 @@
   footer .footer-quiz {
     display: inline-block;
     margin-top: 22px;
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 0.15em;
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(255, 255, 255, 0.75);
     text-decoration: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     padding-bottom: 2px;
@@ -1915,6 +1915,31 @@
     .event-notice .en-title { font-size: 17px; }
     .event-notice .en-cta { justify-self: start; margin-top: 6px; }
   }
+
+  /* ---------- はじめての方へ（最初の一歩） ---------- */
+  .first-steps { position: relative; z-index: 3; max-width: 980px; margin: 18px auto 28px; padding: 0 22px; display: grid; grid-template-columns: auto 1fr 1fr; gap: 12px; align-items: stretch; }
+  .first-steps .fs-label { align-self: center; font-family: var(--mincho); font-weight: 800; font-size: 15px; letter-spacing: 0.12em; color: var(--navy); writing-mode: vertical-rl; padding: 4px 0; border-right: 2px solid var(--pink); padding-right: 8px; }
+  .first-steps a { display: flex; flex-direction: column; gap: 2px; background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--pink); padding: 14px 18px; text-decoration: none; color: var(--ink); transition: transform .2s, box-shadow .2s; }
+  .first-steps a + a { border-top-color: var(--lavender); }
+  .first-steps a:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(27, 33, 80, 0.12); }
+  .first-steps .fs-k { font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; color: var(--pink-deep); }
+  .first-steps .fs-t { font-family: var(--mincho); font-weight: 800; font-size: 16.5px; line-height: 1.55; color: var(--navy); }
+  .first-steps .fs-s { font-size: 13px; line-height: 1.7; color: var(--ink-soft); }
+  .first-steps .fs-s::after { content: " ›"; color: var(--pink-deep); font-weight: 700; }
+  @media (max-width: 720px) {
+    .first-steps { grid-template-columns: 1fr; }
+    .first-steps .fs-label { writing-mode: horizontal-tb; border-right: 0; border-left: 3px solid var(--pink); padding: 0 0 0 10px; justify-self: start; }
+  }
+
+  /* ---------- 依頼できる企画の例 ---------- */
+  .inquiry-examples { text-align: left; max-width: 520px; margin: 0 auto 30px; padding: 18px 22px; background: var(--cream); border-left: 3px solid var(--gold); }
+  .inquiry-examples h3 { font-family: var(--mincho); font-size: 15px; font-weight: 800; color: var(--navy); letter-spacing: 0.1em; margin-bottom: 8px; }
+  .inquiry-examples ul { list-style: none; margin: 0; padding: 0; }
+  .inquiry-examples li { position: relative; padding-left: 1.1em; font-size: 13.5px; line-height: 1.85; color: var(--ink); }
+  .inquiry-examples li + li { margin-top: 6px; }
+  .inquiry-examples li::before { content: "・"; position: absolute; left: 0; color: var(--pink-deep); }
+  .inquiry-examples li small { display: block; font-size: 12.5px; color: var(--ink-soft); }
+  .inquiry-examples a { color: var(--pink-deep); }
 </style>
 </head>
 <body>
@@ -1992,7 +2017,7 @@
   <ul>
     <li><a href="#about"><span class="en">About</span><span class="ja">紹介</span></a></li>
     <li><a href="#specialty"><span class="en">Specialty</span><span class="ja">好きな作品まとめ</span></a></li>
-    <li><a href="anime.html"><span class="en">Anime Library</span><span class="ja">アニメ語りアーカイブ</span></a></li>
+    <li><a href="anime.html"><span class="en">Anime Library</span><span class="ja">アニメ語り図書館</span></a></li>
     <li><a href="#highlights"><span class="en">Highlights</span><span class="ja">配信ハイライト</span></a></li>
     <li><a href="#channels"><span class="en">Channels</span><span class="ja">配信</span></a></li>
     <li><a href="#goods"><span class="en">Goods</span><span class="ja">グッズ</span></a></li>
@@ -2067,6 +2092,21 @@
     </a>
   </aside>
   <script>(function(){var n=document.querySelector(".event-notice");if(n&&Date.now()>Date.parse(n.dataset.end))n.hidden=true;})();</script>
+
+  <!-- はじめての方へ：初見の人が最初に観る・読むものを選べる入口 -->
+  <nav class="first-steps" aria-label="はじめての方へ">
+    <p class="fs-label">はじめての方へ</p>
+    <a href="https://www.youtube.com/watch?v=74Ww80oHJ8k&amp;t=1517s" target="_blank" rel="noopener">
+      <span class="fs-k">おすすめのアニメ語り ▶</span>
+      <span class="fs-t">朝比奈ミクルの冒険は、なぜあの撮り方なのか</span>
+      <span class="fs-s">元動画カメラマンの視点で、映像演出をひもときます</span>
+    </a>
+    <a href="anime.html">
+      <span class="fs-k">アニメ語りを読む</span>
+      <span class="fs-t">アニメ語り図書館</span>
+      <span class="fs-s">配信で語った作品を、読み物として。気になる作品から</span>
+    </a>
+  </nav>
 
   <!-- ABOUT -->
   <section id="about">
@@ -2168,7 +2208,7 @@
 
       <a class="library-link reveal" href="anime.html">
         <span class="ll-en">Anime Talk Library</span>
-        <span class="ll-ja">アニメ語りアーカイブ</span>
+        <span class="ll-ja">アニメ語り図書館</span>
         <span class="ll-desc">配信「アニメ語り」で語った作品を、読み物として。動画の該当シーンにも飛べます。</span>
         <span class="ll-arrow" aria-hidden="true">→</span>
       </a>
@@ -2261,7 +2301,7 @@
 
       <a class="library-link light reveal" href="anime.html">
         <span class="ll-en">Anime Talk Library</span>
-        <span class="ll-ja">アニメ語りアーカイブ</span>
+        <span class="ll-ja">アニメ語り図書館</span>
         <span class="ll-desc">アニメ語り配信は、読み物でも。語った内容を記事にまとめ、動画の該当シーンにも飛べるようにしています。</span>
         <span class="ll-arrow" aria-hidden="true">→</span>
       </a>
@@ -2502,6 +2542,16 @@
           イベント出演、ナレーション、コラボなどに関するお問い合わせは、<br>
           下記の専用フォームより受け付けております。
         </p>
+
+        <div class="inquiry-examples">
+          <h3>ご依頼いただける企画の例</h3>
+          <ul>
+            <li>作品の魅力を紹介するトーク配信・動画<small>新作・旧作のPR、レビュー配信、同時視聴など（例：<a href="anime.html">アニメ語り図書館</a>）</small></li>
+            <li>映像演出に注目した解説<small>元動画カメラマンの視点で「なぜこの撮り方なのか」を読み解きます（例：<a href="#highlights">配信ハイライト No.01</a>）</small></li>
+            <li>視聴者参加型の企画<small>コメントで回答するクイズ大会など、作品を一緒に楽しむ企画（例：<a href="quiz.html">幕張ことは杯</a>）</small></li>
+            <li>イベント出演・ナレーション・コラボ</li>
+          </ul>
+        </div>
 
         <a class="inquiry-btn shine" href="https://forms.gle/634b2cHHkoWEK4QJ6" target="_blank" rel="noopener">
           お問い合わせフォームを開く <span aria-hidden="true">→</span>

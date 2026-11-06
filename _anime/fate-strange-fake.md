@@ -12,6 +12,7 @@ note: "2026年3月15日（TV放送第11話の時点）の配信を、2026年11�
 segment: [395, 5640]
 category: 布教解説
 tags: [Fate, TYPE-MOON, 群像劇, バトル, シリーズ入門, 2026年冬アニメ]
+spoiler_level: "重大"
 spoiler: "サーヴァントの真名と、TV放送第11話までの内容に触れています"
 description: "今期の覇権に『Fate/strange Fake』を選んだ配信の記事版。聖杯戦争の基本、Zero・stay night・事件簿とのつながりと観る順番、魔術と魔法、偽りと真の聖杯戦争、13騎のサーヴァントを、Fate初心者向けに語りました。"
 ---

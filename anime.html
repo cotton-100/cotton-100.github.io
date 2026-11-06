@@ -227,15 +227,16 @@
     <h2>蔵書</h2>
     <div class="filters" role="group" aria-label="分類で絞り込む">
 <button type="button" aria-pressed="true" data-cat="">すべて</button>
-<button type="button" aria-pressed="false" data-cat="積みアニメ" disabled>積みアニメ</button>
-<button type="button" aria-pressed="false" data-cat="布教解説">布教解説</button>
-<button type="button" aria-pressed="false" data-cat="アニメ発掘">アニメ発掘</button>
-<button type="button" aria-pressed="false" data-cat="視聴供養">視聴供養</button>
-<button type="button" aria-pressed="false" data-cat="演出解剖" disabled>演出解剖</button>
-<button type="button" aria-pressed="false" data-cat="再視聴・再評価">再視聴・再評価</button>
-<button type="button" aria-pressed="false" data-cat="イベント・上映会">イベント・上映会</button>
+<button type="button" aria-pressed="false" data-cat="積みアニメ" data-note="観ようと思って積んでいた作品を、観はじめて語る回" title="観ようと思って積んでいた作品を、観はじめて語る回" disabled>積みアニメ</button>
+<button type="button" aria-pressed="false" data-cat="布教解説" data-note="好きな作品の魅力を、まだ観ていない人に向けて紹介する回" title="好きな作品の魅力を、まだ観ていない人に向けて紹介する回">布教解説</button>
+<button type="button" aria-pressed="false" data-cat="アニメ発掘" data-note="あまり知られていない作品や、昔の作品を掘り起こす回" title="あまり知られていない作品や、昔の作品を掘り起こす回">アニメ発掘</button>
+<button type="button" aria-pressed="false" data-cat="視聴供養" data-note="完走感想。最後まで観終えた作品を、振り返って語る回" title="完走感想。最後まで観終えた作品を、振り返って語る回">視聴供養</button>
+<button type="button" aria-pressed="false" data-cat="演出解剖" data-note="映像演出に注目して、「なぜこの撮り方なのか」を読み解く回" title="映像演出に注目して、「なぜこの撮り方なのか」を読み解く回" disabled>演出解剖</button>
+<button type="button" aria-pressed="false" data-cat="再視聴・再評価" data-note="観直して印象が変わった作品を、あらためて語る回" title="観直して印象が変わった作品を、あらためて語る回">再視聴・再評価</button>
+<button type="button" aria-pressed="false" data-cat="イベント・上映会" data-note="イベントや上映会に参加した感想を語る回" title="イベントや上映会に参加した感想を語る回">イベント・上映会</button>
     </div>
   </div>
+  <p class="cat-note" aria-live="polite">分類を選ぶと、その分類の説明がここに出ます（例：視聴供養＝最後まで観終えた作品の完走感想）。</p>
   <div class="finder">
     <label class="search"><span>作品名で探す</span><input type="search" id="q" placeholder="例：ガンダム、Fate、恋愛" autocomplete="off"></label>
     <label class="sort"><span>並び順</span><select id="sort"><option value="streamed">配信日が新しい順</option><option value="published">記事化が新しい順</option></select></label>
@@ -247,7 +248,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.11.01</span><span>記事化 2026.11.06</span></div>
     <h3>A KITE</h3>
     <p>銃撃戦と爆発の迫力、実写映画のようなカメラワーク、そしてプラトニックな2人。インターナショナルバージョンで観られる今のうちに語りました</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：『A KITE』の結末（オブリの最期）と、『KITE LIBERATOR』の展開に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：最終話までの重大な展開を含みます</span></p>
     <div class="tags">#梅津泰臣 #OVA #ガンアクション #作画</div>
   </div>
 </a></li>
@@ -257,7 +258,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.09.27</span><span>記事化 2026.11.06</span></div>
     <h3>魔法騎士レイアース</h3>
     <p>推しは海ちゃん、と言いながら本当はランティス。王道の冒険が最後にひっくり返る第1部と、世界の仕組みを問う第2部を振り返りました</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：第1部の結末（エメロード姫とザガートの真相）と、第2部の結末に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：最終話までの重大な展開を含みます</span></p>
     <div class="tags">#CLAMP #異世界ファンタジー #RPG #ロボット</div>
   </div>
 </a></li>
@@ -267,7 +268,7 @@
     <div class="row"><span class="cat">視聴供養</span><span>配信 2026.09.13</span><span>記事化 2026.11.06</span></div>
     <h3>劇場版 魔法少女まどか☆マギカ〈ワルプルギスの廻天〉</h3>
     <p>13年待った『叛逆の物語』の続編。ピースがカチッとはまる快感と、膝枕のラストに納得できない気持ちを、ネタバレ解禁の翌日に語りました</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：新しい魔法少女たちとワルプルギスの夜の正体、ラストシーンとスタッフロール後の場面まで、結末を含めて触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：最終話までの重大な展開を含みます</span></p>
     <div class="tags">#まどか☆マギカ #魔法少女 #ダークファンタジー #劇場アニメ</div>
   </div>
 </a></li>
@@ -277,7 +278,7 @@
     <div class="row"><span class="cat">再視聴・再評価</span><span>配信 2026.09.06</span><span>記事化 2026.11.06</span></div>
     <h3>グリザイアシリーズ（果実／迷宮／楽園／ファントムトリガー）</h3>
     <p>『WHITE ALBUM2』ロスの私を救ってくれた作品。新作『集結の百果』の前に、シリーズ4作を原作のエンディングまで語りました</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：3部作の結末、ヒロインと風見雄二の過去、『楽園』と『ファントムトリガー』の原作ゲームのみの分岐エンドに触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：最終話までの重大な展開を含みます</span></p>
     <div class="tags">#美少女ゲーム原作 #ミリタリー #群像劇 #救済</div>
   </div>
 </a></li>
@@ -287,7 +288,7 @@
     <div class="row"><span class="cat">視聴供養</span><span>配信 2026.08.30</span><span>記事化 2026.11.06</span></div>
     <h3>機動武闘伝Gガンダム</h3>
     <p>スパロボで出会ったドモン・カッシュは、50話付き合ってみたら、ものすごく人間臭い主人公だった</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：東方不敗の最期、シャッフル同盟の継承、最終決戦とドモンの告白など、最終話までの展開に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：最終話までの重大な展開を含みます</span></p>
     <div class="tags">#ガンダム #格闘 #熱血 #師弟</div>
   </div>
 </a></li>
@@ -297,7 +298,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.08.16</span><span>記事化 2026.11.06</span></div>
     <h3>俺物語!!</h3>
     <p>体はでかい、顔は濃い、声もでかい。少女漫画にアンチテーゼをかけたような主人公を、笑った話といい話のベスト3で布教</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：序盤で猛男と大和が付き合うこと、笑える回といい話の回の内容に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：序盤の設定・展開まで</span></p>
     <div class="tags">#少女漫画 #ラブコメ #友情 #ギャグ</div>
   </div>
 </a></li>
@@ -307,7 +308,7 @@
     <div class="row"><span class="cat">再視聴・再評価</span><span>配信 2026.08.09</span><span>記事化 2026.11.06</span></div>
     <h3>ガールズ&amp;パンツァー</h3>
     <p>ティーガーしか知らなかった私を、戦車の入り口まで連れていってくれた。最終章第5話の前に、決勝までの道のりを</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：テレビシリーズ全話の試合結果（決勝戦の結末を含む）と、劇場版の展開の一部に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：最終話までの重大な展開を含みます</span></p>
     <div class="tags">#戦車 #スポ根 #部活 #チームビルディング</div>
   </div>
 </a></li>
@@ -317,7 +318,7 @@
     <div class="row"><span class="cat">視聴供養</span><span>配信 2026.08.02</span><span>記事化 2026.11.06</span></div>
     <h3>∀ガンダム</h3>
     <p>誰が悪いのかを突き詰めたら、答えが出なくなった。2か月かけて完走した感想を、箇条書きのまま語りました</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：最終話「黄金の秋」の結末、ギャバンの最期、グエンとソシエの行く末など、全話の重要な展開に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：最終話までの重大な展開を含みます</span></p>
     <div class="tags">#ガンダム #富野由悠季 #戦争 #政治</div>
   </div>
 </a></li>
@@ -327,7 +328,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.07.26</span><span>記事化 2026.11.06</span></div>
     <h3>トップをねらえ！</h3>
     <p>「男と女のラブゲーム」から始まった、観たくなるプレゼン。庵野秀明の初商業監督作を語りました</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：第5話のウラシマ効果による再会と、第6話の雰囲気に軽く触れています（結末には触れていません）</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：終盤の展開に一部触れます</span></p>
     <div class="tags">#ロボットアニメ #SF #スポ根 #パロディ</div>
   </div>
 </a></li>
@@ -337,7 +338,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.06.28</span><span>記事化 2026.11.06</span></div>
     <h3>無職転生 ～異世界行ったら本気だす～</h3>
     <p>この作品だけは、今までのアニメ語りと熱量が違います。ロキシー派の私が勝手に組んだ、放送前スペシャル</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：第1期・第2期の主要な展開（フィットア領転移事件、フィッツ先輩の正体、パウロの死など）に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：物語の重大な展開を含みます</span></p>
     <div class="tags">#異世界転生 #ファンタジー #家族 #成長</div>
   </div>
 </a></li>
@@ -347,7 +348,7 @@
     <div class="row"><span class="cat">アニメ発掘</span><span>配信 2026.06.21</span><span>記事化 2026.11.06</span></div>
     <h3>日本三國</h3>
     <p>この配信が終わったら漫画を読むんだ！ 昨日見つけて一気見した、近未来の架空戦記</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：第11話までの展開（北伐と金沢の籠城戦）と、賀来泰明の行く末に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：物語の重大な展開を含みます</span></p>
     <div class="tags">#架空戦記 #SF #三国志 #軍師</div>
   </div>
 </a></li>
@@ -357,7 +358,7 @@
     <div class="row"><span class="cat">イベント・上映会</span><span>配信 2026.06.07</span><span>記事化 2026.11.06</span></div>
     <h3>おねがい☆ティーチャー</h3>
     <p>その瞬間だけ、会場は平成だった。「おいおい」と「最優先事項よ」と、作品がつないだ人の縁</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：新作映像（2つの補足エピソード）のおおまかな内容に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：いくつかの場面に触れます（核心は伏せています）</span></p>
     <div class="tags">#おねがいシリーズ #SF #ラブコメ #群像劇</div>
   </div>
 </a></li>
@@ -367,7 +368,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.05.31</span><span>記事化 2026.11.06</span></div>
     <h3>転生したらスライムだった件</h3>
     <p>チート無双だけじゃない。インフラ整備、ダンジョン経営、名付けと仲間。スローライフ×国作りで観る転スラ</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：リムルが魔王になる展開と、ダンジョン経営編（第4期）の内容に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：物語の重大な展開を含みます</span></p>
     <div class="tags">#異世界転生 #ファンタジー #国作り #ダンジョン</div>
   </div>
 </a></li>
@@ -377,7 +378,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.05.24</span><span>記事化 2026.11.06</span></div>
     <h3>本好きの下剋上</h3>
     <p>第4期から観始めるのは難しい？ 本だけ読みたい主人公がここまで愛される理由と、作品への入り口</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：第1部〜第3部（第4期）までの大まかな流れと、家族との別れに触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：物語の重大な展開を含みます</span></p>
     <div class="tags">#異世界転生 #ファンタジー #ものづくり #家族</div>
   </div>
 </a></li>
@@ -387,7 +388,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.05.10</span><span>記事化 2026.11.06</span></div>
     <h3>ナイツ&amp;マジック</h3>
     <p>乗って戦うだけじゃない。作って、改良して、また作る。ロボット開発のワクワクを楽しむアニメ</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：終盤の展開（敵国の天才開発者と、その兵器）に軽く触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：終盤の展開に一部触れます</span></p>
     <div class="tags">#ロボット #異世界転生 #ファンタジー #メカ開発</div>
   </div>
 </a></li>
@@ -397,7 +398,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.05.03</span><span>記事化 2026.11.06</span></div>
     <h3>星界の紋章／星界の戦旗／KEY THE METAL IDOL</h3>
     <p>アーヴ語のごきげんようから始まる、出会いと戦場の物語。そして、最後に一曲</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：『星界の戦旗』の導入と、『KEY THE METAL IDOL』の最終話の結末に軽く触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：最終話までの重大な展開を含みます</span></p>
     <div class="tags">#星界シリーズ #スペースオペラ #SF #ボーイ・ミーツ・ガール</div>
   </div>
 </a></li>
@@ -407,7 +408,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.04.05</span><span>記事化 2026.11.06</span></div>
     <h3>銀河英雄伝説</h3>
     <p>なぜ戦争しているの？ 誰が主人公なの？ 同時視聴の第1話〜第3話を観たあとに、地図と歴史から整理する導入編</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：第1話〜第3話（アスターテ会戦）の展開と、主要人物の行く末（ラインハルトの即位、キルヒアイスの没年）に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：物語の重大な展開を含みます</span></p>
     <div class="tags">#銀河英雄伝説 #SF #スペースオペラ #群像劇</div>
   </div>
 </a></li>
@@ -417,7 +418,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.03.29</span><span>記事化 2026.11.06</span></div>
     <h3>【推しの子】</h3>
     <p>アイドルアニメだと思って身構えないで。これは、アイドルに見せかけたサスペンスです</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：第1話（90分）の結末と、第3期最終話の展開に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：物語の重大な展開を含みます</span></p>
     <div class="tags">#アイドル #芸能界 #転生 #サスペンス</div>
   </div>
 </a></li>
@@ -427,7 +428,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.03.15</span><span>記事化 2026.11.06</span></div>
     <h3>Fate/strange Fake</h3>
     <p>Fateを観たことがなくても大丈夫。アメリカで始まった偽りの聖杯戦争と、13騎のサーヴァント</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：サーヴァントの真名と、TV放送第11話までの内容に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：物語の重大な展開を含みます</span></p>
     <div class="tags">#Fate #TYPE-MOON #群像劇 #バトル</div>
   </div>
 </a></li>
@@ -437,7 +438,7 @@
     <div class="row"><span class="cat">再視聴・再評価</span><span>配信 2026.03.08</span><span>記事化 2026.11.06</span></div>
     <h3>機動天使エンジェリックレイヤー</h3>
     <p>バグも遊び方。脳波で動く小さな天使たちと、CLAMPらしい恋の相関図</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：終盤の展開に一部触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：終盤の展開に一部触れます</span></p>
     <div class="tags">#CLAMP #格闘 #ホビーバトル #恋愛</div>
   </div>
 </a></li>
@@ -447,7 +448,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.02.22</span><span>記事化 2026.11.06</span></div>
     <h3>僕の心のヤバイやつ</h3>
     <p>総集編9割、新規パート1割。それでも観てよかったと思える、等身大の初恋</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：冒頭の新規シーンの内容に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：序盤の設定・展開まで</span></p>
     <div class="tags">#劇場アニメ #恋愛 #青春 #総集編</div>
   </div>
 </a></li>
@@ -457,7 +458,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.02.15</span><span>記事化 2026.11.06</span></div>
     <h3>銀河特急 ミルキー☆サブウェイ</h3>
     <p>演技しない演技の演技と、音ハメの気持ちよさ。くすっと笑えて、ほっこりする</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：序盤の設定と、いくつかの場面に触れています</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：序盤の設定・展開まで</span></p>
     <div class="tags">#劇場アニメ #SF #会話劇 #3DCG</div>
   </div>
 </a></li>
@@ -467,7 +468,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.02.01</span><span>記事化 2026.11.06</span></div>
     <h3>機動戦士ガンダム 閃光のハサウェイ キルケーの魔女</h3>
     <p>けれん味ゼロの戦場と、ボタンを掛け違え続けるハサウェイ</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：物語の核心は伏せています（いくつかの場面には触れています）</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：いくつかの場面に触れます（核心は伏せています）</span></p>
     <div class="tags">#ガンダム #劇場アニメ #宇宙世紀 #戦争</div>
   </div>
 </a></li>
@@ -477,7 +478,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.01.25</span><span>記事化 2026.11.06</span></div>
     <h3>超かぐや姫！</h3>
     <p>かぐや姫がVTuberになる。ずっと観たかったアニメに、やっと出会えた</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：終盤の展開は伏せています（ハッピーエンドであることには触れています）</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：いくつかの場面に触れます（核心は伏せています）</span></p>
     <div class="tags">#オリジナルアニメ #竹取物語 #VTuber #ボカロ</div>
   </div>
 </a></li>
@@ -487,7 +488,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.01.18</span><span>記事化 2026.11.06</span></div>
     <h3>この本を盗む者は</h3>
     <p>本の世界を冒険する楽しさと、ひとつだけ引っかかったラスト</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：結末まで（原作小説の結末にも触れています）</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：最終話までの重大な展開を含みます</span></p>
     <div class="tags">#劇場アニメ #原作比較 #ファンタジー #本</div>
   </div>
 </a></li>
@@ -497,7 +498,7 @@
     <div class="row"><span class="cat">布教解説</span><span>配信 2026.01.11</span><span>記事化 2026.11.06</span></div>
     <h3>ALL YOU NEED IS KILL</h3>
     <p>主人公はリタへ。初のアニメ映画化が描いた、もうひとつのループ</p>
-    <p class="book-spoiler"><span class="spoiler">ネタバレ：序盤の設定まで（結末は伏せています）</span></p>
+    <p class="book-spoiler"><span class="spoiler">ネタバレ：序盤の設定・展開まで</span></p>
     <div class="tags">#タイムループ #SF #ボーイ・ミーツ・ガール #劇場アニメ</div>
   </div>
 </a></li>
@@ -517,7 +518,8 @@
 (function(){
   var btns=document.querySelectorAll(".filters button"), list=document.querySelector(".books"),
       books=[].slice.call(document.querySelectorAll(".book")), empty=document.querySelector(".empty"),
-      q=document.getElementById("q"), sort=document.getElementById("sort"), cat="";
+      q=document.getElementById("q"), sort=document.getElementById("sort"), cat="",
+      note=document.querySelector(".cat-note"), noteDefault=note.textContent;
   // 一画面目で読み方の説明が場所を取らないよう、スマホでは閉じておく
   if(window.matchMedia("(max-width:720px)").matches) document.querySelector(".ways").removeAttribute("open");
   function apply(){
@@ -531,7 +533,7 @@
   btns.forEach(function(b){
     b.addEventListener("click",function(){
       btns.forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
-      cat=b.dataset.cat; apply();
+      cat=b.dataset.cat; note.textContent=b.dataset.note?cat+"："+b.dataset.note:noteDefault; apply();
     });
   });
   q.addEventListener("input",apply);

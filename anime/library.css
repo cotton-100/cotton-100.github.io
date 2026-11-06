@@ -3,7 +3,7 @@
   --navy:#1b2150; --navy-deep:#12163a; --royal:#3346a6;
   --sakura:#f4b9cb; --sakura-pale:#fde9ef; --pink:#d9648c; --pink-deep:#b9466f;
   --gold:#e2b143; --gold-soft:#f3d98c; --lavender:#b9b4ec;
-  --cream:#fbf6ef; --paper:#fff; --ink:#24203a; --ink-soft:#5d5873; --ink-faint:#9893ab;
+  --cream:#fbf6ef; --paper:#fff; --ink:#24203a; --ink-soft:#5d5873; --ink-faint:#6e6987;
   --line:rgba(36,32,58,.12);
   --mincho:'Shippori Mincho B1',serif; --gothic:'Zen Kaku Gothic New',sans-serif;
   --latin:'Cormorant Garamond','Shippori Mincho B1',serif;
@@ -37,8 +37,8 @@ img{display:block;max-width:100%}
 .lib-foot .links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:14px}
 .lib-foot .links a{color:rgba(255,255,255,.75);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
 .lib-foot .links a:hover{color:#fff}
-.lib-foot .note{color:rgba(255,255,255,.5);font-size:11.5px;line-height:1.8}
-.lib-foot .copy{margin-top:8px;font-family:var(--latin);letter-spacing:.2em;color:rgba(255,255,255,.45);font-size:12px}
+.lib-foot .note{color:rgba(255,255,255,.72);font-size:12px;line-height:1.8}
+.lib-foot .copy{margin-top:8px;font-family:var(--latin);letter-spacing:.2em;color:rgba(255,255,255,.7);font-size:12px}
 
 /* ---------- 共通パーツ ---------- */
 .eyebrow{font-family:var(--latin);font-style:italic;font-weight:600;letter-spacing:.12em;color:var(--pink);font-size:17px}
@@ -136,7 +136,7 @@ img{display:block;max-width:100%}
 .toc li.lv3{padding-left:1.4em;font-size:13.5px}
 .toc a{color:var(--ink);text-decoration:none;display:flex;gap:12px}
 .toc a:hover{color:var(--pink-deep)}
-.tc{font-variant-numeric:tabular-nums;color:var(--pink);min-width:3.6em;font-size:13px;padding-top:2px}
+.tc{font-variant-numeric:tabular-nums;color:var(--pink-deep);min-width:3.6em;font-size:13px;padding-top:2px}
 
 article{font-size:17px;line-height:2}
 article > p:first-of-type{font-size:18px}
@@ -187,7 +187,7 @@ details.full[open] summary::before{content:"－"}
 .full .tr{font-size:15px;line-height:2;color:#3b3650;padding-bottom:20px}
 .full .tr p{margin-bottom:1em}
 .full .ts{margin:24px 0 2px}
-.full .ts a{font-size:12.5px;text-decoration:none;color:var(--pink);font-variant-numeric:tabular-nums}
+.full .ts a{font-size:12.5px;text-decoration:none;color:var(--pink-deep);font-variant-numeric:tabular-nums}
 
 @media (max-width:720px){
   .ways-grid{grid-template-columns:1fr;gap:10px}
@@ -242,3 +242,10 @@ article th,article td{border:1px solid var(--line);padding:10px 12px;vertical-al
 article thead th{background:var(--navy);color:#fff;font-family:var(--mincho);font-weight:600}
 article tbody th,article tbody td:first-child{color:var(--navy);font-weight:600;white-space:nowrap}
 @media (max-width:560px){article table{font-size:13px}article th,article td{padding:8px}}
+
+/* 分類の説明（一覧） */
+.cat-note{margin:-14px 0 22px;font-size:13px;line-height:1.8;color:var(--ink-soft)}
+/* ネタバレの詳しい範囲（記事内で開いた人だけが読む） */
+.spoiler-detail{margin-top:6px;font-size:13px;line-height:1.8}
+.spoiler-detail summary{cursor:pointer;color:var(--ink-soft);text-decoration:underline;text-decoration-color:var(--sakura);text-underline-offset:3px}
+.spoiler-detail p{margin-top:6px;padding:8px 12px;background:var(--sakura-pale);color:var(--ink)}
