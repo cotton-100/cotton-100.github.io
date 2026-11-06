@@ -167,3 +167,8 @@ details.full[open] summary::before{content:"－"}
   .jump{display:table;margin:6px 0 0}
   article{font-size:16px}
 }
+
+/* ネタバレ注意の区切り */
+.spoiler-note{margin:56px 0 0;padding:14px 18px;background:var(--navy);color:#fff;font-size:14px;letter-spacing:.06em;text-align:center}
+.spoiler-note::before{content:"ネタバレ注意　";color:var(--sakura);font-weight:700}
+.spoiler-note + h2{margin-top:36px}
