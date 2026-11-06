@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cotton-100.github.io/sitemap.xml
