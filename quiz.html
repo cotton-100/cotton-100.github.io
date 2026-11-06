@@ -161,6 +161,16 @@
   .pq-result .tally{margin-top:8px;font-weight:700;color:var(--navy)}
   .pq-next{margin-top:12px;font:inherit;font-weight:900;font-size:15px;color:#fff;background:var(--sky);border:0;border-radius:999px;padding:10px 26px;cursor:pointer;box-shadow:0 4px 0 var(--sky-d)}
   .pq-next:hover{filter:brightness(1.05)}
+  .pq-share{margin-top:12px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 16px}
+  .pq-share .pq-next{margin-top:0}
+  .pq-stop{font:inherit;font-size:13px;font-weight:700;color:var(--muted);background:none;border:0;text-decoration:underline;cursor:pointer;padding:6px}
+  .pq-score{margin-top:4px;font-family:var(--num);color:var(--navy);line-height:1}
+  .pq-score b{font-size:84px;font-weight:800;color:var(--red)}
+  .pq-score span{font-family:var(--sans);font-size:20px;font-weight:900;margin-left:6px}
+  .band .card .pq-rank{display:inline-block;margin-top:10px;font-weight:900;font-size:clamp(18px,3vw,24px);color:var(--navy);border-bottom:4px solid var(--gold);padding:0 6px 2px}
+  .pq-share .btn{min-width:220px}
+  .pq-preview{margin:16px auto 0;max-width:460px;text-align:left;font-size:13px;line-height:1.7;color:var(--navy);background:var(--mist);border-radius:10px;padding:12px 14px;word-break:break-all}
+  .pq-preview span{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:2px}
   .pq-result .next a{color:var(--red)}
   .final{text-align:center;padding:64px 0}
   .final-lead{color:#fff;font-weight:700;letter-spacing:.2em}
@@ -617,6 +627,13 @@ const EVENTS = {
     endAt:  "2026-11-29T00:00:00+09:00",
     streamUrl:null,      // YouTube予約枠URLができたら入れる
     scope:"宇宙世紀・一年戦争のみ",
+    // 練習問題の結果に出る称号（正解率がmin以上で上から判定。書かなければ共通の称号）
+    practiceRanks:[
+      { min:1.0, title:"ニュータイプ級！" },
+      { min:0.7, title:"エースパイロット級" },
+      { min:0.4, title:"一般兵" },
+      { min:0,   title:"新兵（伸びしろ十分）" },
+    ],
     // 練習問題（ページを開くたびにランダムで1問。本番の問題とは別のものを）
     // answer は choices の中で正解が何番目か（1〜4）。表示時は選択肢の順番がシャッフルされます
     practice:[
@@ -793,18 +810,50 @@ const EVENTS = {
       document.querySelectorAll(".js-ics").forEach(a => a.href = icsHref);
     }
 
-    // 練習問題（ランダムで1問。答えたら「次の問題」で別の問題へ）
+    // 練習問題（ランダム出題 → リザルト → Xでシェア）
     const pool = current.practice ? [].concat(current.practice) : [];
     $("practice").hidden = !pool.length;
     if (pool.length){
-      const order = pool.map((_, i) => i).sort(() => Math.random() - .5);   // 出題順をシャッフル
-      let pos = 0, score = 0, played = 0;
+      const RANKS = current.practiceRanks || [
+        { min:1.0, title:"全問正解！ 王の資格あり" },
+        { min:0.7, title:"上位入賞を狙える実力" },
+        { min:0.4, title:"本番で化けるかも" },
+        { min:0,   title:"伸びしろしかない" },
+      ];
+      const shortJst = e => { if (!e.startAt) return null; const t = jst(new Date(e.startAt)); return `${t.mo}/${t.d}（${WD[t.wd]}）${pad(t.h)}:${pad(t.mi)}〜`; };
+      let order, pos, score, played;
+      const reset = () => { order = pool.map((_, i) => i).sort(() => Math.random() - .5); pos = 0; score = 0; played = 0; };
+
+      const showResult = () => {
+        const rate = played ? score / played : 0;
+        const rank = RANKS.find(r => rate >= r.min) || RANKS[RANKS.length - 1];
+        const when = shortJst(current);
+        const text = `「幕張ことは杯 第${current.no}回 ${title(current)}」の練習問題に挑戦！\n` +
+          `結果：${played}問中${score}問正解【${rank.title}】\n` +
+          (when ? `本番は ${when} あなたは何問わかる？` : `本番であなたは何問わかる？`);
+        const tag = `幕張ことは杯,${current.name.replace(/王$/,"")}クイズ`;
+        const share = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(SITE)}&hashtags=${encodeURIComponent(tag)}`;
+        $("pq-label").textContent = "練習問題の結果";
+        $("pq-text").textContent = "";
+        $("pq-choices").innerHTML = "";
+        $("pq-result").innerHTML =
+          `<div class="pq-score"><b>${score}</b><span>／${played}問 正解</span></div>` +
+          `<div class="pq-rank">${esc(rank.title)}</div>` +
+          `<div class="pq-share">` +
+            `<a class="btn btn-navy" href="${esc(share)}" target="_blank" rel="noopener">𝕏 結果をポストする</a>` +
+            `<button type="button" class="pq-next" id="pq-retry">もう一度挑戦する</button>` +
+          `</div>` +
+          `<div class="pq-preview"><span>ポストの内容</span>${esc(text).replace(/\n/g,"<br>")}<br>${esc(SITE)}<br>#幕張ことは杯 #${esc(current.name.replace(/王$/,""))}クイズ</div>` +
+          `<div class="next">${current.startAt ? `本番は ${esc(dateLabel(current))}。` : ""}<a href="#join">参加方法を見る</a></div>`;
+        $("pq-retry").onclick = () => { reset(); show(); $("practice").scrollIntoView({block:"nearest", behavior:"smooth"}); };
+      };
+
       const show = () => {
         const src = pool[order[pos % order.length]];
         // 選択肢の並びも毎回シャッフル（正解の番号が偏らないように）
         const opts = src.choices.map((t, i) => ({ t, ok: i + 1 === src.answer })).sort(() => Math.random() - .5);
         const pr = { q: src.q, note: src.note, choices: opts.map(o => o.t), answer: opts.findIndex(o => o.ok) + 1 };
-        $("pq-label").textContent = pool.length > 1 ? `練習問題 ${played + 1}問目（全${pool.length}問からランダム）` : "練習問題";
+        $("pq-label").textContent = pool.length > 1 ? `練習問題 ${played + 1}／${pool.length}問` : "練習問題";
         $("pq-text").textContent = pr.q;
         $("pq-result").innerHTML = "";
         $("pq-choices").innerHTML = pr.choices.map((c,i) => `<button type="button" data-n="${i+1}"><b>${i+1}</b>${esc(c)}</button>`).join("");
@@ -821,14 +870,19 @@ const EVENTS = {
           $("pq-result").innerHTML =
             `<div class="v ${ok?"ok":"ng"}">${ok ? "正解！" : `残念…正解は ${pr.answer} でした`}</div>` +
             (pr.note ? `<div class="note">${esc(pr.note)}</div>` : "") +
-            (pool.length > 1 ? `<div class="tally">ここまで ${played}問中 ${score}問正解${allDone ? "　全問チャレンジ完了！" : ""}</div>` : "") +
-            (pool.length > 1 && !allDone ? `<button type="button" class="pq-next" id="pq-next">次の問題へ ›</button>` : "") +
-            `<div class="next">本番では、この番号「${pr.answer}」をコメントで送ります。${label ? `<br>本番は ${esc(label)}。` : ""}<a href="#join">参加方法を見る</a></div>`;
+            `<div class="tally">ここまで ${played}問中 ${score}問正解</div>` +
+            `<div class="pq-share">` +
+              (allDone ? `<button type="button" class="pq-next" id="pq-res">結果を見る ›</button>`
+                       : `<button type="button" class="pq-next" id="pq-next">次の問題へ ›</button>` +
+                         `<button type="button" class="pq-stop" id="pq-res">ここで終わって結果を見る</button>`) +
+            `</div>` +
+            (played === 1 ? `<div class="next">本番では、この番号「${pr.answer}」をコメントで送ります。</div>` : "");
           const nx = $("pq-next");
           if (nx) nx.onclick = () => { pos++; show(); $("pq-text").scrollIntoView({block:"nearest", behavior:"smooth"}); };
+          $("pq-res").onclick = () => { showResult(); $("practice").scrollIntoView({block:"nearest", behavior:"smooth"}); };
         };
       };
-      show();
+      reset(); show();
     }
 
     // X 参戦表明ボタン
