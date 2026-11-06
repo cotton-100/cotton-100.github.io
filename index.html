@@ -1016,6 +1016,11 @@
   .library-link .ll-ja { grid-row: 2; font-family: var(--mincho); font-weight: 700; font-size: 20px; letter-spacing: 0.12em; }
   .library-link .ll-desc { grid-column: 2; grid-row: 1 / span 2; font-size: 13.5px; line-height: 1.8; color: rgba(255, 255, 255, 0.82); }
   .library-link .ll-arrow { grid-column: 3; grid-row: 1 / span 2; font-size: 26px; color: var(--sakura); }
+  .library-link.light { margin-top: 44px; color: var(--navy); background: linear-gradient(100deg, var(--sakura-pale), #eef0fc); border-color: rgba(217, 100, 140, 0.35); }
+  .library-link.light:hover { background: linear-gradient(100deg, #fbdbe5, #e2e6fb); }
+  .library-link.light .ll-en { color: var(--pink); }
+  .library-link.light .ll-desc { color: var(--ink-soft); }
+  .library-link.light .ll-arrow { color: var(--pink); }
   @media (max-width: 720px) {
     .library-link { grid-template-columns: 1fr auto; padding: 20px 22px; }
     .library-link .ll-desc { grid-column: 1; grid-row: 3; }
@@ -2222,6 +2227,13 @@
         </div>
 
       </div>
+
+      <a class="library-link light reveal" href="anime.html">
+        <span class="ll-en">Anime Talk Library</span>
+        <span class="ll-ja">アニメ語りアーカイブ</span>
+        <span class="ll-desc">アニメ語り配信は、読み物でも。語った内容を記事にまとめ、動画の該当シーンにも飛べるようにしています。</span>
+        <span class="ll-arrow" aria-hidden="true">→</span>
+      </a>
     </div>
   </section>
 
