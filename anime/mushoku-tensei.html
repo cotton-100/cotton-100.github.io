@@ -816,6 +816,8 @@ function onYouTubeIframeAPIReady(){
 document.addEventListener("click",function(e){
   var a=e.target.closest("a[data-t]");
   if(!a||!(a.classList.contains("jump")||a.closest(".full"))) return;
+  // Ctrl／Cmd／Shift／Alt付きや中クリックは、ブラウザ通常のリンク動作（新しいタブなど）に任せる
+  if(e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey) return;
   if(!player||!player.seekTo) return;
   e.preventDefault();
   player.seekTo(+a.dataset.t,true); player.playVideo();
