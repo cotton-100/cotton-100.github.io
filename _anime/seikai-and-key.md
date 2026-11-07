@@ -3,6 +3,7 @@ title: "平成初期担当として語る『星界の紋章』『星界の戦旗
 subtitle: "アーヴ語のごきげんようから始まる、出会いと戦場の物語。そして、最後に一曲"
 slug: seikai-and-key
 work: 星界の紋章／星界の戦旗／KEY THE METAL IDOL
+link_names: ["星界の紋章", "星界の戦旗", "KEY THE METAL IDOL"]
 work_info: "『星界の紋章』TVアニメ1999年（原作：森岡浩之）／『KEY THE METAL IDOL』OVA 1994〜97年（監督：佐藤博暉／制作：ぴえろ）"
 video_id: YEuTeURzsR4
 stream_title: "【#歌語リレー】平成初期担当の幕張ことはです、大好きなアニメ語らせていただきます【星界の紋章・星界の戦旗・key the metal idol】#歌枠 #karaoke"

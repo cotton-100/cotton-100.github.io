@@ -3,6 +3,7 @@ title: "『ALL YOU NEED IS KILL』アニメ映画版を語る"
 subtitle: "主人公はリタへ。初のアニメ映画化が描いた、もうひとつのループ"
 slug: all-you-need-is-kill
 work: ALL YOU NEED IS KILL
+link_names: ["ALL YOU NEED IS KILL"]
 work_info: "劇場アニメ／2026年1月9日公開／原作：桜坂洋（集英社刊）／監督：秋本賢一郎／制作：STUDIO4℃"
 video_id: fo9cbxy_sg4
 stream_title: "【アニメ語り】幕張ことはのアニメ三昧｜「ALL YOU NEED IS KILL」を語る"

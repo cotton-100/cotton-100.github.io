@@ -3,6 +3,7 @@ title: "大人向けアニメの枠を超えた伝説のOVA。『A KITE』は、
 subtitle: "銃撃戦と爆発の迫力、実写映画のようなカメラワーク、そしてプラトニックな2人。インターナショナルバージョンで観られる今のうちに語りました"
 slug: a-kite
 work: A KITE
+link_names: ["A KITE", "カイト"]
 work_info: "原作・脚本・監督・キャラクターデザイン：梅津泰臣／OVA 1998年（全2話）／『A KITE インターナショナルバージョン』2000年／続編『KITE LIBERATOR』2008年"
 video_id: S2_HuDTblX0
 stream_title: "【アニメ語り】大人向けアニメの枠を超えた、伝説のOVA『A KITE』【幕張ことは】"

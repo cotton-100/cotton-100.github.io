@@ -167,7 +167,10 @@ article li{margin:.3em 0}
 .related .tagrow{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
 .related .tagrow li{font-size:12.5px;border:1px solid var(--line);background:var(--paper);padding:0 10px}
 .related .links{list-style:none}
-.related .links a{display:block;padding:10px 0;border-top:1px dashed var(--line);font-family:var(--mincho);text-decoration:none;color:var(--navy)}
+.related .links li{padding:10px 0;border-top:1px dashed var(--line)}
+.related .links a{display:block;font-family:var(--mincho);text-decoration:none;color:var(--navy)}
+.related .links .why{display:block;margin-top:2px;font-size:12.5px;color:var(--ink-soft)}
+.art a.xref{color:var(--pink-deep);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
 .related .links a:hover{color:var(--pink-deep)}
 .related .soon{font-size:14px;color:var(--ink-faint)}
 

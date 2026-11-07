@@ -22,6 +22,15 @@ CATEGORY_NOTES = {
     "演出解剖": "映像演出に注目して、「なぜこの撮り方なのか」を読み解く回",
     "イベント・上映会": "イベントや上映会に参加した感想を語る回",
 }
+# 検索結果のタイトル（<title>）の先頭に付けて「何が読める記事か」を伝える言葉。
+# 記事ごとに変えたいときは front matter の seo_title で丸ごと指定できる
+TITLE_KINDS = {
+    "布教解説": "魅力解説",
+    "アニメ感想": "感想",
+    "アニメ発掘": "解説・感想",
+    "演出解剖": "演出解説",
+    "イベント・上映会": "参加レポート",
+}
 # ネタバレの程度（一覧ページではこの短い表記だけを出し、具体的な範囲は記事内で開いたときだけ見せる）
 SPOILER_LEVELS = {
     "なし": "なし",
@@ -78,6 +87,51 @@ def load(md_path):
     meta["_url"] = f"{SITE}/anime/{meta['slug']}.html"
     return meta
 
+def link_names(meta):
+    return [n for n in (meta.get("link_names") or [meta["work"]]) if n]
+
+def mentions(a, b):
+    """記事 a の本文か発言全文に、記事 b の作品名（link_names）が出てくるか"""
+    if "_text" not in a:
+        tr = ROOT / "_transcripts" / f"{a['slug']}.md"
+        a["_text"] = a["_body"] + (tr.read_text(encoding="utf-8") if tr.exists() else "")
+    return any(n in a["_text"] for n in link_names(b))
+
+def autolink(body_html, meta, all_meta):
+    """本文で他の記事の作品名が最初に出てきたところを、その記事へのリンクにする（見出し・既存リンクの中は除く）"""
+    parts = re.split(r"(<[^>]+>)", body_html)
+    done, skip = set(), 0
+    for i, part in enumerate(parts):
+        if part.startswith("<"):
+            if re.match(r"<(a|h[1-6])[\s>]", part):
+                skip += 1
+            elif re.match(r"</(a|h[1-6])>", part):
+                skip -= 1
+            continue
+        if skip:
+            continue
+        for o in all_meta:
+            if o is meta or o["slug"] in done or o.get("status") == "draft":
+                continue
+            for n in sorted(link_names(o), key=len, reverse=True):
+                k = part.find(html.escape(n, quote=False))
+                if k != -1:
+                    e = html.escape(n, quote=False)
+                    part = part[:k] + f'<a class="xref" href="/anime/{o["slug"]}.html">{e}</a>' + part[k + len(e):]
+                    done.add(o["slug"])
+                    break
+        parts[i] = part
+    return "".join(parts)
+
+def seo_title(meta):
+    if meta.get("seo_title"):
+        return meta["seo_title"]
+    title = meta["title"]
+    if not any(n in title for n in link_names(meta) + [meta["work"]]):
+        title = f"『{meta['work']}』{title}"   # 見出しに作品名がない記事は、検索用に作品名を足す
+    kind = TITLE_KINDS.get(meta.get("category"))
+    return f"【{kind}】{title}" if kind else title
+
 def render_article(meta, all_meta):
     vid, body = meta["video_id"], meta["_body"]
 
@@ -95,6 +149,7 @@ def render_article(meta, all_meta):
         return f"{m.group(1)} {m.group(2).strip()} {{#t{t}}}"
     body = re.sub(r"^(#{2,3}) (.+?) <!-- t=(\d+) -->\s*$", heading, body, flags=re.M)
     body_html = markdown.markdown(body, extensions=["attr_list", "extra"])
+    body_html = autolink(body_html, meta, all_meta)
 
     def add_btn(m):
         tag, attrs, inner = m.groups()
@@ -124,12 +179,20 @@ def render_article(meta, all_meta):
         tr = re.sub(r"〔注：(.+?)〕", r'<span class="fix">\1</span>', tr)
         transcript_html = markdown.markdown(tr)
 
-    # 関連：タグか分類が重なる他の記事
+    # 関連：本文・発言全文で触れた作品（相手の記事から触れられている場合も含む）を先に、次にタグが重なる記事
+    mentioned = [o for o in all_meta if o is not meta and (mentions(meta, o) or mentions(o, meta))]
     mine = set(meta.get("tags", []))
-    rel = [o for o in all_meta if o is not meta and (mine & set(o.get("tags", [])) or o.get("category") == meta.get("category"))]
-    rel.sort(key=lambda o: -len(mine & set(o.get("tags", []))))
-    related = ('<ul class="links">' + "".join(f'<li><a href="/anime/{o["slug"]}.html">{html.escape(o["title"])}</a></li>' for o in rel[:5]) + "</ul>"
-               if rel else '<p class="soon">同じテーマの記事は準備中です。</p>')
+    by_tag = sorted((o for o in all_meta if o is not meta and o not in mentioned and mine & set(o.get("tags", []))),
+                    key=lambda o: (-len(mine & set(o.get("tags", []))), o["slug"]))
+    if not mentioned and not by_tag:
+        by_tag = [o for o in all_meta if o is not meta and o.get("category") == meta.get("category")]
+    def li(o, why):
+        return (f'<li><a href="/anime/{o["slug"]}.html">{html.escape(o["title"])}</a>'
+                f'<span class="why">{why}</span></li>')
+    items = [li(o, "この語りの中で触れた作品" if mentions(meta, o) else "この作品に触れている語り") for o in mentioned][:5]
+    items += [li(o, "＃" + "・＃".join(t for t in o.get("tags", []) if t in mine)) if mine & set(o.get("tags", []))
+              else li(o, html.escape(o.get("category", ""))) for o in by_tag][:max(0, 6 - len(items))]
+    related = ('<ul class="links">' + "".join(items) + "</ul>") if items else '<p class="soon">同じテーマの記事は準備中です。</p>'
 
     start, end = meta["segment"]
     clips = sorted(((lv, tx, t) for lv, tx, t, _ in chapters), key=lambda c: c[2])
@@ -156,7 +219,7 @@ def render_article(meta, all_meta):
 
     return fill((TOOLS / "article.html").read_text(encoding="utf-8"),
         robots='<meta name="robots" content="noindex">' if meta.get("status") == "draft" else "",
-        title=html.escape(meta["title"]), subtitle=html.escape(meta.get("subtitle", "")),
+        title=html.escape(meta["title"]), seo_title=html.escape(seo_title(meta)), subtitle=html.escape(meta.get("subtitle", "")),
         description=html.escape(meta["description"]), url=meta["_url"], work=html.escape(meta["work"]),
         category=html.escape(meta.get("category", "")), work_info=html.escape(meta.get("work_info", "")),
         spoiler=spoiler_html(meta), streamed=meta["streamed"].replace("-", "."),
@@ -262,11 +325,13 @@ def validate(all_meta, paths):
 SITEMAP_PAGES = ["/", "/anime.html", "/quiz.html"]
 
 def render_sitemap(all_meta):
-    urls = SITEMAP_PAGES + [f"/anime/{m['slug']}.html" for m in sorted(all_meta, key=lambda m: m["slug"])
-                            if m.get("status") != "draft"]
+    live = [m for m in all_meta if m.get("status") != "draft"]
+    newest = max((m["updated"] for m in live), default=None)
+    urls = [(u, newest if u == "/anime.html" else None) for u in SITEMAP_PAGES]
+    urls += [(f"/anime/{m['slug']}.html", m["updated"]) for m in sorted(live, key=lambda m: m["slug"])]
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    lines += [f"  <url><loc>{SITE}{u}</loc></url>" for u in urls]
+    lines += [f"  <url><loc>{SITE}{u}</loc>" + (f"<lastmod>{d}</lastmod>" if d else "") + "</url>" for u, d in urls]
     lines.append("</urlset>")
     return "\n".join(lines) + "\n"
 
