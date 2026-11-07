@@ -3,6 +3,7 @@ title: "『超かぐや姫！』が今年最高のアニメである理由"
 subtitle: "かぐや姫がVTuberになる。ずっと観たかったアニメに、やっと出会えた"
 slug: cho-kaguya-hime
 work: 超かぐや姫！
+link_names: ["超かぐや姫"]
 work_info: "長編アニメ映画／2026年1月22日 Netflix世界独占配信／監督：山下清悟／アニメーション制作：スタジオコロリド、スタジオクロマト"
 video_id: C_OpiPciXpE
 stream_title: "「超かぐや姫」が今年最高のアニメである理由｜幕張ことはのアニメ語り"

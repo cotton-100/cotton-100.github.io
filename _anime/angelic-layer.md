@@ -3,6 +3,7 @@ title: "『機動天使エンジェリックレイヤー』は、今観るとす
 subtitle: "バグも遊び方。脳波で動く小さな天使たちと、CLAMPらしい恋の相関図"
 slug: angelic-layer
 work: 機動天使エンジェリックレイヤー
+link_names: ["エンジェリックレイヤー"]
 work_info: "TVアニメ／2001年放送／全26話／原作：CLAMP／監督：錦織博／制作：ボンズ"
 video_id: yKS0RGHTZkk
 stream_title: "アニメ語り「機動天使エンジェリックレイヤー」｜今見るとすごいアニメだった｜"

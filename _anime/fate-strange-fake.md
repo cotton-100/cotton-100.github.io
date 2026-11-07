@@ -3,6 +3,7 @@ title: "今期の覇権はこれ♪『Fate/strange Fake』は、安心の面白�
 subtitle: "Fateを観たことがなくても大丈夫。アメリカで始まった偽りの聖杯戦争と、13騎のサーヴァント"
 slug: fate-strange-fake
 work: Fate/strange Fake
+link_names: ["Fate/strange Fake", "strange Fake"]
 work_info: "TVアニメ／2026年1月放送開始／原作：成田良悟・TYPE-MOON（電撃文庫）／監督：榎戸駿・坂詰嵩仁／制作：A-1 Pictures"
 video_id: ce1qgSLV_7g
 stream_title: "アニメ語り「fate/strange fake 」｜今期の覇権はこれ♪安心の面白さ｜"

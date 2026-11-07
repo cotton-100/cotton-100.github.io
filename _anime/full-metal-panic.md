@@ -3,6 +3,7 @@ title: "戦争バカが恋をした。『フルメタル・パニック！』は
 subtitle: "入口は『ふもっふ』でいい。そして私がいちばん好きなのは、叩かれがちな第4期のナムサク編です"
 slug: full-metal-panic
 work: フルメタル・パニック！
+link_names: ["フルメタル・パニック", "フルメタ"]
 work_info: "原作：賀東招二（イラスト：四季童子）／TVアニメ 第1期 2002年（GONZO）、『ふもっふ』2003年・『The Second Raid』2005年（京都アニメーション）、『Invisible Victory』2018年（XEBEC）"
 video_id: y-6BBVBhUro
 stream_title: "【アニメ語り】戦争もラブコメも全力！名作『フルメタル・パニック！』の魅力を語り尽くす！【幕張ことは】"
