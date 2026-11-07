@@ -44,13 +44,13 @@ def header(current):
     cur = ' aria-current="page"' if current == "library" else ""
     return f"""<div class="lib-top"><div class="inner">
   <a class="logo" href="/"><picture><source srcset="/logo.webp" type="image/webp"><img src="/logo.png" alt="幕張ことは" width="640" height="220"></picture></a>
-  <nav aria-label="サイト内メニュー"><a href="/">ホーム</a><a href="/anime.html"{cur}><span class="lg">アニメ語り</span>図書館</a><a href="/quiz.html"><span class="lg">幕張ことは杯</span><span class="sm">クイズ</span></a><a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">YouTube</a></nav>
+  <nav aria-label="サイト内メニュー"><a href="/">ホーム</a><a href="/anime.html"{cur}><span class="lg">アニメ語り</span>アーカイブ</a><a href="/quiz.html"><span class="lg">幕張ことは杯</span><span class="sm">クイズ</span></a><a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">YouTube</a></nav>
 </div></div>"""
 
 FOOTER = """<footer class="lib-foot">
   <picture><source srcset="/logo.webp" type="image/webp"><img class="mark" src="/logo.png" alt="幕張ことは ロゴ" width="640" height="220" loading="lazy"></picture>
   <div class="name">幕張ことは &nbsp;/&nbsp; MAKUHARI KOTOHA</div>
-  <div class="links"><a href="/">公式サイト</a><a href="/anime.html">アニメ語り図書館</a><a href="/quiz.html">幕張ことは杯</a><a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">YouTube</a><a href="https://x.com/cotton_makuhari" target="_blank" rel="noopener">X</a></div>
+  <div class="links"><a href="/">公式サイト</a><a href="/anime.html">アニメ語りアーカイブ</a><a href="/quiz.html">幕張ことは杯</a><a href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">YouTube</a><a href="https://x.com/cotton_makuhari" target="_blank" rel="noopener">X</a></div>
   <p class="note">記事は配信での幕張ことはの発言をもとに構成しています。作品の権利は各権利者に帰属します。</p>
   <div class="copy">© COTTON-100 &nbsp;ALL RIGHTS RESERVED</div>
 </footer>"""
@@ -138,7 +138,7 @@ def render_article(meta, all_meta):
          "datePublished": meta["published"], "dateModified": meta["updated"], "inLanguage": "ja", "mainEntityOfPage": meta["_url"],
          "image": f"https://i.ytimg.com/vi/{vid}/maxresdefault.jpg",
          "author": {"@type": "Person", "name": "幕張ことは", "url": SITE + "/"},
-         "isPartOf": {"@type": "CollectionPage", "name": "アニメ語り図書館", "url": SITE + "/anime.html"},
+         "isPartOf": {"@type": "CollectionPage", "name": "アニメ語り図書館（アニメ語りアーカイブ）", "url": SITE + "/anime.html"},
          "about": {"@type": "CreativeWork", "name": meta["work"]},
          "video": {"@id": meta["_url"] + "#video"}},
         {"@type": "VideoObject", "@id": meta["_url"] + "#video", "name": meta["stream_title"],
@@ -150,7 +150,7 @@ def render_article(meta, all_meta):
                       "url": f"https://www.youtube.com/watch?v={vid}&t={t}s"} for i, (lv, tx, t) in enumerate(clips)]},
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "幕張ことは 公式サイト", "item": SITE + "/"},
-            {"@type": "ListItem", "position": 2, "name": "アニメ語り図書館", "item": SITE + "/anime.html"},
+            {"@type": "ListItem", "position": 2, "name": "アニメ語りアーカイブ", "item": SITE + "/anime.html"},
             {"@type": "ListItem", "position": 3, "name": meta["work"], "item": meta["_url"]}]},
     ]}
 
@@ -198,7 +198,7 @@ def render_library(all_meta):
     used = {m.get("category") for m in all_meta}
     filters = ['<button type="button" aria-pressed="true" data-cat="">すべて</button>'] + [
         f'<button type="button" aria-pressed="false" data-cat="{c}" data-note="{html.escape(CATEGORY_NOTES[c])}" title="{html.escape(CATEGORY_NOTES[c])}"{"" if c in used else " disabled"}>{c}</button>' for c in CATEGORIES]
-    ld = {"@context": "https://schema.org", "@type": "CollectionPage", "name": "アニメ語り図書館",
+    ld = {"@context": "https://schema.org", "@type": "CollectionPage", "name": "アニメ語り図書館（アニメ語りアーカイブ）",
           "url": SITE + "/anime.html", "inLanguage": "ja",
           "author": {"@type": "Person", "name": "幕張ことは", "url": SITE + "/"},
           "mainEntity": {"@type": "ItemList", "itemListElement": [
