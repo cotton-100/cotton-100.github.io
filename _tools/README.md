@@ -18,7 +18,9 @@
    - `category` はチャンネルの分類（布教解説／アニメ感想／アニメ発掘／演出解剖／イベント・上映会）。分類の説明文は `build.py` の `CATEGORY_NOTES`
    - `spoiler_level` は一覧に出すネタバレの程度（なし／序盤／一部／終盤／重大／結末）。一覧には人物の最期や正体などの中身を出さない
    - `spoiler` は具体的な範囲。記事ページで「詳しい範囲を見る」を開いた人だけが読めます
-4. `python3 _tools/build.py` → `anime/<slug>.html` と `anime.html` が更新される
+4. `python3 _tools/build.py` → `anime/<slug>.html` と `anime.html` と `sitemap.xml` が更新される
+   - 記事（`_anime/*.md`）を削除・改名した場合、元の記事がなくなった古い `anime/*.html` は自動で削除されます
+   - `sitemap.xml` には、ホーム・`anime.html`・`quiz.html` と、下書き（`status: draft`）以外の記事が載ります。ページを増やしたときは `build.py` の `SITEMAP_PAGES` に追加
    - 生成の前に入力チェックが走り、slug の重複・ファイル名との不一致、見出し秒数が segment の範囲外、発言全文や注目ポイントの書き忘れ、日付や分類の書き間違いがあると、理由を表示して止まります
    - `python3 _tools/build.py --check` は何も書き換えずに、公開中のHTMLが記事データと一致しているか（再生成し忘れがないか）だけを確かめます。コミット前に実行してください
    - 冒頭の設定欄に `published`（記事を公開した日）と `note`（「◯月の配信を記事化」など）を書く。`streamed` は配信日のまま

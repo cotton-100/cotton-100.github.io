@@ -258,6 +258,18 @@ def validate(all_meta, paths):
         print("入力チェックで止めました：", *errors, sep="\n  - ")
         sys.exit(1)
 
+# サイトマップに載せる、記事以外のページ（記事は _anime から自動で追加。下書きは載せない）
+SITEMAP_PAGES = ["/", "/anime.html", "/quiz.html"]
+
+def render_sitemap(all_meta):
+    urls = SITEMAP_PAGES + [f"/anime/{m['slug']}.html" for m in sorted(all_meta, key=lambda m: m["slug"])
+                            if m.get("status") != "draft"]
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    lines += [f"  <url><loc>{SITE}{u}</loc></url>" for u in urls]
+    lines.append("</urlset>")
+    return "\n".join(lines) + "\n"
+
 def main():
     check = "--check" in sys.argv
     paths = sorted((ROOT / "_anime").glob("*.md"))
@@ -267,6 +279,7 @@ def main():
         # 公開中のHTMLが、今の記事データから作り直したものと一致するか（再生成し忘れの検出）
         outputs = {ROOT / "anime" / f"{m['slug']}.html": render_article(m, all_meta) for m in all_meta}
         outputs[ROOT / "anime.html"] = render_library(all_meta)
+        outputs[ROOT / "sitemap.xml"] = render_sitemap(all_meta)
         stale = [p for p, v in outputs.items() if not p.exists() or p.read_text(encoding="utf-8") != v]
         known = {p.name for p in outputs}
         orphans = [p for p in (ROOT / "anime").glob("*.html") if p.name not in known]
@@ -275,7 +288,8 @@ def main():
         for p in orphans:
             print("元の記事がないHTML：", p.relative_to(ROOT))
         if stale or orphans:
-            print("→ python3 _tools/build.py を実行してからコミットしてください")
+            print("→ python3 _tools/build.py を実行してからコミットしてください"
+                  + ("（元の記事がないHTMLは自動で削除されます）" if orphans else ""))
             sys.exit(1)
         print(f"OK：{len(all_meta)}記事と一覧はすべて最新です")
         return
@@ -286,6 +300,14 @@ def main():
         print(out.relative_to(ROOT), "（下書き：検索除け中）" if m.get("status") == "draft" else "")
     (ROOT / "anime.html").write_text(render_library(all_meta), encoding="utf-8")
     print("anime.html")
+    (ROOT / "sitemap.xml").write_text(render_sitemap(all_meta), encoding="utf-8")
+    print("sitemap.xml")
+    # 記事を削除・改名したときに残る、古い記事HTMLを片付ける（anime/ の .html は全部この処理で作ったもの）
+    known = {f"{m['slug']}.html" for m in all_meta}
+    for old in sorted((ROOT / "anime").glob("*.html")):
+        if old.name not in known:
+            old.unlink()
+            print("削除：", old.relative_to(ROOT), "（元の記事がないため）")
 
 if __name__ == "__main__":
     main()
