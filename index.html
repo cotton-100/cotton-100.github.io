@@ -302,21 +302,24 @@
     color: #fff;
   }
 
-  .nav a .en {
+  /* 日本語を主に、英語は小さく添える */
+  .nav a .ja {
     display: block;
-    font-family: var(--latin);
-    font-style: italic;
-    font-weight: 600;
-    font-size: 34px;
+    font-family: var(--mincho);
+    font-weight: 800;
+    font-size: clamp(19px, 5.4vw, 28px);
     letter-spacing: 0.08em;
-    line-height: 1.2;
+    line-height: 1.4;
     transition: color 0.3s ease;
   }
 
-  .nav a .ja {
-    font-family: var(--mincho);
-    font-size: 11px;
-    letter-spacing: 0.4em;
+  .nav a .en {
+    display: block;
+    margin-top: 2px;
+    font-family: var(--latin);
+    font-style: italic;
+    font-size: 13px;
+    letter-spacing: 0.2em;
     color: var(--sakura);
   }
 
@@ -324,12 +327,12 @@
   @media (max-height: 560px) {
     .nav ul { padding: 60px 0 24px; }
     .nav a { padding: 4px 24px; }
-    .nav a .en { font-size: 24px; }
-    .nav a .ja { font-size: 10px; }
+    .nav a .ja { font-size: 19px; }
+    .nav a .en { font-size: 11px; margin-top: 0; }
   }
 
-  .nav a:hover .en,
-  .nav a:focus-visible .en { color: var(--gold-soft); }
+  .nav a:hover .ja,
+  .nav a:focus-visible .ja { color: var(--gold-soft); }
 
   .nav a:focus-visible,
   .menu-btn:focus-visible {
@@ -2015,14 +2018,14 @@
 
 <nav class="nav" id="nav" aria-label="サイト内メニュー">
   <ul>
-    <li><a href="#about"><span class="en">About</span><span class="ja">紹介</span></a></li>
-    <li><a href="#specialty"><span class="en">Specialty</span><span class="ja">好きな作品まとめ</span></a></li>
-    <li><a href="anime.html"><span class="en">Anime Library</span><span class="ja">アニメ語り図書館</span></a></li>
-    <li><a href="#highlights"><span class="en">Highlights</span><span class="ja">配信ハイライト</span></a></li>
-    <li><a href="#channels"><span class="en">Channels</span><span class="ja">配信</span></a></li>
-    <li><a href="#goods"><span class="en">Goods</span><span class="ja">グッズ</span></a></li>
-    <li><a href="#press"><span class="en">Press</span><span class="ja">メディア掲載・出展・参加実績</span></a></li>
-    <li><a href="#inquiry"><span class="en">Inquiry</span><span class="ja">お問い合わせ</span></a></li>
+    <li><a href="#about"><span class="ja">紹介</span><span class="en">About</span></a></li>
+    <li><a href="#specialty"><span class="ja">好きな作品まとめ</span><span class="en">Specialty</span></a></li>
+    <li><a href="anime.html"><span class="ja">アニメ語り図書館</span><span class="en">Anime Library</span></a></li>
+    <li><a href="#highlights"><span class="ja">配信ハイライト</span><span class="en">Highlights</span></a></li>
+    <li><a href="#channels"><span class="ja">配信</span><span class="en">Channels</span></a></li>
+    <li><a href="#goods"><span class="ja">グッズ</span><span class="en">Goods</span></a></li>
+    <li><a href="#press"><span class="ja">メディア掲載・出展・参加実績</span><span class="en">Press</span></a></li>
+    <li><a href="#inquiry"><span class="ja">お問い合わせ</span><span class="en">Inquiry</span></a></li>
   </ul>
 </nav>
 
