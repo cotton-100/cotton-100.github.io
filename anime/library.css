@@ -32,7 +32,7 @@ img{display:block;max-width:100%}
 .lib-foot{position:relative;margin-top:96px;background:var(--navy-deep);color:#fff;text-align:center;padding:48px 20px 64px;font-size:13px}
 .lib-foot::after{content:"";position:absolute;left:0;right:0;bottom:0;height:10px;
   background:linear-gradient(90deg,var(--pink) 0%,var(--lavender) 50%,var(--royal) 100%)}
-.lib-foot .mark{width:180px;max-width:60%;margin:0 auto 14px}
+.lib-foot .mark{display:block;width:220px;max-width:70%;height:auto;margin:0 auto 18px}
 .lib-foot .name{font-family:var(--mincho);font-weight:600;letter-spacing:.35em;margin-bottom:10px}
 .lib-foot .links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:14px}
 .lib-foot .links a{color:rgba(255,255,255,.75);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
