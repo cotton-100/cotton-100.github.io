@@ -123,6 +123,10 @@ def autolink(body_html, meta, all_meta):
         parts[i] = part
     return "".join(parts)
 
+def jst(date):
+    """構造化データの日時（Googleはタイムゾーン付きを推奨）。時刻は持っていないので日本時間の0時とする"""
+    return f"{date}T00:00:00+09:00"
+
 def seo_title(meta):
     if meta.get("seo_title"):
         return meta["seo_title"]
@@ -198,14 +202,14 @@ def render_article(meta, all_meta):
     clips = sorted(((lv, tx, t) for lv, tx, t, _ in chapters), key=lambda c: c[2])
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "Article", "headline": meta["title"], "description": meta["description"],
-         "datePublished": meta["published"], "dateModified": meta["updated"], "inLanguage": "ja", "mainEntityOfPage": meta["_url"],
+         "datePublished": jst(meta["published"]), "dateModified": jst(meta["updated"]), "inLanguage": "ja", "mainEntityOfPage": meta["_url"],
          "image": f"https://i.ytimg.com/vi/{vid}/maxresdefault.jpg",
          "author": {"@type": "Person", "name": "幕張ことは", "url": SITE + "/"},
          "isPartOf": {"@type": "CollectionPage", "name": "アニメ語り図書館（アニメ語りアーカイブ）", "url": SITE + "/anime.html"},
          "about": {"@type": "CreativeWork", "name": meta["work"]},
          "video": {"@id": meta["_url"] + "#video"}},
         {"@type": "VideoObject", "@id": meta["_url"] + "#video", "name": meta["stream_title"],
-         "description": meta["description"], "uploadDate": meta["streamed"],
+         "description": meta["description"], "uploadDate": jst(meta["streamed"]),
          "thumbnailUrl": f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg",
          "embedUrl": f"https://www.youtube.com/embed/{vid}", "contentUrl": f"https://www.youtube.com/watch?v={vid}",
          "hasPart": [{"@type": "Clip", "name": tx, "startOffset": t,
