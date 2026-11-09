@@ -1,5 +1,6 @@
 ---
 title: "平成初期担当として語る『星界の紋章』『星界の戦旗』と、『KEY THE METAL IDOL』"
+seo_title: "『星界の紋章』『星界の戦旗』魅力解説｜KEY THE METAL IDOLも"
 subtitle: "アーヴ語のごきげんようから始まる、出会いと戦場の物語。そして、最後に一曲"
 slug: seikai-and-key
 work: 星界の紋章／星界の戦旗／KEY THE METAL IDOL

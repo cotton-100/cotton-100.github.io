@@ -1,5 +1,6 @@
 ---
 title: "『この本を盗む者は』アニメ映画版を語る"
+seo_title: "アニメ映画『この本を盗む者は』感想・魅力解説"
 subtitle: "本の世界を冒険する楽しさと、ひとつだけ引っかかったラスト"
 slug: kono-hon-wo-nusumu-mono-wa
 work: この本を盗む者は

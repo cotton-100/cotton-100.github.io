@@ -1,5 +1,6 @@
 ---
 title: "『ALL YOU NEED IS KILL』アニメ映画版を語る"
+seo_title: "アニメ映画『ALL YOU NEED IS KILL』感想・魅力解説"
 subtitle: "主人公はリタへ。初のアニメ映画化が描いた、もうひとつのループ"
 slug: all-you-need-is-kill
 work: ALL YOU NEED IS KILL
