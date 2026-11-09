@@ -1,5 +1,6 @@
 ---
 title: "今期の覇権はこれ♪『Fate/strange Fake』は、安心の面白さ"
+seo_title: "『Fate/strange Fake』感想・魅力解説｜安心の面白さ"
 subtitle: "Fateを観たことがなくても大丈夫。アメリカで始まった偽りの聖杯戦争と、13騎のサーヴァント"
 slug: fate-strange-fake
 work: Fate/strange Fake
