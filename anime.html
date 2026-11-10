@@ -233,7 +233,7 @@
   </div>
 </header>
 
-<details class="ways" open>
+<details class="ways">
   <summary>この図書館の読み方</summary>
   <div class="ways-grid">
     <div><h2>語りを読む</h2><p>配信で話したことを、話題ごとに見出しを付けて読みやすく編集した記事です。</p></div>
@@ -241,6 +241,10 @@
     <div><h2>発言全文を確かめる</h2><p>各記事の最後に、配信での発言をできるだけそのまま残しています。</p></div>
   </div>
 </details>
+<script>
+// 読み方の説明はPCでだけ開いておく。表示の後で閉じると下の作品一覧が跳ねる（CLS）ので、ここで描画前に決める
+if(window.matchMedia("(min-width:721px)").matches) document.querySelector(".ways").open=true;
+</script>
 
 <section class="shelf" id="shelf">
   <div class="shelf-head">
@@ -568,8 +572,6 @@
       books=[].slice.call(document.querySelectorAll(".book")), empty=document.querySelector(".empty"),
       q=document.getElementById("q"), sort=document.getElementById("sort"), cat="",
       note=document.querySelector(".cat-note"), noteDefault=note.textContent;
-  // 一画面目で読み方の説明が場所を取らないよう、スマホでは閉じておく
-  if(window.matchMedia("(max-width:720px)").matches) document.querySelector(".ways").removeAttribute("open");
   function apply(){
     var words=(q.value||"").trim().toLowerCase().split(/\s+/).filter(Boolean), n=0;
     books.forEach(function(k){
