@@ -380,7 +380,7 @@
     <span class="no" id="hero-no">TOURNAMENT No.01</span>
     <h1><small>視聴者参加型クイズ大会</small><span id="hero-name">ガンダム王</span><br><span id="hero-suffix">決定戦</span></h1>
     <p class="catch">その知識で、頂点を奪え。</p>
-    <p class="scope" id="hero-scope" hidden></p>
+    <p class="scope" id="hero-scope">出題範囲：宇宙世紀・一年戦争のみ</p>
     <div class="badges">
       <span class="badge">参加無料</span>
       <span class="badge">事前登録不要</span>
@@ -388,11 +388,12 @@
       <span class="badge">初見歓迎</span>
     </div>
    </div>
+   <!-- 日程・カウントダウン・出題範囲の初期表示は、次回大会に合わせて書いておく（読み込み後にスクリプトが上書きする。合わせておくと表示中のずれ＝CLSが起きない） -->
    <div class="hero-side">
     <div class="countdown">
-      <div class="label" id="cd-label">開催日</div>
-      <div class="date" id="cd-date">日程は近日発表</div>
-      <div class="timer" id="cd-timer" aria-hidden="true" hidden>
+      <div class="label" id="cd-label">開幕まで</div>
+      <div class="date" id="cd-date">2026年11月28日（土）23:00〜24:00</div>
+      <div class="timer" id="cd-timer" aria-hidden="true">
         <div><b id="cd-d">00</b><span>DAYS</span></div>
         <div><b id="cd-h">00</b><span>HOURS</span></div>
         <div><b id="cd-m">00</b><span>MIN</span></div>
@@ -401,11 +402,11 @@
       <p id="cd-status" class="sr-only" role="status" aria-live="polite"></p>
     </div>
     <div class="hero-cta">
-      <a class="btn btn-red js-stream" id="cta-stream" href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">YouTubeチャンネルへ</a>
+      <a class="btn btn-red js-stream" id="cta-stream" href="https://youtube.com/live/atdk_Rw0W5M" target="_blank" rel="noopener">大会の待機所へ（YouTube）</a>
       <a class="btn btn-navy js-x" id="cta-x" href="https://x.com/" target="_blank" rel="noopener">Xで参戦表明する</a>
     </div>
     <p class="assure">途中参加OK・見ているだけでもOK　<span>※コメントで回答するにはYouTubeへのログインが必要です</span></p>
-    <div class="cal js-cal" hidden>
+    <div class="cal js-cal">
       <span>予定に入れておく：</span>
       <a class="js-gcal" href="#" target="_blank" rel="noopener">Googleカレンダー</a>
       <a class="js-ics" href="#" download="makuhari-kotoha-cup.ics">iPhone・その他（.ics）</a>
@@ -417,7 +418,7 @@
 <div class="band">
   <div class="card">
     <p class="band-q">ここで問題。あなたは何問、答えられる？</p>
-    <div id="practice" hidden>
+    <div id="practice">
       <p class="pq-label" id="pq-label">練習問題</p>
       <p class="pq-text" id="pq-text"></p>
       <div class="pq-choices" id="pq-choices"></div>
