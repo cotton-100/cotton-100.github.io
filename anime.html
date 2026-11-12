@@ -572,25 +572,32 @@ if(window.matchMedia("(min-width:721px)").matches) document.querySelector(".ways
       books=[].slice.call(document.querySelectorAll(".book")), empty=document.querySelector(".empty"),
       q=document.getElementById("q"), sort=document.getElementById("sort"), cat="",
       note=document.querySelector(".cat-note"), noteDefault=note.textContent;
-  function apply(){
-    var words=(q.value||"").trim().toLowerCase().split(/\s+/).filter(Boolean), n=0;
+  // 絞り込みは、表示するカードだけを並べ直す（隠したカードの分だけ後ろのカードが詰まる動きは、
+  // スマホの日本語入力などキー操作として扱われない入力では「予期しないずれ（CLS）」と数えられるため）。
+  // 検索中は一覧の高さを保ち、下のフッターも動かさない。次に画面に触れたときに高さを戻す
+  function apply(fromSearch){
+    var words=(q.value||"").trim().toLowerCase().split(/\s+/).filter(Boolean), shown=[];
+    if(fromSearch) list.style.minHeight=Math.max(parseFloat(list.style.minHeight)||0,list.offsetHeight)+"px";
     books.forEach(function(k){
-      var show=(!cat||k.dataset.cat===cat)&&words.every(function(w){return k.dataset.words.indexOf(w)>-1;});
-      k.hidden=!show; if(show)n++;
+      if((!cat||k.dataset.cat===cat)&&words.every(function(w){return k.dataset.words.indexOf(w)>-1;})) shown.push(k);
     });
-    empty.hidden=n>0;
+    list.replaceChildren.apply(list,shown);
+    empty.hidden=shown.length>0;
   }
+  function release(){ list.style.minHeight=""; }
+  document.addEventListener("pointerdown",release);
+  document.addEventListener("keydown",release);
   btns.forEach(function(b){
     b.addEventListener("click",function(){
       btns.forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
-      cat=b.dataset.cat; note.textContent=b.dataset.note?cat+"："+b.dataset.note:noteDefault; apply();
+      cat=b.dataset.cat; note.textContent=b.dataset.note?cat+"："+b.dataset.note:noteDefault; apply(false);
     });
   });
-  q.addEventListener("input",apply);
+  q.addEventListener("input",function(){apply(true);});
   sort.addEventListener("change",function(){
     var key=sort.value;
     books.sort(function(a,b){return (b.dataset[key]+b.dataset.streamed).localeCompare(a.dataset[key]+a.dataset.streamed);});
-    books.forEach(function(k){list.appendChild(k);});
+    apply(false);
   });
 })();
 </script>
