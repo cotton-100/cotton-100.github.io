@@ -173,6 +173,8 @@ def render_article(meta, all_meta):
             marked = True
         toc_items.append(f'<li class="lv{lv}"><a href="#t{t}"><span class="tc">{fmt(t)}</span>{html.escape(tx)}</a></li>')
     toc = "\n".join(toc_items)
+    # 1時間を超える見出しがあるときは時刻の欄を広げ、全行の時刻と見出しの頭をそろえる
+    toc_class = "toc long" if any(t >= 3600 for _, _, t, _ in chapters) else "toc"
 
     transcript_html = ""
     tr_path = ROOT / "_transcripts" / f"{meta['slug']}.md"
@@ -230,7 +232,7 @@ def render_article(meta, all_meta):
         spoiler=spoiler_html(meta), streamed=meta["streamed"].replace("-", "."),
         published=meta["published"].replace("-", "."),
         note=(f'<dt>補足</dt><dd>{html.escape(meta["note"])}</dd>' if meta.get("note") else ""),
-        stream_title=html.escape(meta["stream_title"]), video_id=vid, start=start, toc=toc, body=body_html,
+        stream_title=html.escape(meta["stream_title"]), video_id=vid, start=start, toc=toc, toc_class=toc_class, body=body_html,
         highlights="\n".join(f"<li>{html.escape(h)}</li>" for h in highlights),
         tags="".join(f"<li>#{html.escape(t)}</li>" for t in meta.get("tags", [])),
         related=related, transcript=transcript_html,

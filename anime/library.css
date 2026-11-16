@@ -134,10 +134,13 @@ img{display:block;max-width:100%}
 .toc{background:var(--sakura-pale);padding:20px 24px;margin-bottom:44px}
 .toc h2{font-family:var(--mincho);font-size:15px;letter-spacing:.12em;color:var(--navy);margin-bottom:8px}
 .toc ol{list-style:none;font-size:14.5px;line-height:1.9}
-.toc li.lv3{padding-left:1.4em;font-size:13.5px}
+.toc li.lv3{font-size:13.5px}
 .toc a{color:var(--ink);text-decoration:none;display:flex;gap:12px}
 .toc a:hover{color:var(--pink-deep)}
-.tc{font-variant-numeric:tabular-nums;color:var(--pink-deep);min-width:3.6em;font-size:13px;padding-top:2px}
+.tc{font-variant-numeric:tabular-nums;color:var(--pink-deep);flex:none;width:3.6em;font-size:13px;padding-top:2px}
+.toc.long .tc{width:4.4em}
+/* 小見出しは時刻の位置を変えず、見出しの文字だけを字下げする */
+.toc li.lv3 .tc{margin-right:1.4em}
 
 article{font-size:17px;line-height:2}
 article > p:first-of-type{font-size:18px}
