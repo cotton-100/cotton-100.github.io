@@ -97,7 +97,8 @@ img{display:block;max-width:100%}
 .filters button[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
 .filters button:disabled{opacity:.4;cursor:default}
 
-.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;list-style:none}
+/* align-content:start … 検索中に一覧の高さを保っても、カードが縦に引き伸ばされないように */
+.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:24px;list-style:none;align-content:start}
 .book a{display:flex;flex-direction:column;height:100%;background:var(--paper);border:1px solid var(--line);text-decoration:none;color:inherit;
   transition:transform .25s,box-shadow .25s}
 .book a:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(27,33,80,.12)}
@@ -107,7 +108,8 @@ img{display:block;max-width:100%}
 .book h3{font-family:var(--mincho);font-weight:700;font-size:19px;line-height:1.55;color:var(--navy)}
 .book p{font-size:13.5px;line-height:1.8;color:var(--ink-soft)}
 .book .tags{margin-top:auto;font-size:12px;color:var(--pink-deep)}
-.empty{color:var(--ink-faint);font-size:14px;padding:24px 0}
+.result{margin:-12px 0 16px;font-size:13px;color:var(--ink-soft);min-height:1.8em}
+.result.none{color:var(--pink-deep);font-weight:700}
 
 /* =========================================================
    記事ページ（anime/<slug>.html）
@@ -125,7 +127,10 @@ img{display:block;max-width:100%}
 .card dl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:13.5px;line-height:1.75;border-top:1px dashed var(--line);padding-top:14px}
 .card dt{color:var(--ink-faint)}
 .card dd a{color:inherit;text-decoration:underline;text-decoration-color:var(--sakura);text-underline-offset:3px}
-.card-go{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.card-go{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 16px}
+.card-info summary{cursor:pointer;font-size:13px;color:var(--ink-soft);letter-spacing:.04em;padding:6px 0;list-style-position:inside}
+.card-info summary:hover{color:var(--pink-deep)}
+.card-info[open] summary{margin-bottom:4px}
 .card-go a{flex:1;min-width:140px;text-align:center;text-decoration:none;font-size:14px;letter-spacing:.06em;padding:9px 12px;border:1px solid var(--navy);color:var(--navy);background:var(--paper)}
 .card-go a:last-child{background:var(--navy);color:#fff}
 .card-go a:hover{background:var(--pink-deep);border-color:var(--pink-deep);color:#fff}

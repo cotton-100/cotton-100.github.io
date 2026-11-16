@@ -31,13 +31,20 @@
     <div class="row"><span class="cat">{{category}}</span><span>配信 {{streamed}}</span><span>記事化 {{published}}</span></div>
     <h1>{{title}}</h1>
     <p class="subtitle">{{subtitle}}</p>
-    <dl>
-      <dt>作品</dt><dd>{{work_info}}</dd>
-      <dt>ネタバレ</dt><dd>{{spoiler}}</dd>
-      <dt>語り手</dt><dd><a href="/#about">幕張ことは</a></dd>
-      {{note}}
-    </dl>
     <div class="card-go"><a href="#read">記事を読む ↓</a><a href="#watch">動画で観る ▶</a></div>
+    <details class="card-info">
+      <summary>作品情報・ネタバレの程度・補足</summary>
+      <dl>
+        <dt>作品</dt><dd>{{work_info}}</dd>
+        <dt>ネタバレ</dt><dd>{{spoiler}}</dd>
+        <dt>語り手</dt><dd><a href="/#about">幕張ことは</a></dd>
+        {{note}}
+      </dl>
+    </details>
+    <script>
+    // 作品情報はPCでは開いておき、スマホでは折りたたむ（読む／観るボタンを近くに）。描画前に決めて表示のずれを防ぐ
+    if(window.matchMedia("(min-width:721px)").matches) document.querySelector(".card-info").open=true;
+    </script>
   </header>
 
   <div class="player" id="watch"><div id="yt"></div><noscript><iframe src="https://www.youtube.com/embed/{{video_id}}?start={{start}}" title="{{stream_title}}" allowfullscreen></iframe></noscript></div>
