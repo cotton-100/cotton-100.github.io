@@ -1292,8 +1292,11 @@
     transform: translate(-50%, -50%);
   }
 
+  /* picture を一覧幅いっぱいにしておく（スマホで画像の読み込み前に高さ0になり、読み込み後にページが伸びるのを防ぐ） */
+  .channels-chara picture { display: block; width: 100%; position: relative; }
   .channels-chara img {
     position: relative;
+    margin: 0 auto;
     width: 82%;
     height: auto;
     display: block;
@@ -1839,7 +1842,7 @@
     #channels { padding: 90px 0; }
     .goods-list { grid-template-columns: 1fr; gap: 16px; }
     .channels-wrap { grid-template-columns: 1fr; gap: 24px; }
-    .channels-chara { max-width: 220px; margin: 0 auto; }
+    .channels-chara { width: 100%; max-width: 220px; margin: 0 auto; }
     .links { gap: 14px; }
     .link-card { padding: 20px 20px 20px 24px; gap: 16px; }
     .link-card .icon { width: 46px; height: 46px; }
@@ -1924,8 +1927,16 @@
   .first-steps .fs-t { font-family: var(--mincho); font-weight: 800; font-size: 16.5px; line-height: 1.55; color: var(--navy); }
   .first-steps .fs-s { font-size: 13px; line-height: 1.7; color: var(--ink-soft); }
   .first-steps .fs-s::after { content: " ›"; color: var(--pink-deep); font-weight: 700; }
+  /* お問い合わせへの入口（はじめての方への下） */
+  .contact-line-wrap { position: relative; z-index: 3; max-width: 980px; margin: -14px auto 28px; padding: 0 22px; }
+  .contact-line { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; background: var(--navy); color: #fff; text-decoration: none; padding: 12px 18px; border-left: 3px solid var(--gold); transition: transform .2s, box-shadow .2s; }
+  .contact-line:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(27, 33, 80, 0.18); }
+  .contact-line .cl-k { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: var(--gold-soft); }
+  .contact-line .cl-t { flex: 1; font-family: var(--mincho); font-weight: 800; font-size: 15px; letter-spacing: 0.06em; }
+  .contact-line .cl-t::after { content: " ›"; color: var(--gold-soft); }
   @media (max-width: 720px) {
     .first-steps { grid-template-columns: 1fr; }
+    .contact-line { flex-direction: column; align-items: flex-start; gap: 2px; }
     .first-steps .fs-label { writing-mode: horizontal-tb; border-right: 0; border-left: 3px solid var(--pink); padding: 0 0 0 10px; justify-self: start; }
   }
 
@@ -2105,6 +2116,12 @@
       <span class="fs-s">配信で語った作品を、読み物として。気になる作品から</span>
     </a>
   </nav>
+  <div class="contact-line-wrap">
+    <a class="contact-line" href="#inquiry">
+      <span class="cl-k">企業・団体の方へ</span>
+      <span class="cl-t">お仕事のご依頼・お問い合わせはこちら</span>
+    </a>
+  </div>
 
   <!-- ABOUT -->
   <section id="about">
@@ -2527,7 +2544,7 @@
   </section>
 
   <!-- INQUIRY -->
-  <section id="inquiry" class="on-dark">
+  <section id="inquiry" class="on-dark" style="scroll-margin-top:60px">
     <div class="diag-bg" aria-hidden="true"></div>
     <div class="container">
       <h2 class="sec-title reveal">
