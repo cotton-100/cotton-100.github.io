@@ -139,8 +139,8 @@ img{display:block;max-width:100%}
 .toc a:hover{color:var(--pink-deep)}
 .tc{font-variant-numeric:tabular-nums;color:var(--pink-deep);flex:none;width:3.6em;font-size:13px;padding-top:2px}
 .toc.long .tc{width:4.4em}
-/* 小見出しは時刻の位置を変えず、見出しの文字だけを字下げする */
-.toc li.lv3 .tc{margin-right:1.4em}
+/* 小見出しも字下げせず、見出しの頭を全行でそろえる（文字を少し小さく淡くして区別） */
+.toc li.lv3 a{color:var(--ink-soft)}
 
 article{font-size:17px;line-height:2}
 article > p:first-of-type{font-size:18px}
