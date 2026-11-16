@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/anime/library.css?v=20261116c">
+<link rel="stylesheet" href="/anime/library.css?v=20261116d">
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "f93d402fb88e479886d8bf2eb23a222b"}'></script><!-- End Cloudflare Web Analytics -->
 <script type="application/ld+json">
 {
@@ -219,13 +219,20 @@
     <div class="row"><span class="cat">演出解剖</span><span>配信 2025.12.24</span><span>記事化 2026.11.06</span></div>
     <h1>『朝比奈ミクルの冒険』は、うまい人たちが描いた「下手な映画」の教科書だった</h1>
     <p class="subtitle">元動画カメラマンが、Episode00を冒頭から1カットずつ。イマジナリーラインだけでも覚えて帰ってください</p>
-    <dl>
-      <dt>作品</dt><dd>TVアニメ『涼宮ハルヒの憂鬱』の1話（2006年の本放送では第1話、2009年の放送では第25話）／制作：京都アニメーション</dd>
-      <dt>ネタバレ</dt><dd><span class="spoiler">終盤の展開に一部触れます</span><details class="spoiler-detail"><summary>詳しい範囲を見る（ネタバレを含みます）</summary><p>劇中映画『朝比奈ミクルの冒険』を、冒頭から最後の決戦と結末まで、場面ごとに追っています（『涼宮ハルヒの溜息』本編の展開にはほとんど触れていません）</p></details></dd>
-      <dt>語り手</dt><dd><a href="/#about">幕張ことは</a></dd>
-      <dt>補足</dt><dd>2025年12月24日（クリスマスイブ）の配信を、2026年11月に記事化しました。配信では作品の画面を映しながら解説しているため、「ここ」「こう」などの指し示しは、動画と合わせて観るとわかりやすいです。冒頭の準備中のやりとりと、終盤のケーキやモデルの話は発言全文に入れていません。</dd>
-    </dl>
     <div class="card-go"><a href="#read">記事を読む ↓</a><a href="#watch">動画で観る ▶</a></div>
+    <details class="card-info">
+      <summary>作品情報・ネタバレの程度・補足</summary>
+      <dl>
+        <dt>作品</dt><dd>TVアニメ『涼宮ハルヒの憂鬱』の1話（2006年の本放送では第1話、2009年の放送では第25話）／制作：京都アニメーション</dd>
+        <dt>ネタバレ</dt><dd><span class="spoiler">終盤の展開に一部触れます</span><details class="spoiler-detail"><summary>詳しい範囲を見る（ネタバレを含みます）</summary><p>劇中映画『朝比奈ミクルの冒険』を、冒頭から最後の決戦と結末まで、場面ごとに追っています（『涼宮ハルヒの溜息』本編の展開にはほとんど触れていません）</p></details></dd>
+        <dt>語り手</dt><dd><a href="/#about">幕張ことは</a></dd>
+        <dt>補足</dt><dd>2025年12月24日（クリスマスイブ）の配信を、2026年11月に記事化しました。配信では作品の画面を映しながら解説しているため、「ここ」「こう」などの指し示しは、動画と合わせて観るとわかりやすいです。冒頭の準備中のやりとりと、終盤のケーキやモデルの話は発言全文に入れていません。</dd>
+      </dl>
+    </details>
+    <script>
+    // 作品情報はPCでは開いておき、スマホでは折りたたむ（読む／観るボタンを近くに）。描画前に決めて表示のずれを防ぐ
+    if(window.matchMedia("(min-width:721px)").matches) document.querySelector(".card-info").open=true;
+    </script>
   </header>
 
   <div class="player" id="watch"><div id="yt"></div><noscript><iframe src="https://www.youtube.com/embed/74Ww80oHJ8k?start=158" title="アニメ語り｜朝比奈ミクルの冒険は、なぜあの撮り方なのか" allowfullscreen></iframe></noscript></div>

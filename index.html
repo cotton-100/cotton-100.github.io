@@ -172,6 +172,12 @@
     transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
   }
 
+  /* PCではよく使う3つをハンバーガーの左に常に出す */
+  .topnav { display: none; margin-left: auto; margin-right: 26px; gap: 28px; }
+  .topnav a { font-family: var(--mincho); font-weight: 800; font-size: 15px; letter-spacing: 0.12em; color: #fff; text-decoration: none; text-shadow: 0 1px 8px rgba(18, 22, 58, 0.55); padding: 6px 0; border-bottom: 2px solid transparent; transition: border-color .2s, color .2s; }
+  .topnav a:hover { color: var(--gold-soft); border-color: var(--gold-soft); }
+  @media (min-width: 1024px) { .topnav { display: flex; } }
+
   .topbar.scrolled {
     background: rgba(18, 22, 58, 0.88);
     backdrop-filter: blur(8px);
@@ -578,6 +584,12 @@
   }
 
   .hero-meta span:first-child { background: var(--pink); color: #fff; }
+  /* トップの行動ボタン（アニメ語りを読む／配信を見る） */
+  .hero-cta { position: absolute; right: 7%; bottom: 12%; z-index: 4; display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; animation: fade-up 1s ease both 1.1s; }
+  .hero-cta a { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 999px; font-family: var(--mincho); font-weight: 800; font-size: 15px; letter-spacing: 0.1em; text-decoration: none; box-shadow: 0 8px 20px rgba(18, 22, 58, 0.25); transition: transform .2s, box-shadow .2s; }
+  .hero-cta a:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(18, 22, 58, 0.3); }
+  .hero-cta .primary { background: var(--navy); color: #fff; }
+  .hero-cta .secondary { background: #fff; color: var(--navy); border: 2px solid var(--navy); }
 
   .scroll-cue {
     position: absolute;
@@ -690,10 +702,10 @@
     gap: 14px;
     margin-top: 14px;
     font-family: var(--mincho);
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 0.4em;
-    color: var(--pink);
+    font-weight: 800;
+    font-size: 19px;
+    letter-spacing: 0.22em;
+    color: var(--pink-deep);
   }
 
   .sec-title .ja::before,
@@ -1809,17 +1821,22 @@
     .hero-eyebrow { display: none; }
     .vbox { font-size: 15px; padding: 14px 8px; }
     .vbox:nth-of-type(2) { margin-top: 40px; }
-    .hero-meta { left: 12px; right: 70px; bottom: 8%; }
+    .hero-meta { left: 12px; right: 70px; bottom: calc(8% + 60px); }
+    .hero-cta { left: 12px; right: 12px; bottom: 8%; justify-content: center; gap: 8px; flex-wrap: nowrap; }
+    .hero-cta a { flex: 1; justify-content: center; padding: 11px 10px; font-size: 13.5px; letter-spacing: 0.04em; white-space: nowrap; }
     .hero-meta span { font-size: 11px; padding: 5px 11px; }
     .scroll-cue { display: none; }
 
-    .sns-fixed { right: 10px; bottom: 14px; }
-    .sns-fixed a { width: 40px; height: 40px; }
+    /* スマホでは本文に重ならないよう、上のバー（メニューボタンの左）に並べる */
+    .sns-fixed { top: 16px; bottom: auto; right: 62px; flex-direction: row; gap: 8px; z-index: 55; }
+    .sns-fixed a { width: 36px; height: 36px; border-width: 1.5px; box-shadow: none; }
+    .sns-fixed svg { width: 17px; height: 17px; }
+    body.nav-open .sns-fixed { visibility: hidden; }
 
     section { padding: 80px 0; }
     .sec-title { margin-bottom: 40px; }
-    .sec-title .en { font-size: 40px; }
-    .sec-title .ja { font-size: 12px; letter-spacing: 0.3em; }
+    .sec-title .en { font-size: 36px; }
+    .sec-title .ja { font-size: 16px; letter-spacing: 0.18em; }
     .lead-text { margin: -16px auto 32px; font-size: 13.5px; }
 
     .about-grid { grid-template-columns: 1fr; gap: 20px; }
@@ -2022,6 +2039,11 @@
       <img src="logo.png" alt="幕張ことは ロゴ" width="640" height="220" draggable="false">
     </picture>
   </a>
+  <nav class="topnav" aria-label="よく使うメニュー">
+    <a href="anime.html">アニメ語り</a>
+    <a href="#channels">配信</a>
+    <a href="#inquiry">お問い合わせ</a>
+  </nav>
   <button class="menu-btn" id="menuBtn" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav">
     <span></span><span></span><span></span>
   </button>
@@ -2088,6 +2110,11 @@
       <span>個人勢</span>
       <span>Anime · Game · Anisong</span>
     </div>
+
+    <div class="hero-cta">
+      <a class="primary" href="anime.html">アニメ語りを読む →</a>
+      <a class="secondary" href="https://www.youtube.com/@cotton-100" target="_blank" rel="noopener">配信を見る ▶</a>
+    </div>
   </div>
 
   <div class="petals front" id="petalsFront"></div>
@@ -2105,7 +2132,24 @@
       <span class="en-cta">大会の詳細・練習問題へ ›</span>
     </a>
   </aside>
-  <script>(function(){var n=document.querySelector(".event-notice");if(n&&Date.now()>Date.parse(n.dataset.end))n.hidden=true;})();</script>
+  <!-- 次回大会の日程・名前は quiz-data.js（クイズ特設ページと同じデータ）から自動で決まる。上のHTMLは読み込み前の初期表示 -->
+  <script src="/quiz-data.js"></script>
+  <script>(function(){
+    var n=document.querySelector(".event-notice"); if(!n) return;
+    if(typeof EVENTS==="undefined"){ if(Date.now()>Date.parse(n.dataset.end)) n.hidden=true; return; }
+    var now=Date.now(), WD="日月火水木金土", next=null;
+    Object.keys(EVENTS).sort().some(function(k){
+      var e=EVENTS[k]; if(e.skip||!e.startAt||e.champion||(e.results&&e.results.length)) return false;
+      var end=e.endAt?Date.parse(e.endAt):Date.parse(e.startAt)+3600e3;
+      if(end>now){ next={k:k,e:e}; return true; } return false;
+    });
+    if(!next){ n.hidden=true; return; }
+    var y=+next.k.slice(0,4), mo=+next.k.slice(5), r=ROTATION[mo]||{}, name=next.e.name||r.name;
+    if(typeof name==="function") name=name(y);
+    var d=new Date(Date.parse(next.e.startAt)+9*3600e3), mi=d.getUTCMinutes();
+    n.querySelector(".en-title").textContent=(d.getUTCMonth()+1)+"月"+d.getUTCDate()+"日（"+WD[d.getUTCDay()]+"）"
+      +d.getUTCHours()+"時"+(mi?(mi<10?"0":"")+mi+"分":"")+"｜幕張ことは杯 "+name+(next.e.suffix||"決定戦");
+  })();</script>
 
   <!-- はじめての方へ：初見の人が最初に観る・読むものを選べる入口 -->
   <nav class="first-steps" aria-label="はじめての方へ">
@@ -2675,7 +2719,7 @@
   var nav = document.getElementById('nav');
   var navLinks = nav.querySelectorAll('a');
   // メニューを開いている間、操作できなくするページ側の要素
-  var pageParts = document.querySelectorAll('.logo, .sns-fixed, header.hero, main, footer');
+  var pageParts = document.querySelectorAll('.logo, .topnav, .sns-fixed, header.hero, main, footer');
   nav.inert = true;
   function setNav(open, restoreFocus) {
     var wasOpen = document.body.classList.contains('nav-open');

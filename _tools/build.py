@@ -5,7 +5,8 @@ _anime/*.md（記事）と _transcripts/*.md（発言全文）から
   anime.html        … 一覧ページ
 を生成します。必要: pip install markdown pyyaml
 """
-import html, json, re, sys
+import html
+import unicodedata, json, re, sys
 from pathlib import Path
 import markdown, yaml
 
@@ -47,7 +48,7 @@ HEAD_COMMON = """<link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/anime/library.css?v=20261116c">
+<link rel="stylesheet" href="/anime/library.css?v=20261116d">
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "f93d402fb88e479886d8bf2eb23a222b"}'></script><!-- End Cloudflare Web Analytics -->"""
 
 def header(current):
@@ -187,12 +188,14 @@ def render_article(meta, all_meta):
         transcript_html = markdown.markdown(tr)
 
     # 関連：本文・発言全文で触れた作品（相手の記事から触れられている場合も含む）を先に、次にタグが重なる記事
-    mentioned = [o for o in all_meta if o is not meta and (mentions(meta, o) or mentions(o, meta))]
+    # 下書き（status: draft）の記事は、関連記事にも出さない
+    others = [o for o in all_meta if o is not meta and o.get("status") != "draft"]
+    mentioned = [o for o in others if mentions(meta, o) or mentions(o, meta)]
     mine = set(meta.get("tags", []))
-    by_tag = sorted((o for o in all_meta if o is not meta and o not in mentioned and mine & set(o.get("tags", []))),
+    by_tag = sorted((o for o in others if o not in mentioned and mine & set(o.get("tags", []))),
                     key=lambda o: (-len(mine & set(o.get("tags", []))), o["slug"]))
     if not mentioned and not by_tag:
-        by_tag = [o for o in all_meta if o is not meta and o.get("category") == meta.get("category")]
+        by_tag = [o for o in others if o.get("category") == meta.get("category")]
     def li(o, why):
         return (f'<li><a href="/anime/{o["slug"]}.html">{html.escape(o["title"])}</a>'
                 f'<span class="why">{why}</span></li>')
@@ -251,11 +254,20 @@ def spoiler_html(meta):
     return (f'{label}<details class="spoiler-detail"><summary>詳しい範囲を見る（ネタバレを含みます）</summary>'
             f'<p>{html.escape(detail)}</p></details>')
 
+def search_norm(text):
+    """一覧の検索用：全角・半角、大文字・小文字、カタカナ・ひらがなの違いをそろえる（library.html の norm() と同じ処理）"""
+    t = unicodedata.normalize("NFKC", text).lower()
+    return "".join(chr(ord(c) - 0x60) if "\u30a1" <= c <= "\u30f6" else c for c in t)
+
 def render_library(all_meta):
+    # 下書き（status: draft）の記事は一覧に載せない（記事ページだけ作り、URLを知っている人が確認できる）
+    all_meta = [m for m in all_meta if m.get("status") != "draft"]
     books = []
     for m in sorted(all_meta, key=lambda m: m["streamed"], reverse=True):
-        words = " ".join([m["work"], m["title"], m.get("subtitle", ""), m.get("work_info", ""), " ".join(m.get("tags", []))])
-        books.append(f"""<li class="book" data-cat="{html.escape(m.get('category', ''))}" data-streamed="{m['streamed']}" data-published="{m['published']}" data-words="{html.escape(words.lower())}"><a href="/anime/{m['slug']}.html">
+        # 検索対象：作品名・略称（link_names と、検索専用の search_aliases）・タイトル・タグなど
+        words = " ".join([m["work"], " ".join(link_names(m)), " ".join(m.get("search_aliases", [])), m["title"],
+                          m.get("seo_title", ""), m.get("subtitle", ""), m.get("work_info", ""), " ".join(m.get("tags", []))])
+        books.append(f"""<li class="book" data-cat="{html.escape(m.get('category', ''))}" data-streamed="{m['streamed']}" data-published="{m['published']}" data-words="{html.escape(search_norm(words))}"><a href="/anime/{m['slug']}.html">
   <div class="thumb" style="background-image:url('https://i.ytimg.com/vi/{m['video_id']}/hqdefault.jpg')" role="img" aria-label="{html.escape(m['stream_title'])}"></div>
   <div class="meta">
     <div class="row"><span class="cat">{html.escape(m.get('category', ''))}</span><span>配信 {m['streamed'].replace('-', '.')}</span><span>記事化 {m['published'].replace('-', '.')}</span></div>

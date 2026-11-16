@@ -58,10 +58,10 @@ if(window.matchMedia("(min-width:721px)").matches) document.querySelector(".ways
     <label class="search"><span>作品名で探す</span><input type="search" id="q" placeholder="例：ガンダム、Fate、恋愛" autocomplete="off"></label>
     <label class="sort"><span>並び順</span><select id="sort"><option value="streamed">配信日が新しい順</option><option value="published">記事化が新しい順</option></select></label>
   </div>
+  <p class="result" aria-live="polite">全 {{count}} 作品</p>
   <ul class="books">
 {{books}}
   </ul>
-  <p class="empty" hidden>条件に合う作品は、まだありません。</p>
 </section>
 
 {{footer}}
@@ -69,20 +69,29 @@ if(window.matchMedia("(min-width:721px)").matches) document.querySelector(".ways
 <script>
 (function(){
   var btns=document.querySelectorAll(".filters button"), list=document.querySelector(".books"),
-      books=[].slice.call(document.querySelectorAll(".book")), empty=document.querySelector(".empty"),
+      books=[].slice.call(document.querySelectorAll(".book")), result=document.querySelector(".result"),
       q=document.getElementById("q"), sort=document.getElementById("sort"), cat="",
       note=document.querySelector(".cat-note"), noteDefault=note.textContent;
   // 絞り込みは、表示するカードだけを並べ直す（隠したカードの分だけ後ろのカードが詰まる動きは、
   // スマホの日本語入力などキー操作として扱われない入力では「予期しないずれ（CLS）」と数えられるため）。
   // 検索中は一覧の高さを保ち、下のフッターも動かさない。次に画面に触れたときに高さを戻す
+  // 全角・半角、大文字・小文字、カタカナ・ひらがなの違いをそろえる（build.py の search_norm() と同じ処理）
+  function norm(t){
+    t=(t.normalize?t.normalize("NFKC"):t).toLowerCase();
+    return t.replace(/[\u30a1-\u30f6]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0x60);});
+  }
   function apply(fromSearch){
-    var words=(q.value||"").trim().toLowerCase().split(/\s+/).filter(Boolean), shown=[];
+    var words=norm(q.value||"").trim().split(/\s+/).filter(Boolean), shown=[];
     if(fromSearch) list.style.minHeight=Math.max(parseFloat(list.style.minHeight)||0,list.offsetHeight)+"px";
     books.forEach(function(k){
       if((!cat||k.dataset.cat===cat)&&words.every(function(w){return k.dataset.words.indexOf(w)>-1;})) shown.push(k);
     });
     list.replaceChildren.apply(list,shown);
-    empty.hidden=shown.length>0;
+    // 件数と「該当なし」は一覧の上（検索欄の直下）に出す。行は常にあるので、表示が変わっても一覧は動かない
+    result.textContent = (!words.length&&!cat) ? "全 "+books.length+" 作品"
+      : shown.length ? shown.length+" 作品が見つかりました"
+      : "条件に合う作品は、まだありません。別の言葉や略称（例：ガルパン、銀英伝）でも探せます";
+    result.classList.toggle("none",!shown.length);
   }
   function release(){ list.style.minHeight=""; }
   document.addEventListener("pointerdown",release);
