@@ -115,7 +115,8 @@ img{display:block;max-width:100%}
    記事ページ（anime/<slug>.html）
    ========================================================= */
 .art{max-width:760px;margin:0 auto;padding:0 22px}
-.crumb{font-size:12.5px;color:var(--ink-faint);padding:22px 0 0;letter-spacing:.04em}
+/* パンくずは1行に固定（フォントの読み込みで折り返し位置が変わり、下の記事が上下に動くのを防ぐ） */
+.crumb{font-size:12.5px;color:var(--ink-faint);padding:22px 0 0;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .crumb a{color:var(--ink-faint);text-decoration:none}
 .crumb a:hover{color:var(--pink)}
 
@@ -226,6 +227,10 @@ details.full[open] summary::before{content:"－"}
 }
 @media (max-width:560px){
   .card{padding:20px 18px 18px;margin:16px 0 22px}
+  /* 分類・日付の行は1行に固定（フォントの読み込み前後で折り返しが変わり、タイトルが上下に動くのを防ぐ） */
+  .card .row{display:grid;grid-template-columns:auto auto;justify-content:start;gap:6px 12px}
+  .card .row .cat{grid-column:1/-1;justify-self:start}
+  .card .row span{white-space:nowrap}
   .card h1{margin:10px 0 4px}
   .card .subtitle{margin-bottom:12px}
   .card dl{font-size:12.5px;line-height:1.65;gap:2px 12px;padding-top:10px}
