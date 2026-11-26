@@ -12,17 +12,26 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
+    env:
+      YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
     steps:
+      - name: APIキーの確認
+        if: env.YOUTUBE_API_KEY == ''
+        run: echo "::notice::YOUTUBE_API_KEY が未設定のため、再生数の更新をスキップしました"
       - uses: actions/checkout@v4
+        if: env.YOUTUBE_API_KEY != ''
       - uses: actions/setup-python@v5
+        if: env.YOUTUBE_API_KEY != ''
         with:
           python-version: "3.12"
-      - run: pip install markdown pyyaml
-      - run: python3 _tools/fetch_views.py
-        env:
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-      - run: python3 _tools/build.py
+      - name: 再生数を取得して記事を再生成
+        if: env.YOUTUBE_API_KEY != ''
+        run: |
+          pip install markdown pyyaml
+          python3 _tools/fetch_views.py
+          python3 _tools/build.py
       - name: 変更があればコミット
+        if: env.YOUTUBE_API_KEY != ''
         run: |
           git add _data/views.json anime anime.html sitemap.xml
           if git diff --cached --quiet; then echo "変更なし"; exit 0; fi
