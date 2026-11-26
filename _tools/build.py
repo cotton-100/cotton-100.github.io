@@ -50,7 +50,7 @@ HEAD_COMMON = """<link rel="icon" href="/favicon.ico">
 <!-- Webフォントは描画を待たせない（先に端末の文字で表示し、読み込めたら切り替える） -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"></noscript>
-<link rel="stylesheet" href="/anime/library.css?v=20261119a">
+<link rel="stylesheet" href="/anime/library.css?v=20261126a">
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "f93d402fb88e479886d8bf2eb23a222b"}'></script><!-- End Cloudflare Web Analytics -->"""
 
 def header(current):
@@ -126,6 +126,17 @@ def autolink(body_html, meta, all_meta):
                     break
         parts[i] = part
     return "".join(parts)
+
+# 配信の再生数（_tools/fetch_views.py が YouTube Data API から取得して保存する。無ければ表示しない）
+VIEWS_FILE = ROOT / "_data" / "views.json"
+VIEWS = json.loads(VIEWS_FILE.read_text(encoding="utf-8")) if VIEWS_FILE.exists() else {}
+
+def views_html(vid):
+    v = VIEWS.get("videos", {}).get(vid)
+    if v is None:
+        return ""
+    at = VIEWS.get("fetched", "").replace("-", ".")
+    return f'<span class="views" title="{at}時点の配信の再生数">{v:,}回視聴</span>'
 
 def jst(date):
     """構造化データの日時（Googleはタイムゾーン付きを推奨）。時刻は持っていないので日本時間の0時とする"""
@@ -218,6 +229,8 @@ def render_article(meta, all_meta):
          "video": {"@id": meta["_url"] + "#video"}},
         {"@type": "VideoObject", "@id": meta["_url"] + "#video", "name": meta["stream_title"],
          "description": meta["description"], "uploadDate": jst(meta["streamed"]),
+         **({"interactionStatistic": {"@type": "InteractionCounter", "interactionType": {"@type": "WatchAction"},
+             "userInteractionCount": VIEWS["videos"][vid]}} if vid in VIEWS.get("videos", {}) else {}),
          "thumbnailUrl": f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg",
          "embedUrl": f"https://www.youtube.com/embed/{vid}", "contentUrl": f"https://www.youtube.com/watch?v={vid}",
          "hasPart": [{"@type": "Clip", "name": tx, "startOffset": t,
@@ -235,7 +248,7 @@ def render_article(meta, all_meta):
         description=html.escape(meta["description"]), url=meta["_url"], work=html.escape(meta["work"]),
         category=html.escape(meta.get("category", "")), work_info=html.escape(meta.get("work_info", "")),
         spoiler=spoiler_html(meta), streamed=meta["streamed"].replace("-", "."),
-        published=meta["published"].replace("-", "."),
+        published=meta["published"].replace("-", "."), views=views_html(vid),
         note=(f'<dt>補足</dt><dd>{html.escape(meta["note"])}</dd>' if meta.get("note") else ""),
         stream_title=html.escape(meta["stream_title"]), video_id=vid, start=start, toc=toc, toc_class=toc_class, body=body_html,
         highlights="\n".join(f"<li>{html.escape(h)}</li>" for h in highlights),
@@ -272,7 +285,7 @@ def render_library(all_meta):
         books.append(f"""<li class="book" data-cat="{html.escape(m.get('category', ''))}" data-streamed="{m['streamed']}" data-published="{m['published']}" data-words="{html.escape(search_norm(words))}"><a href="/anime/{m['slug']}.html">
   <div class="thumb" style="background-image:url('https://i.ytimg.com/vi/{m['video_id']}/hqdefault.jpg')" role="img" aria-label="{html.escape(m['stream_title'])}"></div>
   <div class="meta">
-    <div class="row"><span class="cat">{html.escape(m.get('category', ''))}</span><span>配信 {m['streamed'].replace('-', '.')}</span><span>記事化 {m['published'].replace('-', '.')}</span></div>
+    <div class="row"><span class="cat">{html.escape(m.get('category', ''))}</span><span>配信 {m['streamed'].replace('-', '.')}</span><span>記事化 {m['published'].replace('-', '.')}</span>{views_html(m['video_id'])}</div>
     <h3>{html.escape(m['work'])}</h3>
     <p>{html.escape(m.get('subtitle', ''))}</p>
     <p class="book-spoiler"><span class="spoiler">ネタバレ：{html.escape(spoiler_label(m))}</span></p>

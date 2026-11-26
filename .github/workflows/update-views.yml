@@ -1,0 +1,40 @@
+# アニメ語り記事の「再生数」を毎日更新する（YouTube Data API → _data/views.json → 記事HTMLを再生成）
+# 必要な設定：リポジトリの Settings → Secrets and variables → Actions に YOUTUBE_API_KEY を登録
+name: 再生数の更新
+on:
+  schedule:
+    - cron: "23 20 * * *"   # 毎日 5:23（日本時間）
+  workflow_dispatch:         # Actions 画面から手動でも実行できる
+permissions:
+  contents: write
+concurrency:
+  group: update-views
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+    steps:
+      - name: APIキーの確認
+        if: env.YOUTUBE_API_KEY == ''
+        run: echo "::notice::YOUTUBE_API_KEY が未設定のため、再生数の更新をスキップしました"
+      - uses: actions/checkout@v4
+        if: env.YOUTUBE_API_KEY != ''
+      - uses: actions/setup-python@v5
+        if: env.YOUTUBE_API_KEY != ''
+        with:
+          python-version: "3.12"
+      - name: 再生数を取得して記事を再生成
+        if: env.YOUTUBE_API_KEY != ''
+        run: |
+          pip install markdown pyyaml
+          python3 _tools/fetch_views.py
+          python3 _tools/build.py
+      - name: 変更があればコミット
+        if: env.YOUTUBE_API_KEY != ''
+        run: |
+          git add _data/views.json anime anime.html sitemap.xml
+          if git diff --cached --quiet; then echo "変更なし"; exit 0; fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "再生数を更新（$(TZ=Asia/Tokyo date +%Y-%m-%d)）"
+          git push
