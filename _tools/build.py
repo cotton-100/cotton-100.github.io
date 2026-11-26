@@ -136,7 +136,7 @@ def views_html(slug):
     if v is None:
         return ""
     at = VIEWS.get("through", "").replace("-", ".")
-    return f'<span class="views" title="{at}までのこのページの閲覧数">閲覧 {v:,}</span>'
+    return f'<span class="views" title="{at}までのこのページの閲覧数（Cloudflareの計測による推計値）">閲覧 約{v:,}</span>'
 
 def jst(date):
     """構造化データの日時（Googleはタイムゾーン付きを推奨）。時刻は持っていないので日本時間の0時とする"""
