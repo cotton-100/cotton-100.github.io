@@ -15,16 +15,17 @@ OUT = ROOT / "_data" / "views.json"
 HOST = "cotton-100.github.io"
 FIRST_DAY = date(2026, 11, 1)  # 記事の公開を始めた月。初回はここから集計する
 CHUNK = 30                     # 1回の問い合わせで取る日数
+LIMIT = 5000                   # 1回の問い合わせで返ってくるパスの種類の上限
 
 QUERY = """query ($account: String!, $host: String!, $start: Date!, $end: Date!) {
   viewer { accounts(filter: {accountTag: $account}) {
-    rumPageloadEventsAdaptiveGroups(limit: 5000,
+    rumPageloadEventsAdaptiveGroups(limit: %d,
       filter: {requestHost: $host, date_geq: $start, date_leq: $end}) {
       count
       dimensions { requestPath }
     }
   } }
-}"""
+}""" % LIMIT
 
 
 def norm(path):
@@ -45,8 +46,12 @@ def fetch(token, account, start, end):
     accounts = res["data"]["viewer"]["accounts"]
     if not accounts:
         sys.exit("アカウントが見つかりません（CF_ACCOUNT_ID とトークンの権限を確認してください）")
+    groups = accounts[0]["rumPageloadEventsAdaptiveGroups"]
+    if len(groups) >= LIMIT:
+        # 上限に達すると記事の分が漏れている可能性がある。集計済みの日を進めずに止め、取りこぼしを防ぐ
+        sys.exit(f"{start}〜{end} のパスが{LIMIT}種類以上あり、取りこぼしの恐れがあるため保存せずに中止しました（CHUNKを小さくしてください）")
     counts = {}
-    for g in accounts[0]["rumPageloadEventsAdaptiveGroups"]:
+    for g in groups:
         p = norm(g["dimensions"]["requestPath"])
         if not p.startswith("/anime/"):
             continue
