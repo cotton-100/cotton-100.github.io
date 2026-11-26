@@ -104,7 +104,7 @@ img{display:block;max-width:100%}
 .book a:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(27,33,80,.12)}
 .book .thumb{aspect-ratio:16/9;background:var(--navy) center/cover no-repeat}
 .book .meta{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
-.book .row{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--ink-faint)}
+.book .row{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;font-size:12px;color:var(--ink-faint)}
 .book h3{font-family:var(--mincho);font-weight:700;font-size:19px;line-height:1.55;color:var(--navy)}
 .book p{font-size:13.5px;line-height:1.8;color:var(--ink-soft)}
 .book .tags{margin-top:auto;font-size:12px;color:var(--pink-deep)}
@@ -123,6 +123,8 @@ img{display:block;max-width:100%}
 .card{margin:26px 0 34px;background:var(--paper);border:1px solid var(--line);border-top:6px solid var(--navy);padding:30px 30px 24px;position:relative}
 .card::after{content:"";position:absolute;right:22px;top:-6px;width:56px;height:6px;background:var(--pink)}
 .card .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--ink-faint);letter-spacing:.06em}
+.row .views{white-space:nowrap;font-variant-numeric:tabular-nums}
+.row .views::before{content:"▶ ";font-size:.85em}
 .card h1{word-break:auto-phrase;font-family:var(--mincho);font-weight:800;font-size:clamp(25px,5vw,35px);line-height:1.45;margin:14px 0 6px;color:var(--navy);letter-spacing:.02em}
 .card .subtitle{font-family:var(--mincho);font-size:clamp(15px,2.6vw,18.5px);color:var(--pink-deep);line-height:1.7;margin-bottom:18px}
 .card dl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:13.5px;line-height:1.75;border-top:1px dashed var(--line);padding-top:14px}
