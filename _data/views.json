@@ -1,14 +1,25 @@
 {
- "through": "2026-11-25",
+ "through": "2026-11-26",
  "pages": {
+  "/anime/a-kite": 1,
+  "/anime/angelic-layer": 1,
   "/anime/asahina-mikuru-no-bouken": 10,
+  "/anime/code-geass": 1,
+  "/anime/full-metal-panic": 1,
   "/anime/g-gundam": 10,
-  "/anime/grisaia": 20,
-  "/anime/highschool-dxd": 20,
-  "/anime/legend-of-galactic-heroes": 10,
+  "/anime/girls-und-panzer": 1,
+  "/anime/grisaia": 21,
+  "/anime/highschool-dxd": 24,
+  "/anime/honzuki-no-gekokujo": 2,
+  "/anime/knights-and-magic": 1,
+  "/anime/kono-hon-wo-nusumu-mono-wa": 2,
+  "/anime/legend-of-galactic-heroes": 11,
   "/anime/milky-subway": 10,
-  "/anime/mushoku-tensei": 20,
-  "/anime/onegai-teacher": 10,
-  "/anime/rayearth": 20
+  "/anime/mushoku-tensei": 22,
+  "/anime/nippon-sangoku": 3,
+  "/anime/onegai-teacher": 11,
+  "/anime/ore-monogatari": 1,
+  "/anime/rayearth": 22,
+  "/anime/tensura": 1
  }
 }
