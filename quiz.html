@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>幕張ことは杯 第1回 ガンダム王決定戦｜視聴者参加型クイズ大会</title>
-<meta name="description" content="VTuber幕張ことは主催、YouTubeのコメントで誰でも参加できる視聴者参加型クイズ大会「幕張ことは杯」。第1回はガンダム王決定戦（2026年11月28日（土）23:00〜、出題範囲：宇宙世紀・一年戦争）。全15問・4択、参加無料・事前登録不要・初見歓迎。">
+<title>幕張ことは杯｜視聴者参加型クイズ大会（毎月開催）</title>
+<meta name="description" content="VTuber幕張ことは主催、YouTubeのコメントで誰でも参加できる視聴者参加型クイズ大会「幕張ことは杯」。毎月1回開催、全15問・4択、参加無料・事前登録不要・初見歓迎。第1回ガンダム王決定戦の結果も掲載中。">
 <link rel="canonical" href="https://cotton-100.github.io/quiz.html">
 
 <!-- OGP（Xのカード表示用。告知を始める前に次回大会の内容へ手で書き換える） -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="幕張ことは公式サイト">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:title" content="幕張ことは杯 第1回 ガンダム王決定戦">
-<meta property="og:description" content="11/28（土）23:00〜 YouTubeコメントで誰でも参加できる視聴者参加型ガンダムクイズ大会。出題範囲は一年戦争。初代ガンダム王の座を奪え。">
+<meta property="og:title" content="幕張ことは杯｜視聴者参加型クイズ大会（毎月開催）">
+<meta property="og:description" content="YouTubeのコメントで誰でも参加できる、幕張ことは主催の視聴者参加型クイズ大会。毎月1回開催。第1回ガンダム王決定戦の結果を掲載中。">
 <meta property="og:url" content="https://cotton-100.github.io/quiz.html">
 <!-- 大会ごとに差し替え（1200×630） -->
-<meta property="og:image" content="https://cotton-100.github.io/ogp-quiz-01.png">
-<meta property="og:image:alt" content="幕張ことは杯 第1回 ガンダム王決定戦 11月28日（土）23時から 参加無料">
+<meta property="og:image" content="https://cotton-100.github.io/ogp-quiz.png">
+<meta property="og:image:alt" content="幕張ことは杯 視聴者参加型クイズ大会 毎月開催">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -92,6 +92,7 @@
   .hero h1{margin-top:4px;font-weight:900;font-size:clamp(44px,10vw,104px);line-height:1.05;letter-spacing:.02em;color:var(--navy)}
   .hero h1 small{display:table;font-size:clamp(14px,2.2vw,18px);font-weight:700;letter-spacing:.15em;color:#fff;background:var(--navy);padding:2px 12px;margin-bottom:12px;line-height:1.7}
   .hero h1 #hero-suffix{color:var(--red)}
+  .hero h1.tbd #hero-suffix{font-size:.62em;display:inline-block;margin-top:.15em}
   .hero .catch{margin-top:14px;font-weight:900;font-size:clamp(17px,2.8vw,24px);letter-spacing:.1em}
   .hero .scope{margin-top:8px;display:inline-block;font-weight:700;font-size:15px;background:#fff;border-left:5px solid var(--red);padding:4px 14px}
   .hero .scope[hidden]{display:none}
@@ -283,7 +284,7 @@
   .rank-table td.r{font-family:var(--num);font-weight:800;font-size:22px;width:4.5em;color:var(--navy)}
   .rank-table tr.top1 td{background:#fff7dc}
   .rank-table tr.top1 td.r{color:var(--red)}
-  .rank-table td.pt{text-align:right;font-family:var(--num);font-weight:700;font-size:20px}
+  .rank-table td.pt{white-space:nowrap;text-align:right;font-family:var(--num);font-weight:700;font-size:20px}
 
   /* archive */
   .arc details{background:#fff;border-radius:12px;margin-bottom:12px;box-shadow:0 0 0 2px #dde4f2;overflow:hidden}
@@ -326,6 +327,7 @@
   .season .title{font-weight:900;font-size:16px;margin-top:8px;line-height:1.45}
   .season .memo{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.6}
   .season .tag{position:absolute;top:12px;right:12px;font-size:11px;font-weight:700;padding:1px 10px;border-radius:999px;background:var(--mist);color:var(--muted)}
+  .season li.tbd .title{color:var(--muted);font-weight:700}
   .season li.special{border-top-color:var(--gold)}
   .season li.special .title::before{content:"★ ";color:var(--gold)}
   .season li.next{border-top-color:var(--red);box-shadow:0 0 0 3px var(--red)}
@@ -536,7 +538,7 @@
 <section id="season" class="bg-white">
   <div class="wrap">
     <div class="sec-head"><h2 class="ribbon sky">年間スケジュール</h2><span class="en">SCHEDULE</span></div>
-    <p class="lead center">毎月テーマを変えて開催し、1年ごとにひと回りします。各分野の「王」を目指して、何度でも挑戦してください。</p>
+    <p class="lead center">毎月1回、テーマを変えて開催します。各テーマの「王」を目指して、何度でも挑戦してください。</p>
     <div id="season-area"></div>
     <p class="note">※ テーマ・開催月は予定です。都合により変更する場合があります。</p>
     <div class="callout">
@@ -599,7 +601,7 @@
   const pad = n => String(n).padStart(2,"0");
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-  const title = e => `${e.name}${e.suffix||"決定戦"}`;
+  const title = e => e.tbd ? "テーマ未定" : `${e.name}${e.suffix||"決定戦"}`;
 
   // 日本時間で表示（閲覧者の端末の時差に左右されない）
   const jst = d => { const x = new Date(d.getTime() + 9*3600e3);
@@ -635,8 +637,9 @@
     for (let guard = 0; guard < 1200; guard++){
       const ym = `${y}-${pad(m)}`, ov = EVENTS[ym] || {}, base = ROTATION[m] || {};
       const val = v => typeof v === "function" ? v(y) : v;
-      if (!ov.skip && base.name){
-        const e = { month:ym, name:val(base.name), suffix:val(base.suffix) || "決定戦", memo:val(base.memo), special:val(base.special), ...ov };
+      if (!ov.skip && (base.name || base.tbd || ov.name)){
+        const e = { month:ym, name:val(base.name) || "", suffix:val(base.suffix) || "決定戦", memo:val(base.memo), special:val(base.special), ...ov };
+        e.tbd = !e.name;
         const p = passed(e);
         if (!(p && !held(e))){            // 開催されずに過ぎた月は載せない・番号も使わない
           e.no = ++no;
@@ -670,19 +673,20 @@
 
     // ヒーロー・概要
     $("hero-no").textContent = `TOURNAMENT No.${pad(current.no)}`;
-    $("hero-name").textContent = current.name;
-    $("hero-suffix").textContent = current.suffix || "決定戦";
-    $("ov-name").textContent = `幕張ことは杯 第${current.no}回 ${title(current)}`;
+    $("hero-name").textContent = current.tbd ? "次回大会" : current.name;
+    document.querySelector(".hero h1").classList.toggle("tbd", !!current.tbd);
+    $("hero-suffix").textContent = current.tbd ? "テーマ近日発表" : (current.suffix || "決定戦");
+    $("ov-name").textContent = current.tbd ? `幕張ことは杯 第${current.no}回（テーマは近日発表）` : `幕張ことは杯 第${current.no}回 ${title(current)}`;
     $("ov-scope").textContent = current.scope || "近日発表";
     $("hero-scope").textContent = current.scope ? `出題範囲：${current.scope}` : "";
     $("hero-scope").hidden = !current.scope;
     const lead = document.querySelector("#about .lead");
-    if (lead) lead.textContent = `YouTubeのライブ配信コメントで、誰でもその場で参加できるクイズ大会です。正解数と回答スピードで競い合い、「${current.name}」の称号を決定します。`;
+    if (lead) lead.textContent = `YouTubeのライブ配信コメントで、誰でもその場で参加できるクイズ大会です。正解数と回答スピードで競い合い、${current.tbd ? "毎回のテーマごとに「王」" : `「${current.name}」の称号`}を決定します。`;
     const awardRule = [...document.querySelectorAll(".rule h3")].find(h => h.textContent==="表彰");
-    if (awardRule) awardRule.nextElementSibling.textContent = `3位以内の方のお名前を配信内で発表し、このページに掲載します。優勝者は「${current.name}」として歴代王者に記録されます（賞品はありません）。`;
-    const fk = $("flow-king"); if (fk) fk.firstChild.textContent = `「${current.name}」の称号`;
+    if (awardRule) awardRule.nextElementSibling.textContent = `3位以内の方のお名前を配信内で発表し、このページに掲載します。優勝者は${current.tbd ? "その回の「王」" : `「${current.name}」`}として歴代王者に記録されます（賞品はありません）。`;
+    const fk = $("flow-king"); if (fk) fk.firstChild.textContent = current.tbd ? "その回の「王」の称号" : `「${current.name}」の称号`;
 
-    document.title = `幕張ことは杯 第${current.no}回 ${title(current)}｜視聴者参加型クイズ大会`;
+    document.title = current.tbd ? "幕張ことは杯｜視聴者参加型クイズ大会（毎月開催）" : `幕張ことは杯 第${current.no}回 ${title(current)}｜視聴者参加型クイズ大会`;
     const md = document.querySelector('meta[name="description"]');
     const label = dateLabel(current);
     if (md) md.content = `VTuber幕張ことは主催、YouTubeのコメントで誰でも参加できる視聴者参加型クイズ大会「幕張ことは杯」。第${current.no}回は${title(current)}` +
@@ -704,7 +708,7 @@
       : `YouTube「${ch}」ライブ配信<span class="place-url">配信ページは近日公開</span>`;
 
     // ページ末尾の参加ブロック
-    $("final-title").textContent = `第${current.no}回 ${title(current)}`;
+    $("final-title").textContent = current.tbd ? `第${current.no}回 テーマ近日発表` : `第${current.no}回 ${title(current)}`;
     $("final-date").textContent = label || `${cy}年${cm}月 開催予定`;
 
     // カレンダー追加（日程があり、まだ始まっていないとき）
@@ -759,7 +763,7 @@
         const text = `「幕張ことは杯 第${current.no}回 ${title(current)}」の練習問題に挑戦！\n` +
           (done ? `結果：${pool.length}問中${score}問正解【${rank.title}】\n` : `途中結果：${played}問中${score}問正解\n`) +
           (when ? `本番は ${when} あなたは何問わかる？` : `本番であなたは何問わかる？`);
-        const tag = `幕張ことは杯,${current.name.replace(/王$/,"")}クイズ`;
+        const tag = current.tbd ? "幕張ことは杯" : `幕張ことは杯,${current.name.replace(/王$/,"")}クイズ`;
         const share = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(SITE)}&hashtags=${encodeURIComponent(tag)}`;
         $("pq-label").textContent = "練習問題の結果";
         $("pq-text").textContent = "";
@@ -814,10 +818,10 @@
     }
 
     // X 参戦表明ボタン
-    const xText = `幕張ことは杯 第${current.no}回「${title(current)}」に挑戦します！`;
-    const xTag = `幕張ことは杯,${current.name.replace(/王$/,"")}クイズ`;
+    const xText = current.tbd ? `毎月開催の視聴者参加型クイズ大会「幕張ことは杯」、次回 第${current.no}回のテーマ発表を待機中！` : `幕張ことは杯 第${current.no}回「${title(current)}」に挑戦します！`;
+    const xTag = current.tbd ? "幕張ことは杯" : `幕張ことは杯,${current.name.replace(/王$/,"")}クイズ`;
     const xHref = `https://x.com/intent/post?text=${encodeURIComponent(xText)}&url=${encodeURIComponent(SITE)}&hashtags=${encodeURIComponent(xTag)}`;
-    document.querySelectorAll(".js-x").forEach(a => a.href = xHref);
+    document.querySelectorAll(".js-x").forEach(a => { a.href = xHref; a.textContent = current.tbd ? "Xでシェアする" : "Xで参戦表明する"; });
 
     // 前回大会の結果（実際に開催した大会のみ）
     const last = past[past.length-1];
@@ -858,7 +862,7 @@
     $("champions-area").innerHTML = past.filter(e => e.champion).reverse().map(e =>
       `<div class="champ"><div class="t">第${e.no}回 ${esc(title(e))}</div>${podium(e)}<div class="d">${shortDate(e)}</div></div>`
     ).join("") +
-      `<div class="champ empty"><div class="t">第${current.no}回 ${esc(current.name)}</div><div class="n">？？？</div><div class="d">次の王者は、あなたかもしれない</div></div>`;
+      `<div class="champ empty"><div class="t">第${current.no}回 ${current.tbd ? "" : esc(current.name)}</div><div class="n">？？？</div><div class="d">次の王者は、あなたかもしれない</div></div>`;
 
     // 年間スケジュール（次回大会から14件）
     const ci = season.indexOf(current), byYear = {};
@@ -868,7 +872,7 @@
       list.map(e => {
         const m = Number(e.month.slice(5));
         const next = e === current, isLive = next && live;
-        const cls = [next?"next":"", isLive?"live":"", e.special?"special":""].join(" ");
+        const cls = [next?"next":"", isLive?"live":"", e.special?"special":"", e.tbd?"tbd":""].join(" ");
         const tag = isLive ? "開催中" : next ? "次回" : "予定";
         const hide = e.hidden && !next;
         const day = e.startAt ? `<span class="no">${shortDate(e).slice(5)}</span>` : "";

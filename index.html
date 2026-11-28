@@ -2148,9 +2148,10 @@
     if(!next){ n.hidden=true; return; }
     var y=+next.k.slice(0,4), mo=+next.k.slice(5), r=ROTATION[mo]||{}, name=next.e.name||r.name;
     if(typeof name==="function") name=name(y);
+    var label=name?(" "+name+(next.e.suffix||"決定戦")):"（テーマは近日発表）";
     var d=new Date(Date.parse(next.e.startAt)+9*3600e3), mi=d.getUTCMinutes();
     n.querySelector(".en-title").textContent=(d.getUTCMonth()+1)+"月"+d.getUTCDate()+"日（"+WD[d.getUTCDay()]+"）"
-      +d.getUTCHours()+"時"+(mi?(mi<10?"0":"")+mi+"分":"")+"｜幕張ことは杯 "+name+(next.e.suffix||"決定戦");
+      +d.getUTCHours()+"時"+(mi?(mi<10?"0":"")+mi+"分":"")+"｜幕張ことは杯"+label;
   })();</script>
 
   <!-- はじめての方へ：初見の人が最初に観る・読むものを選べる入口 -->

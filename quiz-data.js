@@ -11,6 +11,7 @@
        日程が決まったら → startAt / endAt / streamUrl / scope
        大会が終わったら → champion / participants / archiveUrl / results
        その回だけテーマを変える → name / memo
+       テーマが決まっていない → ROTATION を { tbd:true } に（「テーマ未定」と表示）
        その月は休み → skip: true
    ・時刻は必ず +09:00 付き（24:00 は翌日の 00:00）
    ・endAt を書き忘れても、その月が終わった時点で自動的に次へ進みます
@@ -24,21 +25,25 @@
    ========================================================= */
 const FIRST_MONTH = "2026-11";   // 第1回の月（番号はここから数えます）
 
+// テーマ未定の月は { tbd:true }（毎月開催はそのまま。スケジュールに「テーマ未定」と表示）
+// テーマが決まったら name を書く（例：{ name:"ドラゴンクエスト王" }）
 const ROTATION = {
-  1:  { name:"ドラゴンクエスト王" },
-  2:  { name:"ジブリ王" },
-  3:  { name:"銀河英雄伝説王" },
-  4:  { name:"三国志王" },
-  5:  { name:"エヴァンゲリオン王" },
-  6:  { name:"ポケモン王" },
-  7:  { name:"セガ王" },
-  8:  { name:"昭和アニメ王" },
-  9:  { name:"雑学王", memo:"ジャンル不問の雑学クイズ" },
-  10: { name:"アニメ総合王" },
+  1:  { tbd:true },
+  2:  { tbd:true },
+  3:  { tbd:true },
+  4:  { tbd:true },
+  5:  { tbd:true },
+  6:  { tbd:true },
+  7:  { tbd:true },
+  8:  { tbd:true },
+  9:  { tbd:true },
+  10: { tbd:true },
   11: { name:"ガンダム王", special:true,
         memo: y => y === 2026 ? "記念すべき第1回" : `大会${y-2026}周年・前回王者の防衛なるか` },
-  12: { name: y => `${y}年アニメ王`, special:true, memo:"年末SP：その年に放送されたアニメから出題" },
+  12: { tbd:true },
 };
+// （以前のテーマ案：1月ドラクエ王／2月ジブリ王／3月銀英伝王／4月三国志王／5月エヴァ王／
+//   6月ポケモン王／7月セガ王／8月昭和アニメ王／9月雑学王／10月アニメ総合王／12月その年のアニメ王）
 
 const EVENTS = {
   "2026-11": {
@@ -87,11 +92,14 @@ const EVENTS = {
         choices:["ブリティッシュ作戦","星一号作戦","チェンバロ作戦","オデッサ作戦"], answer:1,
         note:"ジャブローを狙ったブリティッシュ作戦で、コロニーが地球に落とされました。" },
     ],
-    // ↓ 大会後に書き足す（results の name は掲載名）
-    // champion:"表示名",
-    // participants: 32,
-    // archiveUrl:"https://www.youtube.com/watch?v=xxxx",
-    // results:[ {rank:1,name:"表示名",score:1850}, {rank:2,name:"表示名",score:1720} ],
+    // ↓ 大会結果（results の name は掲載名。表示は3位以内だけ）
+    participants: 11,
+    archiveUrl:"https://youtube.com/live/atdk_Rw0W5M",
+    results:[
+      { rank:1, name:"@JAKQジャッカー", score:65 },
+      { rank:2, name:"@立川志らくさ",   score:60 },
+      { rank:3, name:"@中西-1",         score:59 },
+    ],
   },
   // "2026-12": { startAt:"2026-12-26T23:00:00+09:00", endAt:"2026-12-27T00:00:00+09:00" },
 };
